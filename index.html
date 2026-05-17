@@ -910,6 +910,112 @@
       opacity: 0.8;
     }
 
+    /* Dashboard Métricas */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+    
+    .metric-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(223, 186, 107, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+    
+    .metric-card:hover {
+      border-color: rgba(223, 186, 107, 0.3);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .metric-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(223, 186, 107, 0.05);
+      border: 1px solid rgba(223, 186, 107, 0.2);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--gold-primary);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    
+    .metric-info {
+      flex-grow: 1;
+      width: 100%;
+    }
+    
+    .metric-info h3 {
+      font-size: 12px;
+      margin: 0 0 5px 0;
+      color: #ffffff;
+      font-family: var(--font-serif);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+    
+    .metric-number {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin: 5px 0;
+      line-height: 1;
+    }
+    
+    .metric-sub {
+      font-size: 10px;
+      color: #a4b0be;
+    }
+    
+    .metric-bar-container {
+      background: rgba(255, 255, 255, 0.05);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 10px;
+      position: relative;
+    }
+    
+    .metric-bar-mobile {
+      background: var(--gold-primary);
+      height: 100%;
+      border-radius: 4px;
+      width: 50%;
+      transition: width 0.6s ease;
+    }
+    
+    .metric-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .metric-list li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #ffffff;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    }
+    
+    .metric-list li span {
+      color: #a4b0be;
+    }
+
     .t-leva-lock {
       margin-left: 8px;
       cursor: pointer;
@@ -1597,6 +1703,7 @@
       }
 
       renderApp();
+      trackVisit();
     });
 
 
@@ -1614,6 +1721,156 @@
       if (img) {
         // Retrato corporativo premium neutro que encaja perfectamente en el diseño
         img.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=256&h=256";
+      }
+    }
+
+    async function trackVisit() {
+      // Intentar mostrar visitas actuales de Supabase de inmediato en segundo plano
+      try {
+        const { data: initialData } = await _supabase
+          .from('web_config')
+          .select('data')
+          .eq('id', 2)
+          .single();
+        if (initialData && initialData.data && initialData.data.visitas) {
+          const countEl = document.getElementById('public-visitas-count');
+          if (countEl) countEl.innerText = initialData.data.visitas;
+        }
+      } catch (e) {
+        console.log("No se pudo obtener visitas iniciales:", e);
+      }
+
+      // Geolocalización paralela
+      const geoPromise = fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .catch(e => null);
+
+      try {
+        // Dispositivo / OS
+        const ua = navigator.userAgent;
+        let os = "Otro";
+        let isMobile = false;
+        if (/android/i.test(ua)) {
+          os = "Android";
+          isMobile = true;
+        } else if (/iPad|iPhone|iPod/.test(ua)) {
+          os = "iOS";
+          isMobile = true;
+        } else if (/Macintosh/i.test(ua)) {
+          os = "Mac OS";
+        } else if (/Windows/i.test(ua)) {
+          os = "Windows";
+        } else if (/Linux/i.test(ua)) {
+          os = "Linux";
+        }
+        if (/mobile/i.test(ua)) {
+          isMobile = true;
+        }
+
+        // Obtener historial analítico actual
+        const { data, error } = await _supabase
+          .from('web_config')
+          .select('data')
+          .eq('id', 2)
+          .single();
+
+        let analytics = { visitas: 0, historial: [] };
+        if (data && data.data) {
+          analytics = data.data;
+        }
+        if (!analytics.visitas) analytics.visitas = 0;
+        if (!analytics.historial) analytics.historial = [];
+
+        analytics.visitas++;
+
+        // Esperar IP (Máximo 2 segundos)
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 2000));
+        const ipData = await Promise.race([geoPromise, timeoutPromise]);
+
+        let city = "Desconocida";
+        let country = "Desconocido";
+        if (ipData && ipData.city) {
+          city = ipData.city;
+          country = ipData.country_name || "Desconocido";
+        }
+
+        analytics.historial.push({
+          timestamp: new Date().toISOString(),
+          city,
+          country,
+          os,
+          isMobile
+        });
+
+        // Limitar tamaño histórico
+        if (analytics.historial.length > 250) {
+          analytics.historial = analytics.historial.slice(-250);
+        }
+
+        // Guardar
+        await _supabase.from('web_config').upsert({ id: 2, data: analytics });
+
+        // Pintar número definitivo
+        const countEl = document.getElementById('public-visitas-count');
+        if (countEl) countEl.innerText = analytics.visitas;
+      } catch (err) {
+        console.error("Error al registrar visita:", err);
+      }
+    }
+
+    function renderMetrics(analytics) {
+      const visitas = analytics.visitas || 0;
+      const historial = analytics.historial || [];
+
+      // 1. Visitas Totales
+      const totalVisitsEl = document.getElementById('metric-total-visits');
+      if (totalVisitsEl) {
+        totalVisitsEl.innerText = visitas;
+      }
+
+      // 2. Dispositivos (Móvil vs Escritorio)
+      let mobileCount = 0;
+      let desktopCount = 0;
+      historial.forEach(h => {
+        if (h.isMobile) mobileCount++;
+        else desktopCount++;
+      });
+
+      const totalGeo = historial.length || 1;
+      const mobilePct = Math.round((mobileCount / totalGeo) * 100);
+      const desktopPct = 100 - mobilePct;
+
+      const mobileBar = document.getElementById('metric-mobile-bar');
+      if (mobileBar) mobileBar.style.width = mobilePct + '%';
+      
+      const mobilePctEl = document.getElementById('metric-mobile-pct');
+      if (mobilePctEl) mobilePctEl.innerText = mobilePct + '%';
+      
+      const desktopPctEl = document.getElementById('metric-desktop-pct');
+      if (desktopPctEl) desktopPctEl.innerText = desktopPct + '%';
+
+      // 3. Top 5 Ciudades
+      let cityCounts = {};
+      historial.forEach(h => {
+        if (h.city && h.city !== "Desconocida") {
+          const key = `${h.city}, ${h.country || 'Desconocido'}`;
+          cityCounts[key] = (cityCounts[key] || 0) + 1;
+        }
+      });
+
+      let sortedCities = Object.keys(cityCounts).map(key => {
+        return { name: key, count: cityCounts[key] };
+      }).sort((a, b) => b.count - a.count).slice(0, 5);
+
+      const topCitiesEl = document.getElementById('metric-top-cities');
+      if (topCitiesEl) {
+        if (sortedCities.length === 0) {
+          topCitiesEl.innerHTML = `<li style="color:#a4b0be; font-size:11px; border:none;">Aún sin datos geográficos de visitas...</li>`;
+        } else {
+          topCitiesEl.innerHTML = sortedCities.map((city, idx) => {
+            return `<li>${idx + 1}. ${city.name} <span>${city.count} ${city.count === 1 ? 'visita' : 'visitas'}</span></li>`;
+          }).join('');
+        }
       }
     }
 
@@ -1914,6 +2171,11 @@ END:VCARD`;
       </div>
 
 
+      <!-- Contador de visitas sutil -->
+      <div id="visitas-counter-container" style="text-align: center; font-size: 10px; color: var(--text-gray); opacity: 0.35; letter-spacing: 1.5px; font-family: var(--font-sans); margin-top: 15px; margin-bottom: -15px; text-transform: uppercase;">
+        Conexiones exitosas: <span id="public-visitas-count" style="color: var(--gold-primary); font-weight: bold;">...</span>
+      </div>
+
       <!-- Pie de página y Candado de Acceso -->
       <div class="t-leva-footer">
         Diseño web app: <a href="https://api.whatsapp.com/send?phone=593984083776&text=Hola%20Daniela,%20me%20interesa%20un%20dise%C3%B1o%20de%20web%20app%20como%20el%20de%20MP%20Parra" target="_blank" class="t-leva-link">T-LEVA</a> 2026
@@ -1976,6 +2238,7 @@ END:VCARD`;
         <div class="admin-tab" onclick="switchTab('tab-media', this)">Imágenes</div>
         <div class="admin-tab" onclick="switchTab('tab-botones', this)">Enlaces</div>
         <div class="admin-tab" onclick="switchTab('tab-casos', this)">Casos</div>
+        <div class="admin-tab" onclick="switchTab('tab-metricas', this)">Métricas</div>
       </div>
 
       <div class="admin-body">
@@ -2060,16 +2323,81 @@ END:VCARD`;
           </div>
         </div>
 
-      </div>
+        <!-- Pestaña Casos de Éxito -->
+        <div id="tab-casos" class="admin-tab-content">
+          <div id="adm-cases-list"></div>
+          <button class="admin-btn" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;"
+            onclick="addCase()">+ Añadir Nuevo Caso</button>
+        </div>
 
-      <!-- Pestaña Casos de Éxito -->
-      <div id="tab-casos" class="admin-tab-content">
-        <div id="adm-cases-list"></div>
-        <button class="admin-btn" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;"
-          onclick="addCase()">+ Añadir Nuevo Caso</button>
-      </div>
+        <!-- Pestaña Métricas -->
+        <div id="tab-metricas" class="admin-tab-content">
+          <div class="metrics-grid">
+            <!-- Card 1: Total Visits -->
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fas fa-eye"></i></div>
+              <div class="metric-info">
+                <h3>Visitas Totales</h3>
+                <p class="metric-number" id="metric-total-visits">0</p>
+                <span class="metric-sub">Conexiones exitosas registradas</span>
+              </div>
+            </div>
 
-    </div>
+            <!-- Card 2: Mobile vs Desktop -->
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fas fa-laptop-mobile"></i></div>
+              <div class="metric-info">
+                <h3>Dispositivos</h3>
+                <div class="metric-bar-container">
+                  <div class="metric-bar-mobile" id="metric-mobile-bar" style="width: 0%;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:11px; color:#a4b0be;">
+                  <span>Móvil: <strong id="metric-mobile-pct">0%</strong></span>
+                  <span>Escritorio: <strong id="metric-desktop-pct">0%</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Top Cities -->
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fas fa-map-marked-alt"></i></div>
+              <div class="metric-info" style="width: 100%;">
+                <h3>Top 5 Ciudades</h3>
+                <ul class="metric-list" id="metric-top-cities">
+                  <li style="color:#a4b0be; font-size:11px; border:none;">Aún sin datos de visitas...</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card 4: Demographics -->
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fas fa-users"></i></div>
+              <div class="metric-info">
+                <h3>Demografía Estimada</h3>
+                <p style="font-size:11px; color:#a4b0be; margin-top:5px; line-height:1.4;">
+                  Público objetivo principal: <strong style="color:var(--gold-primary);">25 - 55 años</strong>.<br>
+                  Corporativo, Estrategia Pública y Litigio de Alto Nivel.
+                </p>
+                <div class="metric-chart-placeholder" style="margin-top: 10px; display: flex; gap: 4px; align-items: flex-end; height: 40px;">
+                  <div style="background: rgba(223,186,107,0.1); height: 20%; width: 20%; border-radius: 2px;"></div>
+                  <div style="background: rgba(223,186,107,0.3); height: 50%; width: 20%; border-radius: 2px;"></div>
+                  <div style="background: var(--gold-primary); height: 95%; width: 20%; border-radius: 2px;"></div>
+                  <div style="background: rgba(223,186,107,0.6); height: 75%; width: 20%; border-radius: 2px;"></div>
+                  <div style="background: rgba(223,186,107,0.2); height: 40%; width: 20%; border-radius: 2px;"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:9px; color:#747d8c; margin-top:5px;">
+                  <span>18-24</span>
+                  <span>25-34</span>
+                  <span>35-44</span>
+                  <span>45-54</span>
+                  <span>55+</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
     <div class="admin-footer">
       <button class="admin-btn-primary" onclick="guardarAdmin()">Guardar y Salir</button>
@@ -2156,7 +2484,7 @@ END:VCARD`;
       el.classList.add('active');
     }
 
-    function populateAdmin() {
+    async function populateAdmin() {
       if (!tempConfig) return;
       if (!tempConfig.buttons || tempConfig.buttons.length === 0) {
         tempConfig.buttons = [
@@ -2187,6 +2515,24 @@ END:VCARD`;
       renderAdminBtnsList();
       renderAdminSocialsList();
       renderAdminCasesList();
+
+      // Cargar métricas en segundo plano
+      try {
+        const { data, error } = await _supabase
+          .from('web_config')
+          .select('data')
+          .eq('id', 2)
+          .single();
+
+        if (data && data.data) {
+          renderMetrics(data.data);
+        } else {
+          renderMetrics({ visitas: 0, historial: [] });
+        }
+      } catch (err) {
+        console.error("No se pudieron cargar las métricas en el panel:", err);
+        renderMetrics({ visitas: 0, historial: [] });
+      }
     }
 
     function renderAdminBtnsList() {

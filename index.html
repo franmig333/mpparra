@@ -1,82 +1,747 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MPPARRA | Enlaces</title>
-  <style>
-    body {
-      background-color: #121212;
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-      margin: 0;
-      color: #f4f4f4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP PARRA & ASOCIADOS | Tarjeta Digital</title>
+    
+    <!-- Tipografías de Google de alta gama: Cinzel (Romana Clásica) y Montserrat (Moderna) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. VARIABLES DE DISEÑO (ESTILO NEGRO MATE & ORO)
+           ========================================================================== */
+        :root {
+            --bg-dark-deep: #0a0b0d;      /* Negro mate profundo */
+            --bg-card: #111317;           /* Gris oscuro premium */
+            --gold-light: #f5e4bd;        /* Oro claro satinado */
+            --gold-primary: #dfba6b;      /* Oro medio corporativo */
+            --gold-dark: #aa813b;         /* Bronce oscuro para relieve */
+            --text-white: #ffffff;
+            --text-gray: #a4b0be;
+            
+            --font-serif: 'Cinzel', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --gold-gradient: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+        }
 
-    .profile-img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    h1 {
-      font-size: 24px;
-      margin-bottom: 5px;
-    }
+        body {
+            background-color: #030405;
+            color: var(--text-white);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 10px;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-    p {
-      font-size: 16px;
-      color: #b0b0b0;
-      margin-bottom: 30px;
-      text-align: center;
-    }
+        /* Ambientación de fondo sutil con brillo dorado lejano */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 20%, rgba(223, 186, 107, 0.04) 0%, rgba(0,0,0,0) 70%);
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    .links-container {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+        /* ==========================================================================
+           2. MOCKUP DE DISPOSITIVO MÓVIL (Look de Teléfono Real)
+           ========================================================================== */
+        .phone-mockup {
+            width: 100%;
+            max-width: 410px;
+            height: 840px;
+            background-color: var(--bg-dark-deep);
+            border: 8px solid #1c1e22;
+            border-radius: 40px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(223, 186, 107, 0.04);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
 
-    .link-btn {
-      background-color: #2a2a2a;
-      color: #fff;
-      text-decoration: none;
-      text-align: center;
-      padding: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
+        /* Cámara superior del celular simulado */
+        .phone-notch {
+            width: 130px;
+            height: 22px;
+            background-color: #1c1e22;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 99;
+        }
 
-    .link-btn:hover {
-      background-color: #444;
-    }
-  </style>
+        /* Contenido interno del teléfono con scroll invisible */
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        .screen-content::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* ==========================================================================
+           3. CABECERA GEOMÉTRICA (CORTE EN V EXACTO DE TU PLANTILLA)
+           ========================================================================== */
+        .header-geometric-outer {
+            width: 100%;
+            height: 290px;
+            position: relative;
+            background: var(--gold-gradient);
+            /* Crea el corte angular en 'V' de tu plantilla de referencia */
+            clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+            z-index: 2;
+        }
+
+        .header-geometric-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 2px; /* Deja ver 2px de la capa inferior simulando un borde dorado de corte */
+            background: linear-gradient(180deg, #15171a 0%, #0c0d10 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 81.5%, 50% 99%, 0 81.5%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 40px 20px 0 20px;
+        }
+
+        /* Logotipo Superior */
+        .logo-wrapper {
+            width: 100%;
+            max-width: 170px;
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .logo-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+        }
+
+        /* Réplica digital en alta fidelidad de tu LOGO.jpg si falla la carga local */
+        .logo-fallback-vector {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-fallback-vector svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Divisor de Oro Lineal con desvanecimiento */
+        .gold-divider-line {
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--gold-primary) 50%, transparent 100%);
+            margin-bottom: 14px;
+        }
+
+        /* Datos de Firma de Abogados */
+        .firm-title-text {
+            font-family: var(--font-serif);
+            font-size: 19px;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 2.5px;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .firm-subtitle-text {
+            font-family: var(--font-sans);
+            font-size: 9px;
+            font-weight: 500;
+            color: var(--gold-primary);
+            text-align: center;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================================
+           4. RETRATO CON DOBLE ANILLO DE ORO (MISMAS PROPORCIONES)
+           ========================================================================== */
+        .portrait-container {
+            position: relative;
+            width: 145px;
+            height: 145px;
+            margin: -65px auto 40px auto; /* Solapamiento perfecto sobre el corte chevron */
+            z-index: 10;
+        }
+
+        /* Bisel de Oro Exterior */
+        .portrait-ring-outer {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+        }
+
+        /* Espaciador Oscuro Intermedio */
+        .portrait-gap-dark {
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+            border-radius: 50%;
+            background-color: var(--bg-dark-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bisel de Oro Interior y Foto */
+        .portrait-ring-inner {
+            width: calc(100% - 8px);
+            height: calc(100% - 8px);
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-primary);
+            overflow: hidden;
+            background-color: #16181c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portrait-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 12%; /* Encuadra perfectamente la cabeza del abogado */
+            transition: transform 0.4s ease;
+        }
+
+        .portrait-container:hover .portrait-avatar-img {
+            transform: scale(1.07);
+        }
+
+        /* ==========================================================================
+           5. REJILLA DE ENLACES DE ACCIÓN (3 ARRIBA, 2 ABAJO)
+           ========================================================================== */
+        .action-links-section {
+            padding: 0 35px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        /* Fila Superior (3 Columnas) */
+        .grid-row-triple {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* Fila Inferior (2 Columnas) */
+        .grid-row-double {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 0 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Botón Individual */
+        .btn-card-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+        }
+
+        /* Círculo Dorado del Icono */
+        .icon-gold-ring {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-primary);
+            background: rgba(18, 20, 24, 0.7);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .icon-gold-ring svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        /* Texto Enmarcado en Líneas de Oro Fino */
+        .label-enmarcada {
+            font-family: var(--font-sans);
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--gold-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            width: 100%;
+            padding: 6px 0;
+            border-top: 1px solid rgba(223, 186, 107, 0.35);
+            border-bottom: 1px solid rgba(223, 186, 107, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        /* Animaciones Hover */
+        .btn-card-action:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-card-action:hover .icon-gold-ring {
+            background-color: var(--gold-primary);
+            color: var(--bg-dark-deep);
+            box-shadow: 0 0 18px rgba(223, 186, 107, 0.55);
+        }
+
+        .btn-card-action:hover .icon-gold-ring svg {
+            transform: scale(1.15);
+        }
+
+        .btn-card-action:hover .label-enmarcada {
+            color: #ffffff;
+            border-top-color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        /* ==========================================================================
+           6. LÍNEAS DECORATIVAS EN LAS ESQUINAS
+           ========================================================================== */
+        .deco-corners {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .stripes-bottom-left {
+            position: absolute;
+            bottom: -15px;
+            left: -15px;
+            width: 100px;
+            height: 100px;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+        }
+
+        .stripes-bottom-right {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 100px;
+            height: 100px;
+            background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+        }
+
+        /* Indicador de Tocar / Toque Nos */
+        .toque-indicator {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.6;
+            animation: bounceIndicator 2.2s infinite ease-in-out;
+            z-index: 2;
+        }
+
+        .toque-indicator svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--gold-primary);
+        }
+
+        .toque-indicator span {
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text-white);
+        }
+
+        @keyframes bounceIndicator {
+            0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
+            50% { transform: translate(-50%, -4px); opacity: 0.8; }
+        }
+
+        /* ==========================================================================
+           7. BOTÓN GUARDAR CONTACTO (Fila extra premium abajo)
+           ========================================================================== */
+        .save-contact-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            z-index: 2;
+        }
+
+        .save-contact-btn {
+            background: rgba(223, 186, 107, 0.05);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            font-family: var(--font-sans);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .save-contact-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            transition: transform 0.3s;
+        }
+
+        .save-contact-btn:hover {
+            background: var(--gold-gradient);
+            color: var(--bg-dark-deep);
+            box-shadow: 0 5px 20px rgba(223, 186, 107, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .save-contact-btn:hover svg {
+            transform: translateY(1.5px);
+        }
+
+        /* ==========================================================================
+           8. TOAST NOTIFICATION SYSTEM
+           ========================================================================== */
+        .toast-popup {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translate(-50%, 80px);
+            background: rgba(13, 15, 19, 0.98);
+            border: 1.5px solid var(--gold-primary);
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 9999;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 15px rgba(223, 186, 107, 0.1);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+            opacity: 0;
+            text-transform: uppercase;
+            text-align: center;
+            width: calc(100% - 70px);
+            pointer-events: none;
+        }
+
+        .toast-popup.visible {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+    </style>
+
+    <!-- ==========================================================================
+       9. JAVASCRIPT PRINCIPAL (DEFINIDO EN CABECERA PARA EVITAR ERRORES DE TIEMPO)
+       ========================================================================== -->
+    <script>
+        const EMAIL_DATA = "contacto@mpparra.com";
+        const PHONE_DATA = "+593 99 451 1585";
+
+        // Muestra la réplica en SVG del logotipo si el archivo local 'LOGO.jpg' no carga en la nube
+        function drawVectorLogo() {
+            const logoImg = document.getElementById('logoElement');
+            const logoFallback = document.getElementById('logoVectorFallback');
+            if (logoImg) logoImg.style.display = 'none';
+            if (logoFallback) logoFallback.style.display = 'flex';
+        }
+
+        // Muestra una imagen de retrato jurídica premium de Unsplash que imita a tu archivo 'image_4493e7.jpg' si este no carga
+        function portraitCloudFallback() {
+            const img = document.getElementById('portraitElement');
+            if (img) {
+                // Retrato corporativo premium neutro que encaja perfectamente en el diseño
+                img.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=256&h=256";
+            }
+        }
+
+        // Alerta visual de conexión (Reemplazo de los molestos alert())
+        function alertConexion(name) {
+            showNotificationToast(`Conectando por ${name}...`);
+        }
+
+        // Copiado inteligente de correo electrónico directo al portapapeles con feedback visual
+        function copiarEmail(event) {
+            event.preventDefault();
+            
+            // Creación de elemento temporal invisible para saltar restricciones de iframes en simuladores
+            const temp = document.createElement("input");
+            temp.value = EMAIL_DATA;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            showNotificationToast("¡Correo copiado al portapapeles!");
+
+            // Redirección opcional suave tras 1.2 segundos
+            setTimeout(() => {
+                window.location.href = `mailto:${EMAIL_DATA}`;
+            }, 1200);
+        }
+
+        // Lanzamiento del Toast animado buscando el elemento de manera reactiva
+        function showNotificationToast(msg) {
+            const toastEl = document.getElementById('notificationToast');
+            if (toastEl) {
+                toastEl.innerText = msg;
+                toastEl.classList.add('visible');
+                setTimeout(() => {
+                    toastEl.classList.remove('visible');
+                }, 2500);
+            }
+        }
+
+        // Generación y descarga directa del archivo vCard (.vcf) para smartphones
+        function crearDescargarVCard() {
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+N:Asociados;MP Parra;&;;
+FN:MP PARRA & ASOCIADOS
+ORG:MP PARRA & ASOCIADOS
+TITLE:Estudio Jurídico & Estrategia Pública
+TEL;TYPE=CELL,VOICE;VALUE=uri:tel:${PHONE_DATA.replace(/\s+/g, '')}
+EMAIL;TYPE=PREF,INTERNET:${EMAIL_DATA}
+URL:www.mpparra.com
+NOTE:Estudio Jurídico & Estrategia Pública
+END:VCARD`;
+
+            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.download = 'MP_PARRA_ASOCIADOS.vcf';
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showNotificationToast("¡Contacto descargado! Listo para agendar.");
+        }
+    </script>
 </head>
-
 <body>
 
-  <img src="https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg" alt="Logo MPPARRA"
-    class="profile-img">
+    <!-- Contenedor del Mockup del Teléfono para visualización limpia -->
+    <div class="phone-mockup">
+        <!-- Muesca de celular -->
+        <div class="phone-notch"></div>
+        
+        <!-- Contenedor de Pantalla -->
+        <div class="screen-content">
+            
+            <!-- Cabecera Angular "V-Cut" -->
+            <div class="header-geometric-outer">
+                <div class="header-geometric-inner">
+                    
+                    <!-- Contenedor de Logo de Marca -->
+                    <div class="logo-wrapper">
+                        <!-- Intenta cargar tu logo local -->
+                        <img src="https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg" alt="Logo MP Parra" class="logo-img" id="logoElement" onerror="drawVectorLogo()">
+                        
+                        <!-- Réplica vectorial de tu LOGO.jpg si no se carga localmente en el visualizador -->
+                        <div class="logo-fallback-vector" id="logoVectorFallback">
+                            <svg viewBox="0 0 300 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Monograma MP de Oro -->
+                                <path d="M72 18 V105 M72 35 L108 85 L144 35 V105" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M144 18 V105 M144 35 H175 C192 35 204 45 204 58 C204 71 192 81 175 81 H144" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="130" y1="10" x2="130" y2="115" stroke="url(#goldGradient)" stroke-width="2"/>
+                                
+                                <!-- Texto PARRA & ASOCIADOS -->
+                                <text x="150" y="105" fill="#FFFFFF" font-family="'Cinzel', serif" font-size="24" font-weight="700" letter-spacing="4">PARRA</text>
+                                <text x="35" y="130" fill="url(#goldGradient)" font-family="'Montserrat', sans-serif" font-size="12" font-weight="600" letter-spacing="3">& ASOCIADOS</text>
+                                
+                                <defs>
+                                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#f5e4bd" />
+                                        <stop offset="50%" stop-color="#dfba6b" />
+                                        <stop offset="100%" stop-color="#aa813b" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
 
-  <h1>MPPARRA</h1>
-  <p>Diseño e Innovación</p>
+                    <!-- Separador de Oro satinado -->
+                    <div class="gold-divider-line"></div>
 
-  <div class="links-container">
-    <a href="#" class="link-btn">Contactar por WhatsApp</a>
-    <a href="#" class="link-btn">Ver Portafolio</a>
-    <a href="#" class="link-btn">Síguenos en Instagram</a>
-  </div>
+                    <!-- Nombre del Bufete -->
+                    <div class="firm-title-text">MP PARRA & ASOCIADOS</div>
+                    <div class="firm-subtitle-text">Estudio Jurídico & Estrategia Pública</div>
+                </div>
+            </div>
 
+            <!-- Retrato con Doble Corona / Bisel de Oro -->
+            <div class="portrait-container">
+                <div class="portrait-ring-outer">
+                    <div class="portrait-gap-dark">
+                        <div class="portrait-ring-inner">
+                            <!-- Foto de perfil del Abogado (Carga local e intenta fallback de alta calidad en nube) -->
+                            <img src="image_4493e7.jpg" alt="Abogado" class="portrait-avatar-img" id="portraitElement" onerror="portraitCloudFallback()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rejilla de Enlaces Interactiva -->
+            <div class="action-links-section">
+                
+                <!-- Fila de 3 Botones (Look original) -->
+                <div class="grid-row-triple">
+                    
+                    <!-- WhatsApp (Mensaje) -->
+                    <a href="https://wa.me/593994511585" class="btn-card-action" target="_blank" onclick="alertConexion('WhatsApp')">
+                        <div class="icon-gold-ring">
+                            <!-- Icono Mensaje de Chat SVG -->
+                            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+                        </div>
+                        <span class="label-enmarcada">Mensaje</span>
+                    </a>
+
+                    <!-- Teléfono (Llamada Directa) -->
+                    <a href="tel:+593994511585" class="btn-card-action" onclick="alertConexion('Llamada Directa')">
+                        <div class="icon-gold-ring">
+                            <!-- Icono Teléfono SVG -->
+                            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                        </div>
+                        <span class="label-enmarcada">Telefone</span>
+                    </a>
+
+                    <!-- Correo Electrónico (Copiado automático + mailto) -->
+                    <button class="btn-card-action" onclick="copiarEmail(event)">
+                        <div class="icon-gold-ring">
+                            <!-- Icono Correo SVG -->
+                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        </div>
+                        <span class="label-enmarcada">E-Mail</span>
+                    </button>
+
+                </div>
+
+                <!-- Fila de 2 Botones -->
+                <div class="grid-row-double">
+                    
+                    <!-- Instagram (Red Social) -->
+                    <a href="https://instagram.com" class="btn-card-action" target="_blank" onclick="alertConexion('Instagram')">
+                        <div class="icon-gold-ring">
+                            <!-- Icono Cámara SVG -->
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M9 2h6c3.87 0 7 3.13 7 7v6c0 3.87-3.13 7-7 7H9c-3.87 0-7-3.13-7-7V9c0-3.87 3.13-7 7-7zm0 1.5c-3.03 0-5.5 2.47-5.5 5.5v6c0 3.03 2.47 5.5 5.5 5.5h6c3.03 0 5.5-2.47 5.5-5.5V9c0-3.03-2.47-5.5-5.5-5.5H9zM18.5 4.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+                        </div>
+                        <span class="label-enmarcada">Red Social</span>
+                    </a>
+
+                    <!-- Google Maps (Ubicación) -->
+                    <a href="https://maps.google.com" class="btn-card-action" target="_blank" onclick="alertConexion('Dirección Física')">
+                        <div class="icon-gold-ring">
+                            <!-- Icono Ubicación Pin SVG -->
+                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        </div>
+                        <span class="label-enmarcada">Localização</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Botón Guardar Contacto de un toque -->
+            <div class="save-contact-wrapper">
+                <button class="save-contact-btn" onclick="crearDescargarVCard()">
+                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Guardar Contacto</span>
+                </button>
+            </div>
+
+            <!-- Indicador táctil animado -->
+            <div class="toque-indicator">
+                <svg viewBox="0 0 24 24"><path d="M14 9V5c0-1.66-1.34-3-3-3S8 3.34 8 5v4c0 .38-.31.7-.7.7H6.7c-.38 0-.7-.31-.7-.7V6.5C6 5.12 4.88 4 3.5 4S1 5.12 1 6.5V14c0 4.97 4.03 9 9 9h4c4.97 0 9-4.03 9-9v-3c0-1.66-1.34-3-3-3s-3 1.34-3 3V9c0 .38-.31.7-.7.7h-.6c-.39 0-.7-.32-.7-.7z"/></svg>
+                <span>Toque nos iconos</span>
+            </div>
+
+            <!-- Líneas de corte decorativo en las esquinas -->
+            <div class="deco-corners">
+                <div class="stripes-bottom-left"></div>
+                <div class="stripes-bottom-right"></div>
+            </div>
+
+        </div>
+
+        <!-- Banner Toast de Notificación -->
+        <div class="toast-popup" id="notificationToast">Notificación corporativa</div>
+    </div>
 </body>
-
 </html>

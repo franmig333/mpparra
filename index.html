@@ -989,6 +989,7 @@
       flex: 1;
       overflow-y: auto;
       padding: 20px;
+      padding-bottom: 80px;
     }
 
     .admin-body::-webkit-scrollbar {
@@ -1244,49 +1245,65 @@
         sortedBtns.forEach(b => allLinks.push({ ...b, isSocial: false }));
         sortedSocials.forEach(s => allLinks.push({ ...s, isSocial: true }));
 
-        let html = '<div class="grid-row-triple">';
-        let inDouble = false;
+        let html = '';
 
-        allLinks.forEach((item, index) => {
-          if (index === 3 && !inDouble) {
-            html += '</div><div class="grid-row-double">';
-            inDouble = true;
+        let rowChunks = [];
+        if (allLinks.length === 4) {
+          rowChunks.push(allLinks.slice(0, 2));
+          rowChunks.push(allLinks.slice(2, 4));
+        } else {
+          for (let i = 0; i < allLinks.length; i += 3) {
+            rowChunks.push(allLinks.slice(i, i + 3));
           }
+        }
 
-          let icon = '';
-          let action = '';
-          let tag = 'a';
-
-          if (item.isSocial) {
-            icon = getSocialIcon(item.platform);
-            action = `href="${item.url}" target="_blank" onclick="alertConexion('${item.platform}')"`;
+        rowChunks.forEach(chunk => {
+          let rowClass = chunk.length === 2 ? 'grid-row-double' : 'grid-row-triple';
+          if (chunk.length === 1 && allLinks.length > 1) {
+            // Centrar el último ítem si queda solo
+            rowClass = 'grid-row-double';
+            html += `<div class="${rowClass}" style="display:flex; justify-content:center;">`;
           } else {
-            if (item.type === 'whatsapp') {
-              icon = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>';
-              action = `href="https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}" target="_blank" onclick="alertConexion('${item.label}')"`;
-            } else if (item.type === 'phone') {
-              icon = '<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
-              action = `href="tel:${siteConfig.contact.phone.replace(/\s/g, '')}" onclick="alertConexion('${item.label}')"`;
-            } else if (item.type === 'email') {
-              tag = 'button';
-              icon = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
-              action = `onclick="copiarEmail(event)"`;
-            } else if (item.type === 'location') {
-              icon = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
-              action = `href="${siteConfig.contact.maps}" target="_blank" onclick="alertConexion('${item.label}')"`;
-            }
+            html += `<div class="${rowClass}">`;
           }
 
-          let titleText = item.isSocial ? item.platform : item.label;
+          chunk.forEach(item => {
+            let icon = '';
+            let action = '';
+            let tag = 'a';
 
-          html += `
-            <${tag} ${action} class="btn-card-action">
-              <div class="icon-gold-ring">${icon}</div>
-              <span class="label-enmarcada">${titleText}</span>
-            </${tag}>
-          `;
+            if (item.isSocial) {
+              icon = getSocialIcon(item.platform);
+              action = `href="${item.url}" target="_blank" onclick="alertConexion('${item.platform}')"`;
+            } else {
+              if (item.type === 'whatsapp') {
+                icon = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>';
+                action = `href="https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}" target="_blank" onclick="alertConexion('${item.label}')"`;
+              } else if (item.type === 'phone') {
+                icon = '<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
+                action = `href="tel:${siteConfig.contact.phone.replace(/\s/g, '')}" onclick="alertConexion('${item.label}')"`;
+              } else if (item.type === 'email') {
+                tag = 'button';
+                icon = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
+                action = `onclick="copiarEmail(event)"`;
+              } else if (item.type === 'location') {
+                icon = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
+                action = `href="${siteConfig.contact.maps}" target="_blank" onclick="alertConexion('${item.label}')"`;
+              }
+            }
+
+            let titleText = item.isSocial ? item.platform : item.label;
+            let styleAdd = (chunk.length === 1 && allLinks.length > 1) ? 'style="width: 200px;"' : '';
+
+            html += `
+               <${tag} ${action} class="btn-card-action" ${styleAdd}>
+                 <div class="icon-gold-ring">${icon}</div>
+                 <span class="label-enmarcada">${titleText}</span>
+               </${tag}>
+             `;
+          });
+          html += '</div>';
         });
-        html += '</div>';
         btnsContainer.innerHTML = html;
       }
 
@@ -1721,26 +1738,28 @@ END:VCARD`;
         <div id="tab-media" class="admin-tab-content">
           <div class="admin-group">
             <span class="admin-hint">Sube tus imágenes directamente. Las imágenes se alojarán en Cloudinary
-              automáticamente.</span>
+              automáticamente de forma nativa.</span>
 
             <label>Logotipo</label>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-              <input type="text" class="admin-input" id="adm-logo" style="margin-bottom:0;" placeholder="URL del logo">
+            <div style="display:flex; gap:15px; margin-bottom:20px; align-items:center;">
+              <img id="preview-logo" src=""
+                style="width:60px; height:60px; object-fit:contain; border-radius:8px; background:#fff; border:1px solid var(--gold-primary);">
+              <input type="hidden" id="adm-logo">
               <button class="admin-btn-primary" id="btn-upload-logo"
-                onclick="document.getElementById('file-logo').click()">SUBIR IMAGEN</button>
+                onclick="document.getElementById('file-logo').click()">SUBIR NUEVA IMAGEN</button>
               <input type="file" id="file-logo" hidden accept="image/*"
-                onchange="uploadImage(this, 'adm-logo', 'btn-upload-logo')">
+                onchange="uploadImage(this, 'adm-logo', 'btn-upload-logo', 'preview-logo')">
             </div>
 
-            <br>
             <label>Foto de Perfil</label>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-              <input type="text" class="admin-input" id="adm-portrait" style="margin-bottom:0;"
-                placeholder="URL del retrato">
+            <div style="display:flex; gap:15px; margin-bottom:10px; align-items:center;">
+              <img id="preview-portrait" src=""
+                style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid var(--gold-primary);">
+              <input type="hidden" id="adm-portrait">
               <button class="admin-btn-primary" id="btn-upload-portrait"
-                onclick="document.getElementById('file-portrait').click()">SUBIR IMAGEN</button>
+                onclick="document.getElementById('file-portrait').click()">SUBIR NUEVA IMAGEN</button>
               <input type="file" id="file-portrait" hidden accept="image/*"
-                onchange="uploadImage(this, 'adm-portrait', 'btn-upload-portrait')">
+                onchange="uploadImage(this, 'adm-portrait', 'btn-upload-portrait', 'preview-portrait')">
             </div>
           </div>
         </div>
@@ -1798,7 +1817,7 @@ END:VCARD`;
   <script>
     let tempConfig = null;
 
-    async function uploadImage(fileInput, targetInputId, btnId) {
+    async function uploadImage(fileInput, targetInputId, btnId, previewId) {
       if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET || CLOUDINARY_CLOUD_NAME === 'tu_cloud_name') {
         alert('Por favor configura CLOUDINARY_CLOUD_NAME y CLOUDINARY_UPLOAD_PRESET en el código HTML.');
         return;
@@ -1829,6 +1848,10 @@ END:VCARD`;
           targetInput.value = data.secure_url;
 
           if (targetInput.oninput) targetInput.oninput({ target: targetInput });
+          if (previewId) {
+            const previewEl = document.getElementById(previewId);
+            if (previewEl) previewEl.src = data.secure_url;
+          }
 
           showNotificationToast("Imagen subida correctamente");
         } else {
@@ -1876,7 +1899,9 @@ END:VCARD`;
       document.getElementById('adm-show-subtitle').checked = tempConfig.header.showSubtitle;
 
       document.getElementById('adm-logo').value = tempConfig.header.logo;
+      document.getElementById('preview-logo').src = tempConfig.header.logo;
       document.getElementById('adm-portrait').value = tempConfig.header.portrait;
+      document.getElementById('preview-portrait').src = tempConfig.header.portrait;
 
       document.getElementById('adm-whatsapp').value = tempConfig.contact.whatsapp;
       document.getElementById('adm-phone').value = tempConfig.contact.phone;
@@ -2002,10 +2027,11 @@ END:VCARD`;
             <input type="text" class="admin-input" value="${c.title}" oninput="updateCase(${c.id}, 'title', this.value)" placeholder="Título del caso">
             
             <label style="margin-top:5px;">Imagen del Caso</label>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <input type="text" class="admin-input" id="adm-case-img-${c.id}" style="margin-bottom:0;" value="${c.image}" oninput="updateCase(${c.id}, 'image', this.value)" placeholder="URL de la imagen">
-                <button class="admin-btn-primary" id="btn-upload-case-${c.id}" onclick="document.getElementById('file-case-${c.id}').click()">SUBIR</button>
-                <input type="file" id="file-case-${c.id}" hidden accept="image/*" onchange="uploadImage(this, 'adm-case-img-${c.id}', 'btn-upload-case-${c.id}')">
+            <div style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
+                <img id="preview-case-${c.id}" src="${c.image}" style="width:50px; height:50px; object-fit:cover; border-radius:6px; border:1px solid rgba(223,186,107,0.3);">
+                <input type="hidden" id="adm-case-img-${c.id}" value="${c.image}" oninput="updateCase(${c.id}, 'image', this.value)">
+                <button class="admin-btn-primary" id="btn-upload-case-${c.id}" onclick="document.getElementById('file-case-${c.id}').click()">SUBIR IMAGEN</button>
+                <input type="file" id="file-case-${c.id}" hidden accept="image/*" onchange="uploadImage(this, 'adm-case-img-${c.id}', 'btn-upload-case-${c.id}', 'preview-case-${c.id}')">
             </div>
 
             <textarea class="admin-input" style="min-height: 60px; resize:vertical;" oninput="updateCase(${c.id}, 'desc', this.value)" placeholder="Descripción...">${c.desc}</textarea>

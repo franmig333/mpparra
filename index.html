@@ -16,6 +16,7 @@
            ========================================================================== */
         :root {
             --bg-dark-deep: #0a0b0d;      /* Negro mate profundo */
+            --bg-body: #0a0b0d;           /* Fondo general del navegador */
             --bg-card: #111317;           /* Gris oscuro premium */
             --gold-light: #f5e4bd;        /* Oro claro satinado */
             --gold-primary: #dfba6b;      /* Oro medio corporativo */
@@ -36,16 +37,17 @@
         }
 
         body {
-            background-color: #030405;
+            background-color: var(--bg-body);
             color: var(--text-white);
             font-family: var(--font-sans);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 10px;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
             overflow-x: hidden;
             position: relative;
+            padding: 0;
         }
 
         /* Ambientación de fondo sutil con brillo dorado lejano */
@@ -54,7 +56,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 20%, rgba(223, 186, 107, 0.04) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle at 50% 20%, rgba(223, 186, 107, 0.05) 0%, rgba(0,0,0,0) 70%);
             top: 0;
             left: 0;
             pointer-events: none;
@@ -62,63 +64,41 @@
         }
 
         /* ==========================================================================
-           2. MOCKUP DE DISPOSITIVO MÓVIL (Look de Teléfono Real)
+           2. CONTENEDOR CENTRAL COMPLETAMENTE FLUIDO (EDGE-TO-EDGE)
            ========================================================================== */
-        .phone-mockup {
+        .app-container {
             width: 100%;
-            max-width: 410px;
-            height: 840px;
-            background-color: var(--bg-dark-deep);
-            border: 8px solid #1c1e22;
-            border-radius: 40px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(223, 186, 107, 0.04);
-            position: relative;
-            overflow: hidden;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
             z-index: 1;
+            flex-grow: 1;
         }
 
-        /* Cámara superior del celular simulado */
-        .phone-notch {
-            width: 130px;
-            height: 22px;
-            background-color: #1c1e22;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            z-index: 99;
-        }
-
-        /* Contenido interno del teléfono con scroll invisible */
-        .screen-content {
+        /* Contenedor adaptativo para centrar de forma elegante el contenido principal */
+        .centered-content-wrapper {
             width: 100%;
-            height: 100%;
+            max-width: 500px; /* Ancho perfecto para mantener una lectura cómoda */
+            margin: 0 auto;
+            padding: 0 24px;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
+            align-items: center;
             position: relative;
-            padding-bottom: 40px;
-        }
-
-        .screen-content::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
+            z-index: 3;
         }
 
         /* ==========================================================================
-           3. CABECERA GEOMÉTRICA (CORTE EN V EXACTO DE TU PLANTILLA)
+           3. CABECERA GEOMÉTRICA (ESTIRA AL 100% DEL ANCHO DE PANTALLA)
            ========================================================================== */
         .header-geometric-outer {
             width: 100%;
-            height: 290px;
+            height: 300px;
             position: relative;
             background: var(--gold-gradient);
-            /* Crea el corte angular en 'V' de tu plantilla de referencia */
-            clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+            /* Corte angular en 'V' fluido */
+            clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
             z-index: 2;
         }
 
@@ -127,9 +107,9 @@
             top: 0;
             left: 0;
             right: 0;
-            bottom: 2px; /* Deja ver 2px de la capa inferior simulando un borde dorado de corte */
+            bottom: 2px; /* Espesor del borde dorado inferior */
             background: linear-gradient(180deg, #15171a 0%, #0c0d10 100%);
-            clip-path: polygon(0 0, 100% 0, 100% 81.5%, 50% 99%, 0 81.5%);
+            clip-path: polygon(0 0, 100% 0, 100% 83.5%, 50% 99%, 0 83.5%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -137,7 +117,7 @@
             padding: 40px 20px 0 20px;
         }
 
-        /* Logotipo Superior */
+        /* Contenedor del Logotipo */
         .logo-wrapper {
             width: 100%;
             max-width: 170px;
@@ -170,7 +150,7 @@
             height: 100%;
         }
 
-        /* Divisor de Oro Lineal con desvanecimiento */
+        /* Divisor Dorado Lineal */
         .gold-divider-line {
             width: 80%;
             height: 1px;
@@ -178,7 +158,7 @@
             margin-bottom: 14px;
         }
 
-        /* Datos de Firma de Abogados */
+        /* Datos del Bufete */
         .firm-title-text {
             font-family: var(--font-serif);
             font-size: 19px;
@@ -208,7 +188,7 @@
             position: relative;
             width: 145px;
             height: 145px;
-            margin: -65px auto 40px auto; /* Solapamiento perfecto sobre el corte chevron */
+            margin: -65px auto 40px auto; /* Solapamiento sobre el corte chevron */
             z-index: 10;
         }
 
@@ -252,7 +232,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 12%; /* Encuadra perfectamente la cabeza del abogado */
+            object-position: center 12%; /* Encuadra la cabeza del abogado */
             transition: transform 0.4s ease;
         }
 
@@ -264,7 +244,6 @@
            5. REJILLA DE ENLACES DE ACCIÓN (3 ARRIBA, 2 ABAJO)
            ========================================================================== */
         .action-links-section {
-            padding: 0 35px;
             width: 100%;
             z-index: 2;
         }
@@ -361,72 +340,7 @@
         }
 
         /* ==========================================================================
-           6. LÍNEAS DECORATIVAS EN LAS ESQUINAS
-           ========================================================================== */
-        .deco-corners {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .stripes-bottom-left {
-            position: absolute;
-            bottom: -15px;
-            left: -15px;
-            width: 100px;
-            height: 100px;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
-        }
-
-        .stripes-bottom-right {
-            position: absolute;
-            bottom: -15px;
-            right: -15px;
-            width: 100px;
-            height: 100px;
-            background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
-        }
-
-        /* Indicador de Tocar / Toque Nos */
-        .toque-indicator {
-            position: absolute;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            opacity: 0.6;
-            animation: bounceIndicator 2.2s infinite ease-in-out;
-            z-index: 2;
-        }
-
-        .toque-indicator svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--gold-primary);
-        }
-
-        .toque-indicator span {
-            font-size: 8px;
-            font-weight: 500;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: var(--text-white);
-        }
-
-        @keyframes bounceIndicator {
-            0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
-            50% { transform: translate(-50%, -4px); opacity: 0.8; }
-        }
-
-        /* ==========================================================================
-           7. BOTÓN GUARDAR CONTACTO (Fila extra premium abajo)
+           6. BOTÓN GUARDAR CONTACTO
            ========================================================================== */
         .save-contact-wrapper {
             display: flex;
@@ -435,6 +349,7 @@
             margin-top: 10px;
             margin-bottom: 25px;
             z-index: 2;
+            width: 100%;
         }
 
         .save-contact-btn {
@@ -474,11 +389,73 @@
             transform: translateY(1.5px);
         }
 
+        /* Indicador de Tocar / Toque Nos */
+        .toque-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.6;
+            animation: bounceIndicator 2.2s infinite ease-in-out;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        .toque-indicator svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--gold-primary);
+        }
+
+        .toque-indicator span {
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text-white);
+        }
+
+        @keyframes bounceIndicator {
+            0%, 100% { transform: translateY(0); opacity: 0.4; }
+            50% { transform: translateY(-4px); opacity: 0.8; }
+        }
+
+        /* ==========================================================================
+           7. LÍNEAS DECORATIVAS EXTENDIDAS AL LÍMITE DE LA PANTALLA
+           ========================================================================== */
+        .deco-corners {
+            position: fixed; /* Se anclan directamente a los límites de la ventana general */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .stripes-bottom-left {
+            position: absolute;
+            bottom: -15px;
+            left: -15px;
+            width: 120px;
+            height: 120px;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+        }
+
+        .stripes-bottom-right {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 120px;
+            height: 120px;
+            background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+        }
+
         /* ==========================================================================
            8. TOAST NOTIFICATION SYSTEM
            ========================================================================== */
         .toast-popup {
-            position: absolute;
+            position: fixed;
             bottom: 40px;
             left: 50%;
             transform: translate(-50%, 80px);
@@ -496,7 +473,8 @@
             opacity: 0;
             text-transform: uppercase;
             text-align: center;
-            width: calc(100% - 70px);
+            width: auto;
+            max-width: 90%;
             pointer-events: none;
         }
 
@@ -539,7 +517,7 @@
         function copiarEmail(event) {
             event.preventDefault();
             
-            // Creación de elemento temporal invisible para saltar restricciones de iframes en simuladores
+            // Creación de elemento temporal invisible para copiar de forma segura en iframes
             const temp = document.createElement("input");
             temp.value = EMAIL_DATA;
             document.body.appendChild(temp);
@@ -549,7 +527,7 @@
 
             showNotificationToast("¡Correo copiado al portapapeles!");
 
-            // Redirección opcional suave tras 1.2 segundos
+            // Redirección suave tras 1.2 segundos
             setTimeout(() => {
                 window.location.href = `mailto:${EMAIL_DATA}`;
             }, 1200);
@@ -597,61 +575,59 @@ END:VCARD`;
 </head>
 <body>
 
-    <!-- Contenedor del Mockup del Teléfono para visualización limpia -->
-    <div class="phone-mockup">
-        <!-- Muesca de celular -->
-        <div class="phone-notch"></div>
+    <!-- Contenedor Principal Adaptativo Edge-to-Edge -->
+    <div class="app-container">
         
-        <!-- Contenedor de Pantalla -->
-        <div class="screen-content">
-            
-            <!-- Cabecera Angular "V-Cut" -->
-            <div class="header-geometric-outer">
-                <div class="header-geometric-inner">
+        <!-- Cabecera Angular "V-Cut" (Abarca el 100% de la pantalla de extremo a extremo) -->
+        <div class="header-geometric-outer">
+            <div class="header-geometric-inner">
+                
+                <!-- Logotipo de la Marca -->
+                <div class="logo-wrapper">
+                    <!-- Carga tu logotipo local -->
+                    <img src="https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg" alt="Logo MP Parra" class="logo-img" id="logoElement" onerror="drawVectorLogo()">
                     
-                    <!-- Contenedor de Logo de Marca -->
-                    <div class="logo-wrapper">
-                        <!-- Intenta cargar tu logo local -->
-                        <img src="https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg" alt="Logo MP Parra" class="logo-img" id="logoElement" onerror="drawVectorLogo()">
-                        
-                        <!-- Réplica vectorial de tu LOGO.jpg si no se carga localmente en el visualizador -->
-                        <div class="logo-fallback-vector" id="logoVectorFallback">
-                            <svg viewBox="0 0 300 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Monograma MP de Oro -->
-                                <path d="M72 18 V105 M72 35 L108 85 L144 35 V105" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M144 18 V105 M144 35 H175 C192 35 204 45 204 58 C204 71 192 81 175 81 H144" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="130" y1="10" x2="130" y2="115" stroke="url(#goldGradient)" stroke-width="2"/>
-                                
-                                <!-- Texto PARRA & ASOCIADOS -->
-                                <text x="150" y="105" fill="#FFFFFF" font-family="'Cinzel', serif" font-size="24" font-weight="700" letter-spacing="4">PARRA</text>
-                                <text x="35" y="130" fill="url(#goldGradient)" font-family="'Montserrat', sans-serif" font-size="12" font-weight="600" letter-spacing="3">& ASOCIADOS</text>
-                                
-                                <defs>
-                                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#f5e4bd" />
-                                        <stop offset="50%" stop-color="#dfba6b" />
-                                        <stop offset="100%" stop-color="#aa813b" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
+                    <!-- Réplica vectorial de tu LOGO.jpg si no se carga localmente en el visor -->
+                    <div class="logo-fallback-vector" id="logoVectorFallback">
+                        <svg viewBox="0 0 300 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Monograma MP de Oro -->
+                            <path d="M72 18 V105 M72 35 L108 85 L144 35 V105" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M144 18 V105 M144 35 H175 C192 35 204 45 204 58 C204 71 192 81 175 81 H144" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="130" y1="10" x2="130" y2="115" stroke="url(#goldGradient)" stroke-width="2"/>
+                            
+                            <!-- Texto PARRA & ASOCIADOS -->
+                            <text x="150" y="105" fill="#FFFFFF" font-family="'Cinzel', serif" font-size="24" font-weight="700" letter-spacing="4">PARRA</text>
+                            <text x="35" y="130" fill="url(#goldGradient)" font-family="'Montserrat', sans-serif" font-size="12" font-weight="600" letter-spacing="3">& ASOCIADOS</text>
+                            
+                            <defs>
+                                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#f5e4bd" />
+                                    <stop offset="50%" stop-color="#dfba6b" />
+                                    <stop offset="100%" stop-color="#aa813b" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
                     </div>
-
-                    <!-- Separador de Oro satinado -->
-                    <div class="gold-divider-line"></div>
-
-                    <!-- Nombre del Bufete -->
-                    <div class="firm-title-text">MP PARRA & ASOCIADOS</div>
-                    <div class="firm-subtitle-text">Estudio Jurídico & Estrategia Pública</div>
                 </div>
-            </div>
 
-            <!-- Retrato con Doble Corona / Bisel de Oro -->
+                <!-- Separador Dorado -->
+                <div class="gold-divider-line"></div>
+
+                <!-- Título del Bufete -->
+                <div class="firm-title-text">MP PARRA & ASOCIADOS</div>
+                <div class="firm-subtitle-text">Estudio Jurídico & Estrategia Pública</div>
+            </div>
+        </div>
+
+        <!-- Sección de Contenido Centrada de Forma Óptima (Sin marcos artificiales) -->
+        <div class="centered-content-wrapper">
+            
+            <!-- Retrato del Abogado con Corona Biselada de Oro -->
             <div class="portrait-container">
                 <div class="portrait-ring-outer">
                     <div class="portrait-gap-dark">
                         <div class="portrait-ring-inner">
-                            <!-- Foto de perfil del Abogado (Carga local e intenta fallback de alta calidad en nube) -->
+                            <!-- Retrato del Abogado -->
                             <img src="image_4493e7.jpg" alt="Abogado" class="portrait-avatar-img" id="portraitElement" onerror="portraitCloudFallback()">
                         </div>
                     </div>
@@ -661,7 +637,7 @@ END:VCARD`;
             <!-- Rejilla de Enlaces Interactiva -->
             <div class="action-links-section">
                 
-                <!-- Fila de 3 Botones (Look original) -->
+                <!-- Fila de 3 Botones -->
                 <div class="grid-row-triple">
                     
                     <!-- WhatsApp (Mensaje) -->
@@ -679,7 +655,7 @@ END:VCARD`;
                             <!-- Icono Teléfono SVG -->
                             <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                         </div>
-                        <span class="label-enmarcada">Telefone</span>
+                        <span class="label-enmarcada">Teléfono</span>
                     </a>
 
                     <!-- Correo Electrónico (Copiado automático + mailto) -->
@@ -711,7 +687,7 @@ END:VCARD`;
                             <!-- Icono Ubicación Pin SVG -->
                             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                         </div>
-                        <span class="label-enmarcada">Localização</span>
+                        <span class="label-enmarcada">Localización</span>
                     </a>
 
                 </div>
@@ -729,15 +705,15 @@ END:VCARD`;
             <!-- Indicador táctil animado -->
             <div class="toque-indicator">
                 <svg viewBox="0 0 24 24"><path d="M14 9V5c0-1.66-1.34-3-3-3S8 3.34 8 5v4c0 .38-.31.7-.7.7H6.7c-.38 0-.7-.31-.7-.7V6.5C6 5.12 4.88 4 3.5 4S1 5.12 1 6.5V14c0 4.97 4.03 9 9 9h4c4.97 0 9-4.03 9-9v-3c0-1.66-1.34-3-3-3s-3 1.34-3 3V9c0 .38-.31.7-.7.7h-.6c-.39 0-.7-.32-.7-.7z"/></svg>
-                <span>Toque nos iconos</span>
+                <span>Toque en los iconos</span>
             </div>
 
-            <!-- Líneas de corte decorativo en las esquinas -->
-            <div class="deco-corners">
-                <div class="stripes-bottom-left"></div>
-                <div class="stripes-bottom-right"></div>
-            </div>
+        </div>
 
+        <!-- Líneas de corte decorativo fijadas en los límites absolutos de la ventana general -->
+        <div class="deco-corners">
+            <div class="stripes-bottom-left"></div>
+            <div class="stripes-bottom-right"></div>
         </div>
 
         <!-- Banner Toast de Notificación -->

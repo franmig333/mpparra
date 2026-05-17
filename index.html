@@ -16,6 +16,9 @@
   <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- FontAwesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     /* ==========================================================================
            1. VARIABLES DE DISEÑO (ESTILO NEGRO MATE & ORO)
@@ -1136,6 +1139,149 @@
       box-shadow: 0 0 15px rgba(223, 186, 107, 0.4);
       transform: translateY(-2px);
     }
+
+    /* ==========================================================================
+       8. LIGHTBOX & GALERIA
+       ========================================================================== */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 11, 13, 0.98);
+      z-index: 20000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: var(--gold-primary);
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 20001;
+      transition: transform 0.3s;
+    }
+
+    .lightbox-close:hover {
+      transform: scale(1.1) rotate(90deg);
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(223, 186, 107, 0.7);
+      font-size: 40px;
+      cursor: pointer;
+      z-index: 20001;
+      padding: 20px;
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .lightbox-nav:hover {
+      color: var(--gold-primary);
+    }
+
+    .lightbox-nav.left {
+      left: 10px;
+    }
+
+    .lightbox-nav.left:hover {
+      transform: translateY(-50%) translateX(-5px);
+    }
+
+    .lightbox-nav.right {
+      right: 10px;
+    }
+
+    .lightbox-nav.right:hover {
+      transform: translateY(-50%) translateX(5px);
+    }
+
+    .lightbox-img-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+      cursor: zoom-in;
+    }
+
+    .lightbox-img.zoomed {
+      transform: scale(2);
+      cursor: zoom-out;
+    }
+
+    /* Admin Gallery Miniatures */
+    .admin-gallery-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .admin-gallery-item {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(223, 186, 107, 0.3);
+    }
+
+    .admin-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .admin-gallery-delete {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(255, 107, 107, 0.9);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      font-size: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* FontAwesome icon styling on buttons */
+    .icon-gold-ring i {
+      font-size: 24px;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-card-action:hover .icon-gold-ring i {
+      transform: scale(1.15);
+    }
   </style>
 
 
@@ -1261,26 +1407,17 @@
               icon = getSocialIcon(item.platform);
               action = `href="${item.url || '#'}" target="_blank" onclick="alertConexion('${item.platform}')"`;
             } else {
-              if (item.type === 'whatsapp') {
-                icon = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>';
-                let whatsappStr = siteConfig?.contact?.whatsapp || "";
-                action = `href="https://wa.me/${whatsappStr.replace(/\D/g, '')}" target="_blank" onclick="alertConexion('${item.label}')"`;
-              } else if (item.type === 'phone') {
-                icon = '<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
-                let phoneStr = siteConfig?.contact?.phone || "";
-                action = `href="tel:${phoneStr.replace(/\s/g, '')}" onclick="alertConexion('${item.label}')"`;
-              } else if (item.type === 'email') {
+              icon = `<i class="${item.icon || 'fas fa-link'}"></i>`;
+
+              if (item.url && item.url.startsWith('mailto:')) {
                 tag = 'button';
-                icon = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
                 action = `onclick="copiarEmail(event)"`;
-              } else if (item.type === 'location') {
-                icon = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
-                let mapsStr = siteConfig?.contact?.maps || "";
-                action = `href="${mapsStr}" target="_blank" onclick="alertConexion('${item.label}')"`;
+              } else {
+                action = `href="${item.url || '#'}" target="_blank" onclick="alertConexion('${item.title || item.label}')"`;
               }
             }
 
-            let titleText = item.isSocial ? item.platform : item.label;
+            let titleText = item.isSocial ? item.platform : (item.title || item.label);
             let styleAdd = (chunk.length === 1 && allLinks.length > 1) ? 'style="width: 200px;"' : '';
 
             html += `
@@ -1303,11 +1440,12 @@
         let sortedCases = [...(siteConfig?.cases || [])].filter(c => c?.visible !== false).sort((a, b) => (a?.order || 0) - (b?.order || 0));
         let html = '';
         sortedCases.forEach(c => {
+          let coverImg = (c.images && c.images.length > 0) ? c.images[0] : 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200';
           html += `
             <div class="case-gallery-card">
-              <div class="case-card-image-box">
+              <div class="case-card-image-box" onclick="openLightbox(${c.id})" style="cursor:pointer;" title="Click para ver galería">
                 <span class="case-card-tag">${c.tag}</span>
-                <img src="${c.image}" alt="${c.title}" class="case-card-img">
+                <img src="${coverImg}" alt="${c.title}" class="case-card-img">
               </div>
               <div class="case-card-info">
                 <h3 class="case-card-title">${c.title}</h3>
@@ -1348,6 +1486,25 @@
       if (!siteConfig.socials) siteConfig.socials = [];
       if (!siteConfig.buttons) siteConfig.buttons = [];
       if (!siteConfig.cases) siteConfig.cases = [];
+
+      // Migrar buttons type -> icon
+      siteConfig.buttons.forEach(b => {
+        if (!b.icon && b.type) {
+          if (b.type === 'whatsapp') { b.icon = 'fab fa-whatsapp'; b.title = b.label || 'WhatsApp'; b.url = `https://wa.me/${(siteConfig.contact?.whatsapp || '').replace(/\D/g, '')}`; }
+          if (b.type === 'phone') { b.icon = 'fas fa-phone'; b.title = b.label || 'Teléfono'; b.url = `tel:${(siteConfig.contact?.phone || '').replace(/\s/g, '')}`; }
+          if (b.type === 'email') { b.icon = 'fas fa-envelope'; b.title = b.label || 'E-Mail'; b.url = `mailto:${siteConfig.contact?.email || ''}`; }
+          if (b.type === 'location') { b.icon = 'fas fa-map-marker-alt'; b.title = b.label || 'Localización'; b.url = siteConfig.contact?.maps || '#'; }
+        }
+      });
+
+      // Migrar cases image -> images array
+      siteConfig.cases.forEach(c => {
+        if (c.image && !c.images) {
+          c.images = [c.image];
+        } else if (!c.images) {
+          c.images = [];
+        }
+      });
 
       if (siteConfig?.contact?.instagram && siteConfig.socials.length === 0) {
         siteConfig.socials.push({ id: 'soc_' + Date.now(), platform: 'Instagram', url: siteConfig.contact.instagram, visible: true, order: 1 });
@@ -1808,6 +1965,8 @@ END:VCARD`;
               style="border-bottom: 1px solid rgba(223,186,107,0.2); padding-bottom: 10px; margin-bottom: 15px;">Botones
               Principales</label>
             <div id="adm-btns-list"></div>
+            <button class="admin-btn" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;"
+              onclick="addMainButton()">+ AÑADIR BOTÓN PRINCIPAL</button>
           </div>
 
           <div class="admin-group">
@@ -1956,21 +2115,50 @@ END:VCARD`;
 
       sorted.forEach((btn, i) => {
         html += `
-          <div class="admin-item-row">
-            <label class="admin-checkbox" style="margin:0;"><input type="checkbox" ${btn.visible ? 'checked' : ''} onchange="toggleBtnVis('${btn.id}', this.checked)"> ${btn.label}</label>
-            <div class="controls">
+          <div class="admin-group" style="position:relative; margin-bottom:10px;">
+            <div style="position:absolute; top: 15px; right: 15px; display:flex; gap:5px;">
               <button class="admin-btn" onclick="moveBtn('${btn.id}', -1)" ${i === 0 ? 'disabled style="opacity:0.3"' : ''}>▲</button>
               <button class="admin-btn" onclick="moveBtn('${btn.id}', 1)" ${i === sorted.length - 1 ? 'disabled style="opacity:0.3"' : ''}>▼</button>
+              <button class="admin-btn" style="color: #ff6b6b; border-color:rgba(255,107,107,0.3); background:rgba(255,107,107,0.1);" onclick="deleteMainButton('${btn.id}')">✕</button>
             </div>
+            <label class="admin-checkbox" style="display:inline-flex; margin-bottom: 10px;"><input type="checkbox" ${btn.visible ? 'checked' : ''} onchange="updateBtn('${btn.id}', 'visible', this.checked)"> Visible</label>
+            
+            <input type="text" class="admin-input" value="${btn.title || btn.label || ''}" oninput="updateBtn('${btn.id}', 'title', this.value)" placeholder="Título del botón">
+            <input type="text" class="admin-input" value="${btn.url || ''}" oninput="updateBtn('${btn.id}', 'url', this.value)" placeholder="URL destino (ej. https://, tel:, mailto:)">
+            
+            <select class="admin-input" style="margin-bottom:0; background-color: #121418; color: white;" onchange="updateBtn('${btn.id}', 'icon', this.value)">
+                <option value="fas fa-link" ${btn.icon === 'fas fa-link' ? 'selected' : ''}>Enlace Genérico</option>
+                <option value="fab fa-whatsapp" ${btn.icon === 'fab fa-whatsapp' ? 'selected' : ''}>WhatsApp</option>
+                <option value="fas fa-phone" ${btn.icon === 'fas fa-phone' ? 'selected' : ''}>Teléfono</option>
+                <option value="fas fa-envelope" ${btn.icon === 'fas fa-envelope' ? 'selected' : ''}>Correo Electrónico</option>
+                <option value="fas fa-map-marker-alt" ${btn.icon === 'fas fa-map-marker-alt' ? 'selected' : ''}>Dirección/Mapas</option>
+                <option value="fas fa-globe" ${btn.icon === 'fas fa-globe' ? 'selected' : ''}>Sitio Web</option>
+                <option value="fas fa-file-pdf" ${btn.icon === 'fas fa-file-pdf' ? 'selected' : ''}>Documento PDF</option>
+                <option value="fas fa-video" ${btn.icon === 'fas fa-video' ? 'selected' : ''}>Video/Reunión</option>
+            </select>
           </div>
         `;
       });
       container.innerHTML = html;
     }
 
-    function toggleBtnVis(id, vis) {
+    function addMainButton() {
+      const id = 'btn_' + Date.now();
+      const order = tempConfig.buttons.length > 0 ? Math.max(...tempConfig.buttons.map(s => s.order || 0)) + 1 : 1;
+      tempConfig.buttons.push({ id, title: 'Nuevo Botón', url: 'https://', icon: 'fas fa-link', visible: true, order });
+      renderAdminBtnsList();
+    }
+
+    function deleteMainButton(id) {
+      if (confirm("¿Eliminar este botón principal?")) {
+        tempConfig.buttons = tempConfig.buttons.filter(x => x.id !== id);
+        renderAdminBtnsList();
+      }
+    }
+
+    function updateBtn(id, field, value) {
       const b = tempConfig.buttons.find(x => x.id === id);
-      if (b) b.visible = vis;
+      if (b) b[field] = value;
     }
 
     function moveBtn(id, dir) {
@@ -2046,6 +2234,19 @@ END:VCARD`;
       let html = '';
       sorted.forEach((c, idx) => {
         let isVis = c.visible !== false;
+
+        let imagesHtml = '';
+        if (c.images && c.images.length > 0) {
+          c.images.forEach((img, imgIdx) => {
+            imagesHtml += `
+                    <div class="admin-gallery-item">
+                        <img src="${img}" alt="gallery">
+                        <button class="admin-gallery-delete" onclick="deleteCaseImage(${c.id}, ${imgIdx})">✕</button>
+                    </div>
+                `;
+          });
+        }
+
         html += `
           <div class="admin-group" style="position:relative; margin-bottom:15px;">
             <div style="position:absolute; top: 15px; right: 15px; display:flex; gap:5px; align-items:center;">
@@ -2062,12 +2263,15 @@ END:VCARD`;
             <input type="text" class="admin-input" value="${c.tag}" oninput="updateCase(${c.id}, 'tag', this.value)" placeholder="Etiqueta (ej. Derecho Penal)">
             <input type="text" class="admin-input" value="${c.title}" oninput="updateCase(${c.id}, 'title', this.value)" placeholder="Título del caso">
             
-            <label style="margin-top:5px;">Imagen del Caso</label>
-            <div style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
-                <img id="preview-case-${c.id}" src="${c.image}" style="width:50px; height:50px; object-fit:cover; border-radius:6px; border:1px solid rgba(223,186,107,0.3);">
-                <input type="hidden" id="adm-case-img-${c.id}" value="${c.image}" oninput="updateCase(${c.id}, 'image', this.value)">
-                <button class="admin-btn-primary" id="btn-upload-case-${c.id}" onclick="document.getElementById('file-case-${c.id}').click()">SUBIR IMAGEN</button>
-                <input type="file" id="file-case-${c.id}" hidden accept="image/*" onchange="uploadImage(this, 'adm-case-img-${c.id}', 'btn-upload-case-${c.id}', 'preview-case-${c.id}')">
+            <label style="margin-top:5px;">Galería de Imágenes</label>
+            <div style="margin-bottom:15px;">
+                <div style="display:flex; gap:15px; align-items:center;">
+                    <button class="admin-btn-primary" id="btn-upload-case-${c.id}" onclick="document.getElementById('file-case-${c.id}').click()">SUBIR IMAGEN A GALERÍA</button>
+                    <input type="file" id="file-case-${c.id}" hidden accept="image/*" onchange="uploadCaseImage(this, ${c.id}, 'btn-upload-case-${c.id}')">
+                </div>
+                <div class="admin-gallery-preview">
+                    ${imagesHtml}
+                </div>
             </div>
 
             <textarea class="admin-input" style="min-height: 60px; resize:vertical;" oninput="updateCase(${c.id}, 'desc', this.value)" placeholder="Descripción...">${c.desc}</textarea>
@@ -2075,6 +2279,57 @@ END:VCARD`;
         `;
       });
       container.innerHTML = html;
+    }
+
+    function deleteCaseImage(caseId, imgIdx) {
+      const c = tempConfig.cases.find(x => x.id === caseId);
+      if (c && c.images) {
+        c.images.splice(imgIdx, 1);
+        renderAdminCasesList();
+      }
+    }
+
+    async function uploadCaseImage(fileInput, caseId, btnId) {
+      if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET || CLOUDINARY_CLOUD_NAME === 'tu_cloud_name') {
+        alert('Por favor configura CLOUDINARY_CLOUD_NAME y CLOUDINARY_UPLOAD_PRESET en el código HTML.');
+        return;
+      }
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const btn = document.getElementById(btnId);
+      const originalText = btn.innerText;
+      btn.innerText = "Subiendo...";
+      btn.disabled = true;
+      btn.style.opacity = "0.5";
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+      try {
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.secure_url) {
+          const c = tempConfig.cases.find(x => x.id === caseId);
+          if (c) {
+            if (!c.images) c.images = [];
+            c.images.push(data.secure_url);
+            renderAdminCasesList();
+          }
+        } else {
+          alert('Error subiendo imagen.');
+        }
+      } catch (e) {
+        alert('Error en conexión al subir imagen.');
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+        btn.style.opacity = "1";
+      }
     }
 
     function moveCase(id, dir) {
@@ -2106,8 +2361,8 @@ END:VCARD`;
       const newId = tempConfig.cases.length > 0 ? Math.max(...tempConfig.cases.map(x => x.id)) + 1 : 1;
       const order = tempConfig.cases.length > 0 ? Math.max(...tempConfig.cases.map(x => x.order || 0)) + 1 : 1;
       tempConfig.cases.push({
-        id: newId, tag: 'Nueva Área', title: 'Nuevo Caso', desc: 'Descripción del caso...', image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200',
-        visible: true, order: order
+        id: newId, tag: 'Nueva Área', title: 'Nuevo Caso', desc: 'Descripción del caso...', images: [],
+        order, visible: true
       });
       renderAdminCasesList();
     }
@@ -2153,8 +2408,75 @@ END:VCARD`;
         btn.style.opacity = "1";
       }
     }
+
+    // ==========================================================================
+    // LIGHTBOX LOGIC
+    // ==========================================================================
+    let currentLightboxCaseId = null;
+    let currentLightboxImgIdx = 0;
+
+    function openLightbox(caseId) {
+      const c = siteConfig.cases.find(x => x.id === caseId);
+      if (!c || !c.images || c.images.length === 0) return;
+      currentLightboxCaseId = caseId;
+      currentLightboxImgIdx = 0;
+      updateLightboxImage();
+      document.getElementById('lightbox-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+      currentLightboxCaseId = null;
+      const imgEl = document.getElementById('lightbox-img');
+      imgEl.classList.remove('zoomed');
+      imgEl.style.transformOrigin = 'center center';
+    }
+
+    function changeLightboxSlide(dir) {
+      if (!currentLightboxCaseId) return;
+      const c = siteConfig.cases.find(x => x.id === currentLightboxCaseId);
+      if (!c || !c.images) return;
+      currentLightboxImgIdx += dir;
+      if (currentLightboxImgIdx < 0) currentLightboxImgIdx = c.images.length - 1;
+      if (currentLightboxImgIdx >= c.images.length) currentLightboxImgIdx = 0;
+      updateLightboxImage();
+    }
+
+    function updateLightboxImage() {
+      const c = siteConfig.cases.find(x => x.id === currentLightboxCaseId);
+      const imgEl = document.getElementById('lightbox-img');
+      imgEl.classList.remove('zoomed');
+      imgEl.style.transformOrigin = 'center center';
+      imgEl.src = c.images[currentLightboxImgIdx];
+    }
+
+    function toggleZoom(event) {
+      const imgEl = document.getElementById('lightbox-img');
+      imgEl.classList.toggle('zoomed');
+      if (imgEl.classList.contains('zoomed')) {
+        // Adjust transform origin based on click coordinates relative to the image
+        const rect = imgEl.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        imgEl.style.transformOrigin = `${x}% ${y}%`;
+      } else {
+        imgEl.style.transformOrigin = 'center center';
+      }
+    }
   </script>
 
+
+  <!-- Lightbox -->
+  <div id="lightbox-overlay" class="lightbox-overlay">
+    <div class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></div>
+    <div class="lightbox-nav left" onclick="changeLightboxSlide(-1)"><i class="fas fa-chevron-left"></i></div>
+    <div class="lightbox-img-container">
+      <img id="lightbox-img" class="lightbox-img" src="" alt="" onclick="toggleZoom(event)">
+    </div>
+    <div class="lightbox-nav right" onclick="changeLightboxSlide(1)"><i class="fas fa-chevron-right"></i></div>
+  </div>
 
 </body>
 

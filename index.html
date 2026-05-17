@@ -13,6 +13,9 @@
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     /* ==========================================================================
            1. VARIABLES DE DISEÑO (ESTILO NEGRO MATE & ORO)
@@ -1180,19 +1183,11 @@
       ]
     };
 
-    let siteConfig = JSON.parse(localStorage.getItem('mpparra_config')) || DEFAULT_CONFIG;
+    const SUPABASE_URL = "https://nzswlyziqzfvgozglzyn.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_v-8tsap_YqxCso31nZOmtg_V330n5Vj";
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Migración de datos antiguos (si el localStorage anterior no tenía 'socials' ni visibilidad en 'cases')
-    if (!siteConfig.socials) {
-      siteConfig.socials = [];
-      if (siteConfig.contact.instagram) {
-        siteConfig.socials.push({ id: 'soc_' + Date.now(), platform: 'Instagram', url: siteConfig.contact.instagram, visible: true, order: 1 });
-      }
-      siteConfig.buttons = siteConfig.buttons.filter(b => b.id !== 'instagram');
-    }
-    if (siteConfig.cases.length > 0 && typeof siteConfig.cases[0].visible === 'undefined') {
-      siteConfig.cases.forEach((c, idx) => { c.visible = true; c.order = idx + 1; });
-    }
+    let siteConfig = DEFAULT_CONFIG;
 
     let EMAIL_DATA = siteConfig.contact.email;
     let PHONE_DATA = siteConfig.contact.phone;
@@ -1333,7 +1328,35 @@
 
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const { data, error } = await _supabase
+          .from('web_config')
+          .select('data')
+          .eq('id', 1)
+          .single();
+
+        if (error) throw error;
+
+        if (data && data.data) {
+          siteConfig = data.data;
+        }
+      } catch (err) {
+        console.error("No se pudo cargar la configuración de Supabase. Usando default o fallando en red.", err);
+      }
+
+      // Migración de datos antiguos
+      if (!siteConfig.socials) {
+        siteConfig.socials = [];
+        if (siteConfig.contact.instagram) {
+          siteConfig.socials.push({ id: 'soc_' + Date.now(), platform: 'Instagram', url: siteConfig.contact.instagram, visible: true, order: 1 });
+        }
+        siteConfig.buttons = siteConfig.buttons.filter(b => b.id !== 'instagram');
+      }
+      if (siteConfig.cases.length > 0 && typeof siteConfig.cases[0].visible === 'undefined') {
+        siteConfig.cases.forEach((c, idx) => { c.visible = true; c.order = idx + 1; });
+      }
+
       renderApp();
     });
 
@@ -2076,7 +2099,13 @@ END:VCARD`;
       renderAdminCasesList();
     }
 
-    function guardarAdmin() {
+    async function guardarAdmin() {
+      const btn = document.querySelector('.admin-footer .admin-btn-primary');
+      const originalText = btn.innerText;
+      btn.innerText = "Sincronizando nube...";
+      btn.disabled = true;
+      btn.style.opacity = "0.7";
+
       tempConfig.header.title = document.getElementById('adm-title').value;
       tempConfig.header.showTitle = document.getElementById('adm-show-title').checked;
       tempConfig.header.subtitle = document.getElementById('adm-subtitle').value;
@@ -2091,11 +2120,25 @@ END:VCARD`;
       tempConfig.contact.maps = document.getElementById('adm-maps').value;
 
       siteConfig = JSON.parse(JSON.stringify(tempConfig));
-      localStorage.setItem('mpparra_config', JSON.stringify(siteConfig));
 
-      renderApp();
-      cerrarAdmin();
-      showNotificationToast("Cambios guardados exitosamente");
+      try {
+        const { error } = await _supabase
+          .from('web_config')
+          .upsert({ id: 1, data: siteConfig });
+
+        if (error) throw error;
+
+        renderApp();
+        cerrarAdmin();
+        showNotificationToast("Cambios guardados globalmente");
+      } catch (err) {
+        console.error("Error al guardar en Supabase", err);
+        alert("Hubo un problema al guardar los cambios en la nube.");
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+        btn.style.opacity = "1";
+      }
     }
   </script>
 

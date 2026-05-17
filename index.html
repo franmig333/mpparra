@@ -1155,32 +1155,21 @@
     const DEFAULT_CONFIG = {
       header: {
         title: "MP PARRA & ASOCIADOS",
-        showTitle: true,
         subtitle: "Estudio Jurídico & Estrategia Pública",
+        showTitle: true,
         showSubtitle: true,
         logo: "https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg",
         portrait: "image_4493e7.jpg"
       },
       contact: {
-        whatsapp: "593994511585",
-        phone: "+593 99 451 1585",
-        email: "contacto@mpparra.com",
+        whatsapp: "593984513589",
+        phone: "593984513589",
+        email: "correo@ejemplo.com",
         maps: "https://maps.google.com"
       },
-      buttons: [
-        { id: 'whatsapp', type: 'whatsapp', label: 'Mensaje', visible: true, order: 1 },
-        { id: 'phone', type: 'phone', label: 'Teléfono', visible: true, order: 2 },
-        { id: 'email', type: 'email', label: 'E-Mail', visible: true, order: 3 },
-        { id: 'maps', type: 'location', label: 'Localización', visible: true, order: 4 }
-      ],
-      socials: [
-        { id: 'soc_1', platform: 'Instagram', url: 'https://instagram.com', visible: true, order: 1 }
-      ],
-      cases: [
-        { id: 1, tag: 'Derecho Corporativo', title: 'Reestructuración Empresarial', desc: 'Asesoría jurídica integral en fusiones, adquisiciones y reestructuración de pasivos para grandes consorcios nacionales y multinacionales.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=200', visible: true, order: 1 },
-        { id: 2, tag: 'Estrategia Pública', title: 'Contratación & Políticas Públicas', desc: 'Consultoría estratégica y representación legal de alta complejidad ante entidades reguladoras y contratación estatal de infraestructura.', image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=400&h=200', visible: true, order: 2 },
-        { id: 3, tag: 'Litigio Premium', title: 'Defensa Tributaria & Financiera', desc: 'Defensa ante controversias fiscales de alta cuantía, logrando resoluciones favorables ante la administración pública y tribunales.', image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200', visible: true, order: 3 }
-      ]
+      buttons: [],
+      socials: [],
+      cases: []
     };
 
     const SUPABASE_URL = "https://nzswlyziqzfvgozglzyn.supabase.co";
@@ -1189,31 +1178,32 @@
 
     let siteConfig = DEFAULT_CONFIG;
 
-    let EMAIL_DATA = siteConfig.contact.email;
-    let PHONE_DATA = siteConfig.contact.phone;
+    let EMAIL_DATA = siteConfig?.contact?.email || "";
+    let PHONE_DATA = siteConfig?.contact?.phone || "";
 
     function renderApp() {
-      EMAIL_DATA = siteConfig.contact.email;
-      PHONE_DATA = siteConfig.contact.phone;
+      EMAIL_DATA = siteConfig?.contact?.email || "";
+      PHONE_DATA = siteConfig?.contact?.phone || "";
+      let WHATSAPP_DATA = siteConfig?.contact?.whatsapp || "";
 
       // Textos
       const titleEl = document.getElementById('render-title');
       if (titleEl) {
-        titleEl.innerText = siteConfig.header.title;
-        titleEl.style.display = siteConfig.header.showTitle ? 'block' : 'none';
+        titleEl.innerText = siteConfig?.header?.title || "";
+        titleEl.style.display = siteConfig?.header?.showTitle !== false ? 'block' : 'none';
       }
 
       const subtitleEl = document.getElementById('render-subtitle');
       if (subtitleEl) {
-        subtitleEl.innerText = siteConfig.header.subtitle;
-        subtitleEl.style.display = siteConfig.header.showSubtitle ? 'block' : 'none';
+        subtitleEl.innerText = siteConfig?.header?.subtitle || "";
+        subtitleEl.style.display = siteConfig?.header?.showSubtitle !== false ? 'block' : 'none';
       }
 
       // Imágenes
       const logoEl = document.getElementById('logoElement');
-      if (logoEl) logoEl.src = siteConfig.header.logo;
+      if (logoEl) logoEl.src = siteConfig?.header?.logo || "";
       const portraitEl = document.getElementById('portraitElement');
-      if (portraitEl) portraitEl.src = siteConfig.header.portrait;
+      if (portraitEl) portraitEl.src = siteConfig?.header?.portrait || "";
 
 
       // Socials Logic (Icon generation)
@@ -1233,8 +1223,8 @@
       // Botones
       const btnsContainer = document.getElementById('render-buttons');
       if (btnsContainer) {
-        let sortedBtns = [...siteConfig.buttons].filter(b => b.visible).sort((a, b) => a.order - b.order);
-        let sortedSocials = [...siteConfig.socials].filter(s => s.visible).sort((a, b) => a.order - b.order);
+        let sortedBtns = [...(siteConfig?.buttons || [])].filter(b => b?.visible).sort((a, b) => (a?.order || 0) - (b?.order || 0));
+        let sortedSocials = [...(siteConfig?.socials || [])].filter(s => s?.visible).sort((a, b) => (a?.order || 0) - (b?.order || 0));
 
         let allLinks = [];
         sortedBtns.forEach(b => allLinks.push({ ...b, isSocial: false }));
@@ -1269,21 +1259,24 @@
 
             if (item.isSocial) {
               icon = getSocialIcon(item.platform);
-              action = `href="${item.url}" target="_blank" onclick="alertConexion('${item.platform}')"`;
+              action = `href="${item.url || '#'}" target="_blank" onclick="alertConexion('${item.platform}')"`;
             } else {
               if (item.type === 'whatsapp') {
                 icon = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>';
-                action = `href="https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}" target="_blank" onclick="alertConexion('${item.label}')"`;
+                let whatsappStr = siteConfig?.contact?.whatsapp || "";
+                action = `href="https://wa.me/${whatsappStr.replace(/\D/g, '')}" target="_blank" onclick="alertConexion('${item.label}')"`;
               } else if (item.type === 'phone') {
                 icon = '<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
-                action = `href="tel:${siteConfig.contact.phone.replace(/\s/g, '')}" onclick="alertConexion('${item.label}')"`;
+                let phoneStr = siteConfig?.contact?.phone || "";
+                action = `href="tel:${phoneStr.replace(/\s/g, '')}" onclick="alertConexion('${item.label}')"`;
               } else if (item.type === 'email') {
                 tag = 'button';
                 icon = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
                 action = `onclick="copiarEmail(event)"`;
               } else if (item.type === 'location') {
                 icon = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
-                action = `href="${siteConfig.contact.maps}" target="_blank" onclick="alertConexion('${item.label}')"`;
+                let mapsStr = siteConfig?.contact?.maps || "";
+                action = `href="${mapsStr}" target="_blank" onclick="alertConexion('${item.label}')"`;
               }
             }
 
@@ -1307,7 +1300,7 @@
       // Casos
       const casesContainer = document.getElementById('render-cases');
       if (casesContainer) {
-        let sortedCases = [...siteConfig.cases].filter(c => c.visible !== false).sort((a, b) => (a.order || 0) - (b.order || 0));
+        let sortedCases = [...(siteConfig?.cases || [])].filter(c => c?.visible !== false).sort((a, b) => (a?.order || 0) - (b?.order || 0));
         let html = '';
         sortedCases.forEach(c => {
           html += `
@@ -1339,20 +1332,28 @@
         if (error) throw error;
 
         if (data && data.data) {
-          siteConfig = data.data;
+          siteConfig = {
+            header: { ...DEFAULT_CONFIG.header, ...(data.data.header || {}) },
+            contact: { ...DEFAULT_CONFIG.contact, ...(data.data.contact || {}) },
+            buttons: data.data.buttons || [],
+            socials: data.data.socials || [],
+            cases: data.data.cases || []
+          };
         }
       } catch (err) {
         console.error("No se pudo cargar la configuración de Supabase. Usando default o fallando en red.", err);
       }
 
       // Migración de datos antiguos
-      if (!siteConfig.socials) {
-        siteConfig.socials = [];
-        if (siteConfig.contact.instagram) {
-          siteConfig.socials.push({ id: 'soc_' + Date.now(), platform: 'Instagram', url: siteConfig.contact.instagram, visible: true, order: 1 });
-        }
-        siteConfig.buttons = siteConfig.buttons.filter(b => b.id !== 'instagram');
+      if (!siteConfig.socials) siteConfig.socials = [];
+      if (!siteConfig.buttons) siteConfig.buttons = [];
+      if (!siteConfig.cases) siteConfig.cases = [];
+
+      if (siteConfig?.contact?.instagram && siteConfig.socials.length === 0) {
+        siteConfig.socials.push({ id: 'soc_' + Date.now(), platform: 'Instagram', url: siteConfig.contact.instagram, visible: true, order: 1 });
       }
+      siteConfig.buttons = siteConfig.buttons.filter(b => b.id !== 'instagram');
+
       if (siteConfig.cases.length > 0 && typeof siteConfig.cases[0].visible === 'undefined') {
         siteConfig.cases.forEach((c, idx) => { c.visible = true; c.order = idx + 1; });
       }
@@ -1916,20 +1917,20 @@ END:VCARD`;
     }
 
     function populateAdmin() {
-      document.getElementById('adm-title').value = tempConfig.header.title;
-      document.getElementById('adm-show-title').checked = tempConfig.header.showTitle;
-      document.getElementById('adm-subtitle').value = tempConfig.header.subtitle;
-      document.getElementById('adm-show-subtitle').checked = tempConfig.header.showSubtitle;
+      document.getElementById('adm-title').value = tempConfig?.header?.title || "";
+      document.getElementById('adm-show-title').checked = tempConfig?.header?.showTitle !== false;
+      document.getElementById('adm-subtitle').value = tempConfig?.header?.subtitle || "";
+      document.getElementById('adm-show-subtitle').checked = tempConfig?.header?.showSubtitle !== false;
 
-      document.getElementById('adm-logo').value = tempConfig.header.logo;
-      document.getElementById('preview-logo').src = tempConfig.header.logo;
-      document.getElementById('adm-portrait').value = tempConfig.header.portrait;
-      document.getElementById('preview-portrait').src = tempConfig.header.portrait;
+      document.getElementById('adm-logo').value = tempConfig?.header?.logo || "";
+      document.getElementById('preview-logo').src = tempConfig?.header?.logo || "";
+      document.getElementById('adm-portrait').value = tempConfig?.header?.portrait || "";
+      document.getElementById('preview-portrait').src = tempConfig?.header?.portrait || "";
 
-      document.getElementById('adm-whatsapp').value = tempConfig.contact.whatsapp;
-      document.getElementById('adm-phone').value = tempConfig.contact.phone;
-      document.getElementById('adm-email').value = tempConfig.contact.email;
-      document.getElementById('adm-maps').value = tempConfig.contact.maps;
+      document.getElementById('adm-whatsapp').value = tempConfig?.contact?.whatsapp || "";
+      document.getElementById('adm-phone').value = tempConfig?.contact?.phone || "";
+      document.getElementById('adm-email').value = tempConfig?.contact?.email || "";
+      document.getElementById('adm-maps').value = tempConfig?.contact?.maps || "";
 
       renderAdminBtnsList();
       renderAdminSocialsList();

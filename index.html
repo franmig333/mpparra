@@ -1,1183 +1,942 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP PARRA & ASOCIADOS | Tarjeta Digital</title>
-    
-    <!-- Tipografías de Google de alta gama: Cinzel (Romana Clásica) y Montserrat (Moderna) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ==========================================================================
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MP PARRA & ASOCIADOS | Tarjeta Digital</title>
+
+  <!-- Tipografías de Google de alta gama: Cinzel (Romana Clásica) y Montserrat (Moderna) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
            1. VARIABLES DE DISEÑO (ESTILO NEGRO MATE & ORO)
            ========================================================================== */
-        :root {
-            --bg-dark-deep: #0a0b0d;      /* Negro mate profundo */
-            --bg-body: #0a0b0d;           /* Fondo general del navegador */
-            --bg-card: #111317;           /* Gris oscuro premium */
-            --gold-light: #f5e4bd;        /* Oro claro satinado */
-            --gold-primary: #dfba6b;      /* Oro medio corporativo */
-            --gold-dark: #aa813b;         /* Bronce oscuro para relieve */
-            --text-white: #ffffff;
-            --text-gray: #a4b0be;
-            
-            --font-serif: 'Cinzel', serif;
-            --font-sans: 'Montserrat', sans-serif;
-            --gold-gradient: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-        }
+    :root {
+      --bg-dark-deep: #0a0b0d;
+      /* Negro mate profundo */
+      --bg-body: #0a0b0d;
+      /* Fondo general del navegador */
+      --bg-card: #111317;
+      /* Gris oscuro premium */
+      --gold-light: #f5e4bd;
+      /* Oro claro satinado */
+      --gold-primary: #dfba6b;
+      /* Oro medio corporativo */
+      --gold-dark: #aa813b;
+      /* Bronce oscuro para relieve */
+      --text-white: #ffffff;
+      --text-gray: #a4b0be;
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+      --font-serif: 'Cinzel', serif;
+      --font-sans: 'Montserrat', sans-serif;
+      --gold-gradient: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+    }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-white);
-            font-family: var(--font-sans);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: stretch;
-            overflow-x: hidden;
-            position: relative;
-            padding: 0;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        /* Ambientación de fondo sutil con brillo dorado lejano y animación de respiración lenta */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 20%, rgba(223, 186, 107, 0.05) 0%, rgba(0,0,0,0) 70%);
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 0;
-            animation: ambientPulse 8s infinite ease-in-out;
-        }
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      overflow-x: hidden;
+      position: relative;
+      padding: 0;
+    }
 
-        @keyframes ambientPulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1.3; }
-        }
+    /* Ambientación de fondo sutil con brillo dorado lejano y animación de respiración lenta */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 20%, rgba(223, 186, 107, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: ambientPulse 8s infinite ease-in-out;
+    }
 
-        /* ==========================================================================
+    @keyframes ambientPulse {
+
+      0%,
+      100% {
+        opacity: 0.7;
+      }
+
+      50% {
+        opacity: 1.3;
+      }
+    }
+
+    /* ==========================================================================
            2. CONTENEDOR CENTRAL COMPLETAMENTE FLUIDO (EDGE-TO-EDGE)
            ========================================================================== */
-        .app-container {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            z-index: 1;
-            flex-grow: 1;
-        }
+    .app-container {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+      flex-grow: 1;
+    }
 
-        /* Contenedor adaptativo para centrar de forma elegante el contenido principal */
-        .centered-content-wrapper {
-            width: 100%;
-            max-width: 500px; /* Ancho perfecto para mantener una lectura cómoda */
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 3;
-        }
+    /* Contenedor adaptativo para centrar de forma elegante el contenido principal */
+    .centered-content-wrapper {
+      width: 100%;
+      max-width: 500px;
+      /* Ancho perfecto para mantener una lectura cómoda */
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+    }
 
-        /* ==========================================================================
+    /* ==========================================================================
            3. CABECERA GEOMÉTRICA (ESTIRA AL 100% DEL ANCHO DE PANTALLA)
            ========================================================================== */
-        .header-geometric-outer {
-            width: 100%;
-            height: 300px;
-            position: relative;
-            background: var(--gold-gradient);
-            /* Corte angular en 'V' fluido */
-            clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
-            z-index: 2;
-        }
+    .header-geometric-outer {
+      width: 100%;
+      height: 300px;
+      position: relative;
+      background: var(--gold-gradient);
+      /* Corte angular en 'V' fluido */
+      clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
+      z-index: 2;
+    }
 
-        .header-geometric-inner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 2px; /* Espesor del borde dorado inferior */
-            background: linear-gradient(180deg, #15171a 0%, #0c0d10 100%);
-            clip-path: polygon(0 0, 100% 0, 100% 83.5%, 50% 99%, 0 83.5%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 40px 20px 0 20px;
-        }
+    .header-geometric-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 2px;
+      /* Espesor del borde dorado inferior */
+      background: linear-gradient(180deg, #15171a 0%, #0c0d10 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 83.5%, 50% 99%, 0 83.5%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px 0 20px;
+    }
 
-        /* Contenedor del Logotipo */
-        .logo-wrapper {
-            width: 100%;
-            max-width: 170px;
-            height: 90px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 12px;
-        }
+    /* Contenedor del Logotipo */
+    .logo-wrapper {
+      width: 100%;
+      max-width: 170px;
+      height: 90px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+    }
 
-        .logo-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
-        }
+    .logo-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+    }
 
-        /* Réplica digital en alta fidelidad de tu LOGO.jpg si falla la carga local */
-        .logo-fallback-vector {
-            width: 100%;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    /* Réplica digital en alta fidelidad de tu LOGO.jpg si falla la carga local */
+    .logo-fallback-vector {
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .logo-fallback-vector svg {
-            width: 100%;
-            height: 100%;
-        }
+    .logo-fallback-vector svg {
+      width: 100%;
+      height: 100%;
+    }
 
-        /* Divisor Dorado Lineal */
-        .gold-divider-line {
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, var(--gold-primary) 50%, transparent 100%);
-            margin-bottom: 14px;
-        }
+    /* Divisor Dorado Lineal */
+    .gold-divider-line {
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold-primary) 50%, transparent 100%);
+      margin-bottom: 14px;
+    }
 
-        /* Datos del Bufete */
-        .firm-title-text {
-            font-family: var(--font-serif);
-            font-size: 19px;
-            font-weight: 600;
-            text-align: center;
-            letter-spacing: 2.5px;
-            color: #ffffff;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-        }
+    /* Datos del Bufete */
+    .firm-title-text {
+      font-family: var(--font-serif);
+      font-size: 19px;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 2.5px;
+      color: #ffffff;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
 
-        .firm-subtitle-text {
-            font-family: var(--font-sans);
-            font-size: 9px;
-            font-weight: 500;
-            color: var(--gold-primary);
-            text-align: center;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
+    .firm-subtitle-text {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--gold-primary);
+      text-align: center;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
 
-        /* ==========================================================================
+    /* ==========================================================================
            4. RETRATO CON DOBLE ANILLO DE ORO ANIMADO (EFECTO LUZ VIVA)
            ========================================================================== */
-        .portrait-container {
-            position: relative;
-            width: 145px;
-            height: 145px;
-            margin: -65px auto 40px auto; /* Solapamiento sobre el corte chevron */
-            z-index: 10;
-        }
+    .portrait-container {
+      position: relative;
+      width: 145px;
+      height: 145px;
+      margin: -65px auto 40px auto;
+      /* Solapamiento sobre el corte chevron */
+      z-index: 10;
+    }
 
-        /* Bisel de Oro Exterior con pulso sutil */
-        .portrait-ring-outer {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: var(--gold-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(223, 186, 107, 0.4);
-            animation: goldPortraitBreathe 4s infinite ease-in-out;
-            position: relative;
-            z-index: 3;
-        }
+    /* Bisel de Oro Exterior con pulso sutil */
+    .portrait-ring-outer {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(223, 186, 107, 0.4);
+      animation: goldPortraitBreathe 4s infinite ease-in-out;
+      position: relative;
+      z-index: 3;
+    }
 
-        @keyframes goldPortraitBreathe {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 10px 25px rgba(223, 186, 107, 0.35);
-            }
-            50% {
-                transform: scale(1.02);
-                box-shadow: 0 10px 40px rgba(223, 186, 107, 0.65);
-            }
-        }
+    @keyframes goldPortraitBreathe {
 
-        /* Espaciador Oscuro Intermedio */
-        .portrait-gap-dark {
-            width: calc(100% - 4px);
-            height: calc(100% - 4px);
-            border-radius: 50%;
-            background-color: var(--bg-dark-deep);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(223, 186, 107, 0.35);
+      }
 
-        /* Bisel de Oro Interior y Foto */
-        .portrait-ring-inner {
-            width: calc(100% - 8px);
-            height: calc(100% - 8px);
-            border-radius: 50%;
-            border: 1.5px solid var(--gold-primary);
-            overflow: hidden;
-            background-color: #16181c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 10px 40px rgba(223, 186, 107, 0.65);
+      }
+    }
 
-        .portrait-avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 12%; /* Encuadra la cabeza del abogado */
-            transition: transform 0.4s ease;
-        }
+    /* Espaciador Oscuro Intermedio */
+    .portrait-gap-dark {
+      width: calc(100% - 4px);
+      height: calc(100% - 4px);
+      border-radius: 50%;
+      background-color: var(--bg-dark-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .portrait-container:hover .portrait-avatar-img {
-            transform: scale(1.07);
-        }
+    /* Bisel de Oro Interior y Foto */
+    .portrait-ring-inner {
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-primary);
+      overflow: hidden;
+      background-color: #16181c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        /* ==========================================================================
+    .portrait-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 12%;
+      /* Encuadra la cabeza del abogado */
+      transition: transform 0.4s ease;
+    }
+
+    .portrait-container:hover .portrait-avatar-img {
+      transform: scale(1.07);
+    }
+
+    /* ==========================================================================
            5. REJILLA DE ENLACES DE ACCIÓN (3 ARRIBA, 2 ABAJO)
            ========================================================================== */
-        .action-links-section {
-            width: 100%;
-            z-index: 2;
-        }
+    .action-links-section {
+      width: 100%;
+      z-index: 2;
+    }
 
-        /* Fila Superior (3 Columnas) */
-        .grid-row-triple {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+    /* Fila Superior (3 Columnas) */
+    .grid-row-triple {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
 
-        /* Fila Inferior (2 Columnas) */
-        .grid-row-double {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            padding: 0 10px;
-            margin-bottom: 20px;
-        }
+    /* Fila Inferior (2 Columnas) */
+    .grid-row-double {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      padding: 0 10px;
+      margin-bottom: 20px;
+    }
 
-        /* Botón Individual */
-        .btn-card-action {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: transparent;
-            border: none;
-            outline: none;
-            width: 100%;
-        }
+    /* Botón Individual */
+    .btn-card-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+    }
 
-        /* Círculo Dorado del Icono */
-        .icon-gold-ring {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 1.5px solid var(--gold-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold-primary);
-            background: rgba(18, 20, 24, 0.7);
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        }
+    /* Círculo Dorado del Icono */
+    .icon-gold-ring {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      background: rgba(18, 20, 24, 0.7);
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
 
-        .icon-gold-ring svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-            transition: transform 0.3s ease;
-        }
+    .icon-gold-ring svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      transition: transform 0.3s ease;
+    }
 
-        /* Texto Enmarcado en Líneas de Oro Fino */
-        .label-enmarcada {
-            font-family: var(--font-sans);
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--gold-primary);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-align: center;
-            width: 100%;
-            padding: 6px 0;
-            border-top: 1px solid rgba(223, 186, 107, 0.35);
-            border-bottom: 1px solid rgba(223, 186, 107, 0.35);
-            transition: all 0.3s ease;
-        }
+    /* Texto Enmarcado en Líneas de Oro Fino */
+    .label-enmarcada {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--gold-primary);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      width: 100%;
+      padding: 6px 0;
+      border-top: 1px solid rgba(223, 186, 107, 0.35);
+      border-bottom: 1px solid rgba(223, 186, 107, 0.35);
+      transition: all 0.3s ease;
+    }
 
-        /* Animaciones Hover */
-        .btn-card-action:hover {
-            transform: translateY(-5px);
-        }
+    /* Animaciones Hover */
+    .btn-card-action:hover {
+      transform: translateY(-5px);
+    }
 
-        .btn-card-action:hover .icon-gold-ring {
-            background-color: var(--gold-primary);
-            color: var(--bg-dark-deep);
-            box-shadow: 0 0 18px rgba(223, 186, 107, 0.55);
-        }
+    .btn-card-action:hover .icon-gold-ring {
+      background-color: var(--gold-primary);
+      color: var(--bg-dark-deep);
+      box-shadow: 0 0 18px rgba(223, 186, 107, 0.55);
+    }
 
-        .btn-card-action:hover .icon-gold-ring svg {
-            transform: scale(1.15);
-        }
+    .btn-card-action:hover .icon-gold-ring svg {
+      transform: scale(1.15);
+    }
 
-        .btn-card-action:hover .label-enmarcada {
-            color: #ffffff;
-            border-top-color: #ffffff;
-            border-bottom-color: #ffffff;
-        }
+    .btn-card-action:hover .label-enmarcada {
+      color: #ffffff;
+      border-top-color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
 
-        /* ==========================================================================
+    /* ==========================================================================
            5B. BOTÓN PRINCIPAL GALERÍA DE CASOS DE ÉXITO
            ========================================================================== */
-        .btn-gallery-trigger-wrapper {
-            width: 100%;
-            margin-bottom: 25px;
-            z-index: 2;
-        }
+    .btn-gallery-trigger-wrapper {
+      width: 100%;
+      margin-bottom: 25px;
+      z-index: 2;
+    }
 
-        .btn-gallery-trigger {
-            width: 100%;
-            background: rgba(223, 186, 107, 0.03);
-            border: 1.5px solid var(--gold-primary);
-            border-radius: 16px;
-            padding: 18px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #ffffff;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            font-family: var(--font-sans);
-        }
+    .btn-gallery-trigger {
+      width: 100%;
+      background: rgba(223, 186, 107, 0.03);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      font-family: var(--font-sans);
+    }
 
-        .btn-gallery-trigger .trigger-content {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+    .btn-gallery-trigger .trigger-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-        .btn-gallery-trigger .trigger-icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(18, 20, 24, 0.8);
-            border: 1px solid rgba(223, 186, 107, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold-primary);
-            transition: all 0.3s ease;
-        }
+    .btn-gallery-trigger .trigger-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(18, 20, 24, 0.8);
+      border: 1px solid rgba(223, 186, 107, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      transition: all 0.3s ease;
+    }
 
-        .btn-gallery-trigger .trigger-icon-box svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
+    .btn-gallery-trigger .trigger-icon-box svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
 
-        .btn-gallery-trigger .trigger-text-box {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
+    .btn-gallery-trigger .trigger-text-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-        .btn-gallery-trigger .trigger-title {
-            font-family: var(--font-serif);
-            font-size: 13.5px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--gold-primary);
-            transition: color 0.3s ease;
-        }
+    .btn-gallery-trigger .trigger-title {
+      font-family: var(--font-serif);
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      transition: color 0.3s ease;
+    }
 
-        .btn-gallery-trigger .trigger-subtitle {
-            font-size: 9px;
-            font-weight: 400;
-            letter-spacing: 1px;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
+    .btn-gallery-trigger .trigger-subtitle {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: var(--text-gray);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
 
-        .btn-gallery-trigger .trigger-arrow {
-            color: var(--gold-primary);
-            opacity: 0.6;
-            transition: all 0.3s ease;
-        }
+    .btn-gallery-trigger .trigger-arrow {
+      color: var(--gold-primary);
+      opacity: 0.6;
+      transition: all 0.3s ease;
+    }
 
-        .btn-gallery-trigger:hover {
-            transform: translateY(-3px);
-            background: rgba(223, 186, 107, 0.08);
-            box-shadow: 0 10px 25px rgba(223, 186, 107, 0.15), 0 0 15px rgba(223, 186, 107, 0.05);
-            border-color: #ffffff;
-        }
+    .btn-gallery-trigger:hover {
+      transform: translateY(-3px);
+      background: rgba(223, 186, 107, 0.08);
+      box-shadow: 0 10px 25px rgba(223, 186, 107, 0.15), 0 0 15px rgba(223, 186, 107, 0.05);
+      border-color: #ffffff;
+    }
 
-        .btn-gallery-trigger:hover .trigger-icon-box {
-            background-color: var(--gold-primary);
-            color: var(--bg-dark-deep);
-            border-color: #ffffff;
-        }
+    .btn-gallery-trigger:hover .trigger-icon-box {
+      background-color: var(--gold-primary);
+      color: var(--bg-dark-deep);
+      border-color: #ffffff;
+    }
 
-        .btn-gallery-trigger:hover .trigger-title {
-            color: #ffffff;
-        }
+    .btn-gallery-trigger:hover .trigger-title {
+      color: #ffffff;
+    }
 
-        .btn-gallery-trigger:hover .trigger-arrow {
-            opacity: 1;
-            transform: translateX(4px);
-            color: #ffffff;
-        }
+    .btn-gallery-trigger:hover .trigger-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+      color: #ffffff;
+    }
 
-        /* ==========================================================================
+    /* ==========================================================================
            5C. MODAL PREMIUM DE GALERÍA (CASOS DE ÉXITO)
            ========================================================================== */
-        .gallery-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(10, 11, 13, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            padding: 20px;
-        }
+    .gallery-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 11, 13, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: 20px;
+    }
 
-        .gallery-modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+    .gallery-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-        .gallery-modal-card {
-            width: 100%;
-            max-width: 480px;
-            height: 90vh;
-            max-height: 780px;
-            background: var(--bg-dark-deep);
-            border: 1px solid var(--gold-primary);
-            border-radius: 24px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 40px rgba(223, 186, 107, 0.1);
-            transform: translateY(30px) scale(0.95);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    .gallery-modal-card {
+      width: 100%;
+      max-width: 480px;
+      height: 90vh;
+      max-height: 780px;
+      background: var(--bg-dark-deep);
+      border: 1px solid var(--gold-primary);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(223, 186, 107, 0.1);
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        .gallery-modal-overlay.active .gallery-modal-card {
-            transform: translateY(0) scale(1);
-        }
+    .gallery-modal-overlay.active .gallery-modal-card {
+      transform: translateY(0) scale(1);
+    }
 
-        /* Botón de cerrar modal */
-        .gallery-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(18, 20, 24, 0.8);
-            border: 1px solid rgba(223, 186, 107, 0.4);
-            color: var(--gold-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
+    /* Botón de cerrar modal */
+    .gallery-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(18, 20, 24, 0.8);
+      border: 1px solid rgba(223, 186, 107, 0.4);
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
 
-        .gallery-close-btn:hover {
-            background-color: var(--gold-primary);
-            color: var(--bg-dark-deep);
-            transform: scale(1.1) rotate(90deg);
-            border-color: #ffffff;
-        }
+    .gallery-close-btn:hover {
+      background-color: var(--gold-primary);
+      color: var(--bg-dark-deep);
+      transform: scale(1.1) rotate(90deg);
+      border-color: #ffffff;
+    }
 
-        .gallery-modal-header {
-            padding: 30px 24px 20px 24px;
-            border-bottom: 1px solid rgba(223, 186, 107, 0.15);
-            text-align: center;
-            background: linear-gradient(180deg, #15171a 0%, var(--bg-dark-deep) 100%);
-        }
+    .gallery-modal-header {
+      padding: 30px 24px 20px 24px;
+      border-bottom: 1px solid rgba(223, 186, 107, 0.15);
+      text-align: center;
+      background: linear-gradient(180deg, #15171a 0%, var(--bg-dark-deep) 100%);
+    }
 
-        .gallery-modal-header h2 {
-            font-family: var(--font-serif);
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #ffffff;
-            text-transform: uppercase;
-        }
+    .gallery-modal-header h2 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
 
-        .gallery-modal-header p {
-            font-size: 9px;
-            color: var(--gold-primary);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-top: 4px;
-        }
+    .gallery-modal-header p {
+      font-size: 9px;
+      color: var(--gold-primary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
 
-        /* Listado de Casos de Éxito / Especialidades */
-        .gallery-modal-body {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    /* Listado de Casos de Éxito / Especialidades */
+    .gallery-modal-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-        .gallery-modal-body::-webkit-scrollbar {
-            width: 4px;
-        }
+    .gallery-modal-body::-webkit-scrollbar {
+      width: 4px;
+    }
 
-        .gallery-modal-body::-webkit-scrollbar-thumb {
-            background: var(--gold-dark);
-            border-radius: 4px;
-        }
+    .gallery-modal-body::-webkit-scrollbar-thumb {
+      background: var(--gold-dark);
+      border-radius: 4px;
+    }
 
-        /* Tarjeta de Caso */
-        .case-gallery-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(223, 186, 107, 0.15);
-            border-radius: 16px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-        }
+    /* Tarjeta de Caso */
+    .case-gallery-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(223, 186, 107, 0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
 
-        .case-gallery-card:hover {
-            border-color: var(--gold-primary);
-            background: rgba(255, 255, 255, 0.04);
-            transform: translateY(-2px);
-        }
+    .case-gallery-card:hover {
+      border-color: var(--gold-primary);
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-2px);
+    }
 
-        .case-card-image-box {
-            width: 100%;
-            height: 140px;
-            background-color: #16181c;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(223, 186, 107, 0.15);
-        }
+    .case-card-image-box {
+      width: 100%;
+      height: 140px;
+      background-color: #16181c;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(223, 186, 107, 0.15);
+    }
 
-        .case-card-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(40%) brightness(85%);
-            transition: transform 0.4s ease;
-        }
+    .case-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(40%) brightness(85%);
+      transition: transform 0.4s ease;
+    }
 
-        .case-gallery-card:hover .case-card-img {
-            transform: scale(1.05);
-            filter: grayscale(0%) brightness(95%);
-        }
+    .case-gallery-card:hover .case-card-img {
+      transform: scale(1.05);
+      filter: grayscale(0%) brightness(95%);
+    }
 
-        .case-card-tag {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(10, 11, 13, 0.85);
-            border: 1px solid var(--gold-primary);
-            color: var(--gold-primary);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 8px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+    .case-card-tag {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(10, 11, 13, 0.85);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
 
-        .case-card-info {
-            padding: 16px;
-        }
+    .case-card-info {
+      padding: 16px;
+    }
 
-        .case-card-title {
-            font-family: var(--font-serif);
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
+    .case-card-title {
+      font-family: var(--font-serif);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
 
-        .case-card-desc {
-            font-size: 10.5px;
-            color: var(--text-gray);
-            line-height: 1.5;
-        }
+    .case-card-desc {
+      font-size: 10.5px;
+      color: var(--text-gray);
+      line-height: 1.5;
+    }
 
-        /* ==========================================================================
+    /* ==========================================================================
            6. BOTÓN GUARDAR CONTACTO
            ========================================================================== */
-        .save-contact-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-            margin-bottom: 25px;
-            z-index: 2;
-            width: 100%;
-        }
+    .save-contact-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      z-index: 2;
+      width: 100%;
+    }
 
-        .save-contact-btn {
-            background: rgba(223, 186, 107, 0.05);
-            border: 1px solid var(--gold-primary);
-            color: var(--gold-primary);
-            font-family: var(--font-sans);
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 10px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
+    .save-contact-btn {
+      background: rgba(223, 186, 107, 0.05);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 10px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
 
-        .save-contact-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-            transition: transform 0.3s;
-        }
+    .save-contact-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      transition: transform 0.3s;
+    }
 
-        .save-contact-btn:hover {
-            background: var(--gold-gradient);
-            color: var(--bg-dark-deep);
-            box-shadow: 0 5px 20px rgba(223, 186, 107, 0.35);
-            transform: translateY(-2px);
-        }
+    .save-contact-btn:hover {
+      background: var(--gold-gradient);
+      color: var(--bg-dark-deep);
+      box-shadow: 0 5px 20px rgba(223, 186, 107, 0.35);
+      transform: translateY(-2px);
+    }
 
-        .save-contact-btn:hover svg {
-            transform: translateY(1.5px);
-        }
+    .save-contact-btn:hover svg {
+      transform: translateY(1.5px);
+    }
 
-        /* Indicador de Tocar / Toque Nos */
-        .toque-indicator {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            opacity: 0.6;
-            animation: bounceIndicator 2.2s infinite ease-in-out;
-            z-index: 2;
-            margin-bottom: 20px;
-        }
+    /* Indicador de Tocar / Toque Nos */
+    .toque-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.6;
+      animation: bounceIndicator 2.2s infinite ease-in-out;
+      z-index: 2;
+      margin-bottom: 20px;
+    }
 
-        .toque-indicator svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--gold-primary);
-        }
+    .toque-indicator svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--gold-primary);
+    }
 
-        .toque-indicator span {
-            font-size: 8px;
-            font-weight: 500;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: var(--text-white);
-        }
+    .toque-indicator span {
+      font-size: 8px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text-white);
+    }
 
-        @keyframes bounceIndicator {
-            0%, 100% { transform: translateY(0); opacity: 0.4; }
-            50% { transform: translateY(-4px); opacity: 0.8; }
-        }
+    @keyframes bounceIndicator {
 
-        /* ==========================================================================
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+
+      50% {
+        transform: translateY(-4px);
+        opacity: 0.8;
+      }
+    }
+
+    /* ==========================================================================
            7. LÍNEAS DECORATIVAS EN LAS ESQUINAS (DISEÑO ORIGINAL ESTÁTICO PREMIUM)
            ========================================================================== */
-        .deco-corners {
-            position: fixed; /* Se anclan directamente a los límites de la ventana general */
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            pointer-events: none;
-            z-index: 1;
-        }
+    .deco-corners {
+      position: fixed;
+      /* Se anclan directamente a los límites de la ventana general */
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        .stripes-bottom-left {
-            position: absolute;
-            bottom: -15px;
-            left: -15px;
-            width: 120px;
-            height: 120px;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
-            overflow: hidden;
-        }
+    .stripes-bottom-left {
+      position: absolute;
+      bottom: -15px;
+      left: -15px;
+      width: 120px;
+      height: 120px;
+      background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+      overflow: hidden;
+    }
 
-        .stripes-bottom-right {
-            position: absolute;
-            bottom: -15px;
-            right: -15px;
-            width: 120px;
-            height: 120px;
-            background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
-            overflow: hidden;
-        }
+    .stripes-bottom-right {
+      position: absolute;
+      bottom: -15px;
+      right: -15px;
+      width: 120px;
+      height: 120px;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+      overflow: hidden;
+    }
 
-        /* ==========================================================================
+    /* ==========================================================================
            8. TOAST NOTIFICATION SYSTEM
            ========================================================================== */
-        .toast-popup {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translate(-50%, 80px);
-            background: rgba(13, 15, 19, 0.98);
-            border: 1.5px solid var(--gold-primary);
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            z-index: 100000;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 15px rgba(223, 186, 107, 0.1);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
-            opacity: 0;
-            text-transform: uppercase;
-            text-align: center;
-            width: auto;
-            max-width: 90%;
-            pointer-events: none;
-        }
+    .toast-popup {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translate(-50%, 80px);
+      background: rgba(13, 15, 19, 0.98);
+      border: 1.5px solid var(--gold-primary);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      z-index: 100000;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(223, 186, 107, 0.1);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+      opacity: 0;
+      text-transform: uppercase;
+      text-align: center;
+      width: auto;
+      max-width: 90%;
+      pointer-events: none;
+    }
 
-        .toast-popup.visible {
-            transform: translate(-50%, 0);
-            opacity: 1;
-        }
+    .toast-popup.visible {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
 
-        /* ==========================================================================
+    /* ==========================================================================
            11. INTERACTIVIDAD PREMIUM: EFECTO BALANZA DE LA VERDAD (GLOW SPARKLE)
            ========================================================================== */
-        .gold-sparkle-follower {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 24px; /* Tamaño perfecto y sutil para la balanza */
-            height: 24px;
-            pointer-events: none;
-            z-index: 999999;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            filter: drop-shadow(0 0 4px rgba(223, 186, 107, 0.6));
-        }
+    .gold-sparkle-follower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 24px;
+      /* Tamaño perfecto y sutil para la balanza */
+      height: 24px;
+      pointer-events: none;
+      z-index: 999999;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 4px rgba(223, 186, 107, 0.6));
+    }
 
-        .gold-sparkle-follower svg {
-            width: 100%;
-            height: 100%;
-            color: var(--gold-primary);
-        }
+    .gold-sparkle-follower svg {
+      width: 100%;
+      height: 100%;
+      color: var(--gold-primary);
+    }
 
-        .gold-sparkle-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 36px;
-            height: 36px;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(223, 186, 107, 0.15) 0%, rgba(223, 186, 107, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-        }
-    </style>
+    .gold-sparkle-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 36px;
+      height: 36px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(223, 186, 107, 0.15) 0%, rgba(223, 186, 107, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
 
-    /* ==========================================================================
-       12. ESTILOS DE ADMINISTRACIÓN (NO EXPORTABLES)
-       ========================================================================== */
-    <style id="admin-styles">
-        .admin-lock-btn {
-            position: fixed; bottom: 10px; right: 10px; width: 32px; height: 32px;
-            opacity: 0.1; z-index: 99999; cursor: pointer; color: #fff;
-            display: flex; align-items: center; justify-content: center; transition: opacity 0.3s;
-        }
-        .admin-lock-btn:hover { opacity: 0.8; }
-        
-        #admin-panel-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10,11,13,0.85); backdrop-filter: blur(10px);
-            z-index: 9999999; display: flex; justify-content: flex-end;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-            font-family: 'Montserrat', sans-serif;
-        }
-        #admin-panel-wrapper.active { opacity: 1; pointer-events: auto; }
-        
-        #admin-pane {
-            width: 100%; max-width: 420px; height: 100%; background: #111317;
-            border-left: 1px solid var(--gold-primary); display: flex; flex-direction: column;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #admin-panel-wrapper.active #admin-pane { transform: translateX(0); }
-        
-        .admin-header {
-            padding: 20px 24px; background: #0a0b0d; border-bottom: 1px solid rgba(223, 186, 107, 0.3);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .admin-header h2 { font-family: 'Cinzel', serif; font-size: 16px; color: var(--gold-primary); font-weight: 700; letter-spacing: 1px;}
-        .admin-close { background: none; border: none; color: white; cursor: pointer; display: flex; }
-        .admin-close:hover { color: var(--gold-primary); }
-        
-        .admin-body { flex-grow: 1; overflow-y: auto; padding: 20px 24px; }
-        .admin-body::-webkit-scrollbar { width: 4px; }
-        .admin-body::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
-        
-        .admin-section { margin-bottom: 30px; }
-        .admin-section h3 { font-size: 11px; color: var(--gold-primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid rgba(223,186,107,0.1); padding-bottom: 8px;}
-        
-        .admin-field { margin-bottom: 15px; }
-        .admin-field label { display: block; font-size: 10px; margin-bottom: 6px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px;}
-        .admin-field input[type="text"], .admin-field textarea {
-            width: 100%; padding: 10px 12px; background: #0a0b0d; border: 1px solid rgba(223, 186, 107, 0.2);
-            color: white; border-radius: 8px; font-family: inherit; font-size: 12px; transition: border-color 0.3s;
-        }
-        .admin-field input:focus, .admin-field textarea:focus { border-color: var(--gold-primary); outline: none; }
-        .admin-field textarea { resize: vertical; min-height: 60px; }
-        
-        .admin-checkbox { display: flex; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 15px; color: #fff; cursor: pointer;}
-        
-        .admin-btn {
-            background: rgba(223, 186, 107, 0.1); color: var(--gold-primary); border: 1px solid var(--gold-primary); padding: 10px 15px;
-            border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-            transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .admin-btn:hover { background: var(--gold-primary); color: #0a0b0d; }
-        .admin-btn-secondary { background: transparent; border-color: #333; color: #a4b0be; }
-        .admin-btn-secondary:hover { background: #333; color: white; border-color: #555;}
-        
-        .admin-list-item {
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(223,186,107,0.15); padding: 12px; margin-bottom: 12px; border-radius: 8px;
-        }
-        .admin-list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .admin-list-title { font-size: 11px; font-weight: 600; color: #fff;}
-        .admin-list-actions { display: flex; gap: 6px; }
-        .admin-icon-btn { background: #1a1c20; border: 1px solid #333; color: #a4b0be; cursor: pointer; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;}
-        .admin-icon-btn:hover { background: var(--gold-primary); color: black; border-color: var(--gold-primary); }
-        .admin-icon-btn svg { width: 12px; height: 12px; }
-        
-        .export-zone { padding: 20px 24px; background: #0a0b0d; border-top: 1px solid var(--gold-primary); }
-        .export-btn { background: var(--gold-gradient); color: #000; border: none; font-weight: 700; box-shadow: 0 4px 15px rgba(223,186,107,0.2);}
-        .export-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(223,186,107,0.4); }
-        .export-desc { font-size: 9px; color: var(--text-gray); text-align: center; margin-top: 10px; line-height: 1.4;}
-    </style>
-
-
-    /* ==========================================================================
-       12. ESTILOS DE ADMINISTRACIÓN (NO EXPORTABLES)
-       ========================================================================== */
-    <style id="admin-styles">
-        .admin-lock-btn {
-            position: fixed; bottom: 10px; right: 10px; width: 32px; height: 32px;
-            opacity: 0.1; z-index: 99999; cursor: pointer; color: #fff;
-            display: flex; align-items: center; justify-content: center; transition: opacity 0.3s;
-        }
-        .admin-lock-btn:hover { opacity: 0.8; }
-        
-        #admin-panel-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10,11,13,0.85); backdrop-filter: blur(10px);
-            z-index: 9999999; display: flex; justify-content: flex-end;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-            font-family: 'Montserrat', sans-serif;
-        }
-        #admin-panel-wrapper.active { opacity: 1; pointer-events: auto; }
-        
-        #admin-pane {
-            width: 100%; max-width: 420px; height: 100%; background: #111317;
-            border-left: 1px solid var(--gold-primary); display: flex; flex-direction: column;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #admin-panel-wrapper.active #admin-pane { transform: translateX(0); }
-        
-        .admin-header {
-            padding: 20px 24px; background: #0a0b0d; border-bottom: 1px solid rgba(223, 186, 107, 0.3);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .admin-header h2 { font-family: 'Cinzel', serif; font-size: 16px; color: var(--gold-primary); font-weight: 700; letter-spacing: 1px;}
-        .admin-close { background: none; border: none; color: white; cursor: pointer; display: flex; }
-        .admin-close:hover { color: var(--gold-primary); }
-        
-        .admin-body { flex-grow: 1; overflow-y: auto; padding: 20px 24px; }
-        .admin-body::-webkit-scrollbar { width: 4px; }
-        .admin-body::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
-        
-        .admin-section { margin-bottom: 30px; }
-        .admin-section h3 { font-size: 11px; color: var(--gold-primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid rgba(223,186,107,0.1); padding-bottom: 8px;}
-        
-        .admin-field { margin-bottom: 15px; }
-        .admin-field label { display: block; font-size: 10px; margin-bottom: 6px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px;}
-        .admin-field input[type="text"], .admin-field textarea {
-            width: 100%; padding: 10px 12px; background: #0a0b0d; border: 1px solid rgba(223, 186, 107, 0.2);
-            color: white; border-radius: 8px; font-family: inherit; font-size: 12px; transition: border-color 0.3s;
-        }
-        .admin-field input:focus, .admin-field textarea:focus { border-color: var(--gold-primary); outline: none; }
-        .admin-field textarea { resize: vertical; min-height: 60px; }
-        
-        .admin-checkbox { display: flex; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 15px; color: #fff; cursor: pointer;}
-        
-        .admin-btn {
-            background: rgba(223, 186, 107, 0.1); color: var(--gold-primary); border: 1px solid var(--gold-primary); padding: 10px 15px;
-            border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-            transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .admin-btn:hover { background: var(--gold-primary); color: #0a0b0d; }
-        .admin-btn-secondary { background: transparent; border-color: #333; color: #a4b0be; }
-        .admin-btn-secondary:hover { background: #333; color: white; border-color: #555;}
-        
-        .admin-list-item {
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(223,186,107,0.15); padding: 12px; margin-bottom: 12px; border-radius: 8px;
-        }
-        .admin-list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .admin-list-title { font-size: 11px; font-weight: 600; color: #fff;}
-        .admin-list-actions { display: flex; gap: 6px; }
-        .admin-icon-btn { background: #1a1c20; border: 1px solid #333; color: #a4b0be; cursor: pointer; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;}
-        .admin-icon-btn:hover { background: var(--gold-primary); color: black; border-color: var(--gold-primary); }
-        .admin-icon-btn svg { width: 12px; height: 12px; }
-        
-        .export-zone { padding: 20px 24px; background: #0a0b0d; border-top: 1px solid var(--gold-primary); }
-        .export-btn { background: var(--gold-gradient); color: #000; border: none; font-weight: 700; box-shadow: 0 4px 15px rgba(223,186,107,0.2);}
-        .export-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(223,186,107,0.4); }
-        .export-desc { font-size: 9px; color: var(--text-gray); text-align: center; margin-top: 10px; line-height: 1.4;}
-    </style>
-
-    /* ==========================================================================
-       12. ESTILOS DE ADMINISTRACIÓN (NO EXPORTABLES)
-       ========================================================================== */
-    <style id="admin-styles">
-        .admin-lock-btn {
-            position: fixed; bottom: 10px; right: 10px; width: 32px; height: 32px;
-            opacity: 0.1; z-index: 99999; cursor: pointer; color: #fff;
-            display: flex; align-items: center; justify-content: center; transition: opacity 0.3s;
-        }
-        .admin-lock-btn:hover { opacity: 0.8; }
-        
-        #admin-panel-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10,11,13,0.85); backdrop-filter: blur(10px);
-            z-index: 9999999; display: flex; justify-content: flex-end;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-            font-family: 'Montserrat', sans-serif;
-        }
-        #admin-panel-wrapper.active { opacity: 1; pointer-events: auto; }
-        
-        #admin-pane {
-            width: 100%; max-width: 420px; height: 100%; background: #111317;
-            border-left: 1px solid var(--gold-primary); display: flex; flex-direction: column;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #admin-panel-wrapper.active #admin-pane { transform: translateX(0); }
-        
-        .admin-header {
-            padding: 20px 24px; background: #0a0b0d; border-bottom: 1px solid rgba(223, 186, 107, 0.3);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .admin-header h2 { font-family: 'Cinzel', serif; font-size: 16px; color: var(--gold-primary); font-weight: 700; letter-spacing: 1px;}
-        .admin-close { background: none; border: none; color: white; cursor: pointer; display: flex; }
-        .admin-close:hover { color: var(--gold-primary); }
-        
-        .admin-body { flex-grow: 1; overflow-y: auto; padding: 20px 24px; }
-        .admin-body::-webkit-scrollbar { width: 4px; }
-        .admin-body::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
-        
-        .admin-section { margin-bottom: 30px; }
-        .admin-section h3 { font-size: 11px; color: var(--gold-primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid rgba(223,186,107,0.1); padding-bottom: 8px;}
-        
-        .admin-field { margin-bottom: 15px; }
-        .admin-field label { display: block; font-size: 10px; margin-bottom: 6px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px;}
-        .admin-field input[type="text"], .admin-field textarea {
-            width: 100%; padding: 10px 12px; background: #0a0b0d; border: 1px solid rgba(223, 186, 107, 0.2);
-            color: white; border-radius: 8px; font-family: inherit; font-size: 12px; transition: border-color 0.3s;
-        }
-        .admin-field input:focus, .admin-field textarea:focus { border-color: var(--gold-primary); outline: none; }
-        .admin-field textarea { resize: vertical; min-height: 60px; }
-        
-        .admin-checkbox { display: flex; align-items: center; gap: 8px; font-size: 11px; margin-bottom: 15px; color: #fff; cursor: pointer;}
-        
-        .admin-btn {
-            background: rgba(223, 186, 107, 0.1); color: var(--gold-primary); border: 1px solid var(--gold-primary); padding: 10px 15px;
-            border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-            transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .admin-btn:hover { background: var(--gold-primary); color: #0a0b0d; }
-        .admin-btn-secondary { background: transparent; border-color: #333; color: #a4b0be; }
-        .admin-btn-secondary:hover { background: #333; color: white; border-color: #555;}
-        
-        .admin-list-item {
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(223,186,107,0.15); padding: 12px; margin-bottom: 12px; border-radius: 8px;
-        }
-        .admin-list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .admin-list-title { font-size: 11px; font-weight: 600; color: #fff;}
-        .admin-list-actions { display: flex; gap: 6px; }
-        .admin-icon-btn { background: #1a1c20; border: 1px solid #333; color: #a4b0be; cursor: pointer; width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;}
-        .admin-icon-btn:hover { background: var(--gold-primary); color: black; border-color: var(--gold-primary); }
-        .admin-icon-btn svg { width: 12px; height: 12px; }
-        
-        .export-zone { padding: 20px 24px; background: #0a0b0d; border-top: 1px solid var(--gold-primary); }
-        .export-btn { background: var(--gold-gradient); color: #000; border: none; font-weight: 700; box-shadow: 0 4px 15px rgba(223,186,107,0.2);}
-        .export-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(223,186,107,0.4); }
-        .export-desc { font-size: 9px; color: var(--text-gray); text-align: center; margin-top: 10px; line-height: 1.4;}
-    </style>
-
-
-
-    <!-- ==========================================================================
+  <!-- ==========================================================================
        9. JAVASCRIPT PRINCIPAL (DEFINIDO EN CABECERA PARA EVITAR ERRORES DE TIEMPO)
        ========================================================================== -->
-    
-    <!-- ==========================================================================
-       ESTADO CENTRALIZADO (SITE_CONFIG) - SE ACTUALIZA AL EXPORTAR
-       ========================================================================== -->
-    <script id="state-script">
-        window.SITE_CONFIG = {
-            header: {
-                showTitle: true,
-                titleText: "MP PARRA & ASOCIADOS",
-                showSubtitle: true,
-                subtitleText: "Estudio Jurídico & Estrategia Pública",
-                logoUrl: "https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg"
-            },
-            profile: {
-                portraitUrl: "image_4493e7.jpg"
-            },
-            contact: {
-                email: "contacto@mpparra.com",
-                phone: "+593 99 451 1585"
-            },
-            buttons: [
-                { id: 'whatsapp', type: 'whatsapp', label: 'Mensaje', url: 'https://wa.me/593994511585', visible: true, order: 1 },
-                { id: 'phone', type: 'phone', label: 'Teléfono', url: 'tel:+593994511585', visible: true, order: 2 },
-                { id: 'email', type: 'email', label: 'E-Mail', url: '', visible: true, order: 3 },
-                { id: 'social', type: 'social', label: 'Red Social', url: 'https://instagram.com', visible: true, order: 4 },
-                { id: 'location', type: 'location', label: 'Localización', url: 'https://maps.google.com', visible: true, order: 5 }
-            ],
-            cases: [
-                { id: 1, tag: 'Derecho Corporativo', title: 'Reestructuración Empresarial', desc: 'Asesoría jurídica integral en fusiones, adquisiciones y reestructuración de pasivos para grandes consorcios nacionales y multinacionales.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=200' },
-                { id: 2, tag: 'Estrategia Pública', title: 'Contratación & Políticas Públicas', desc: 'Consultoría estratégica y representación legal de alta complejidad ante entidades reguladoras y contratación estatal de infraestructura.', image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=400&h=200' },
-                { id: 3, tag: 'Litigio Premium', title: 'Defensa Tributaria & Financiera', desc: 'Defensa ante controversias fiscales de alta cuantía, logrando resoluciones favorables ante la administración pública y tribunales.', image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200' }
-            ]
-        };
-    </script>
+  <script>
+    const EMAIL_DATA = "contacto@mpparra.com";
+    const PHONE_DATA = "+593 99 451 1585";
 
-    <script id="main-script">
-        const EMAIL_DATA = window.SITE_CONFIG.contact.email;
-        const PHONE_DATA = window.SITE_CONFIG.contact.phone;
+    // Muestra la réplica en SVG del logotipo si el archivo local 'LOGO.jpg' no carga en la nube
+    function drawVectorLogo() {
+      const logoImg = document.getElementById('logoElement');
+      const logoFallback = document.getElementById('logoVectorFallback');
+      if (logoImg) logoImg.style.display = 'none';
+      if (logoFallback) logoFallback.style.display = 'flex';
+    }
 
-        // Muestra la réplica en SVG del logotipo si el archivo local 'LOGO.jpg' no carga en la nube
-        function drawVectorLogo() {
-            const logoImg = document.getElementById('logoElement');
-            const logoFallback = document.getElementById('logoVectorFallback');
-            if (logoImg) logoImg.style.display = 'none';
-            if (logoFallback) logoFallback.style.display = 'flex';
-        }
+    // Muestra una imagen de retrato jurídica premium de Unsplash que imita a tu archivo 'image_4493e7.jpg' si este no carga
+    function portraitCloudFallback() {
+      const img = document.getElementById('portraitElement');
+      if (img) {
+        // Retrato corporativo premium neutro que encaja perfectamente en el diseño
+        img.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=256&h=256";
+      }
+    }
 
-        // Muestra una imagen de retrato jurídica premium de Unsplash que imita a tu archivo 'image_4493e7.jpg' si este no carga
-        function portraitCloudFallback() {
-            const img = document.getElementById('portraitElement');
-            if (img) {
-                // Retrato corporativo premium neutro que encaja perfectamente en el diseño
-                img.src = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=256&h=256";
-            }
-        }
+    // Alerta visual de conexión (Reemplazo de los molestos alert())
+    function alertConexion(name) {
+      showNotificationToast(`Conectando por ${name}...`);
+    }
 
-        // Alerta visual de conexión (Reemplazo de los molestos alert())
-        function alertConexion(name) {
-            showNotificationToast(`Conectando por ${name}...`);
-        }
+    // Copiado inteligente de correo electrónico directo al portapapeles con feedback visual
+    function copiarEmail(event) {
+      event.preventDefault();
 
-        // Copiado inteligente de correo electrónico directo al portapapeles con feedback visual
-        function copiarEmail(event) {
-            event.preventDefault();
-            
-            // Creamos elemento temporal invisible para copiar de forma segura en iframes
-            const temp = document.createElement("input");
-            temp.value = EMAIL_DATA;
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand('copy');
-            document.body.removeChild(temp);
+      // Creamos elemento temporal invisible para copiar de forma segura en iframes
+      const temp = document.createElement("input");
+      temp.value = EMAIL_DATA;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
 
-            showNotificationToast("¡Correo copiado al portapapeles!");
+      showNotificationToast("¡Correo copiado al portapapeles!");
 
-            // Redirección suave tras 1.2 segundos
-            setTimeout(() => {
-                window.location.href = `mailto:${EMAIL_DATA}`;
-            }, 1200);
-        }
+      // Redirección suave tras 1.2 segundos
+      setTimeout(() => {
+        window.location.href = `mailto:${EMAIL_DATA}`;
+      }, 1200);
+    }
 
-        // Lanzamiento del Toast animado buscando el elemento de manera reactiva
-        function showNotificationToast(msg) {
-            const toastEl = document.getElementById('notificationToast');
-            if (toastEl) {
-                toastEl.innerText = msg;
-                toastEl.classList.add('visible');
-                setTimeout(() => {
-                    toastEl.classList.remove('visible');
-                }, 2500);
-            }
-        }
+    // Lanzamiento del Toast animado buscando el elemento de manera reactiva
+    function showNotificationToast(msg) {
+      const toastEl = document.getElementById('notificationToast');
+      if (toastEl) {
+        toastEl.innerText = msg;
+        toastEl.classList.add('visible');
+        setTimeout(() => {
+          toastEl.classList.remove('visible');
+        }, 2500);
+      }
+    }
 
-        // Generación y descarga directa del archivo vCard (.vcf) para smartphones
-        function crearDescargarVCard() {
-            const vcard = `BEGIN:VCARD
+    // Generación y descarga directa del archivo vCard (.vcf) para smartphones
+    function crearDescargarVCard() {
+      const vcard = `BEGIN:VCARD
 VERSION:3.0
 N:Asociados;MP Parra;&;;
 FN:MP PARRA & ASOCIADOS
@@ -1189,351 +948,54 @@ URL:www.mpparra.com
 NOTE:Estudio Jurídico & Estrategia Pública
 END:VCARD`;
 
-            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            
-            const link = document.createElement('a');
-            link.download = 'MP_PARRA_ASOCIADOS.vcf';
-            link.href = url;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+      const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
 
-            showNotificationToast("¡Contacto descargado! Listo para agendar.");
-        }
+      const link = document.createElement('a');
+      link.download = 'MP_PARRA_ASOCIADOS.vcf';
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-        // ==========================================================================
-        // FUNCIONES DE CONTROL DE LA GALERÍA
-        // ==========================================================================
-        function abrirGaleria() {
-            const modal = document.getElementById('galleryModal');
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Bloquea scroll de fondo
-                showNotificationToast("Abriendo Casos de Éxito...");
-            }
-        }
+      showNotificationToast("¡Contacto descargado! Listo para agendar.");
+    }
 
-        function cerrarGaleria() {
-            const modal = document.getElementById('galleryModal');
-            if (modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = ''; // Restaura scroll de fondo
-            }
-        }
+    // ==========================================================================
+    // FUNCIONES DE CONTROL DE LA GALERÍA
+    // ==========================================================================
+    function abrirGaleria() {
+      const modal = document.getElementById('galleryModal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Bloquea scroll de fondo
+        showNotificationToast("Abriendo Casos de Éxito...");
+      }
+    }
 
-        // ==========================================================================
-        // SISTEMA DE PARTÍCULA BALANZA DE LA JUSTICIA (INTERACTIVA Y FLOTANTE)
-        // ==========================================================================
-        
-        // ==========================================================================
-        // MOTOR DE RENDERIZADO DINÁMICO
-        // ==========================================================================
-        function renderApp() {
-            const config = window.SITE_CONFIG;
-            
-            // Textos
-            const titleEl = document.getElementById('render-firm-title');
-            if (titleEl) {
-                titleEl.innerText = config.header.titleText;
-                titleEl.style.display = config.header.showTitle ? 'block' : 'none';
-            }
-            
-            const subtitleEl = document.getElementById('render-firm-subtitle');
-            if (subtitleEl) {
-                subtitleEl.innerText = config.header.subtitleText;
-                subtitleEl.style.display = config.header.showSubtitle ? 'block' : 'none';
-            }
-            
-            // Imágenes
-            const logoEl = document.getElementById('logoElement');
-            if (logoEl && config.header.logoUrl) logoEl.src = config.header.logoUrl;
-            
-            const portraitEl = document.getElementById('portraitElement');
-            if (portraitEl && config.profile.portraitUrl) portraitEl.src = config.profile.portraitUrl;
-            
-            // Render Botones (3 arriba, resto abajo)
-            const linksContainer = document.getElementById('render-action-links');
-            if (linksContainer) {
-                let sortedBtns = [...config.buttons].filter(b => b.visible).sort((a,b) => a.order - b.order);
-                let html = '<div class="grid-row-triple">';
-                let inDouble = false;
-                
-                sortedBtns.forEach((btn, index) => {
-                    if (index === 3 && !inDouble) {
-                        html += '</div><div class="grid-row-double">';
-                        inDouble = true;
-                    }
-                    
-                    let svgIcon = '';
-                    let actionAttr = '';
-                    
-                    if (btn.type === 'whatsapp') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'phone') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
-                        actionAttr = `href="${btn.url}" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'email') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
-                        actionAttr = `href="#" onclick="copiarEmail(event)"`;
-                    } else if (btn.type === 'social') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M9 2h6c3.87 0 7 3.13 7 7v6c0 3.87-3.13 7-7 7H9c-3.87 0-7-3.13-7-7V9c0-3.87 3.13-7 7-7zm0 1.5c-3.03 0-5.5 2.47-5.5 5.5v6c0 3.03 2.47 5.5 5.5 5.5h6c3.03 0 5.5-2.47 5.5-5.5V9c0-3.03-2.47-5.5-5.5-5.5H9zM18.5 4.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'location') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    }
-                    
-                    const tag = btn.type === 'email' ? 'button' : 'a';
-                    const closing = btn.type === 'email' ? '</button>' : '</a>';
-                    
-                    html += `
-                        <${tag} ${actionAttr} class="btn-card-action">
-                            <div class="icon-gold-ring">${svgIcon}</div>
-                            <span class="label-enmarcada">${btn.label}</span>
-                        ${closing}
-                    `;
-                });
-                html += '</div>'; // close last row
-                linksContainer.innerHTML = html;
-            }
-            
-            // Render Casos
-            const casesContainer = document.getElementById('render-cases-list');
-            if (casesContainer) {
-                let html = '';
-                config.cases.forEach(c => {
-                    html += `
-                    <div class="case-gallery-card">
-                        <div class="case-card-image-box">
-                            <span class="case-card-tag">${c.tag}</span>
-                            <img src="${c.image}" alt="${c.title}" class="case-card-img">
-                        </div>
-                        <div class="case-card-info">
-                            <h3 class="case-card-title">${c.title}</h3>
-                            <p class="case-card-desc">${c.desc}</p>
-                        </div>
-                    </div>`;
-                });
-                casesContainer.innerHTML = html;
-            }
-        }
-        
-        
-        // ==========================================================================
-        // MOTOR DE RENDERIZADO DINÁMICO
-        // ==========================================================================
-        function renderApp() {
-            const config = window.SITE_CONFIG;
-            
-            // Textos
-            const titleEl = document.getElementById('render-firm-title');
-            if (titleEl) {
-                titleEl.innerText = config.header.titleText;
-                titleEl.style.display = config.header.showTitle ? 'block' : 'none';
-            }
-            
-            const subtitleEl = document.getElementById('render-firm-subtitle');
-            if (subtitleEl) {
-                subtitleEl.innerText = config.header.subtitleText;
-                subtitleEl.style.display = config.header.showSubtitle ? 'block' : 'none';
-            }
-            
-            // Imágenes
-            const logoEl = document.getElementById('logoElement');
-            if (logoEl && config.header.logoUrl) logoEl.src = config.header.logoUrl;
-            
-            const portraitEl = document.getElementById('portraitElement');
-            if (portraitEl && config.profile.portraitUrl) portraitEl.src = config.profile.portraitUrl;
-            
-            // Render Botones (3 arriba, resto abajo)
-            const linksContainer = document.getElementById('render-action-links');
-            if (linksContainer) {
-                let sortedBtns = [...config.buttons].filter(b => b.visible).sort((a,b) => a.order - b.order);
-                let html = '<div class="grid-row-triple">';
-                let inDouble = false;
-                
-                sortedBtns.forEach((btn, index) => {
-                    if (index === 3 && !inDouble) {
-                        html += '</div><div class="grid-row-double">';
-                        inDouble = true;
-                    }
-                    
-                    let svgIcon = '';
-                    let actionAttr = '';
-                    
-                    if (btn.type === 'whatsapp') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'phone') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
-                        actionAttr = `href="${btn.url}" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'email') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
-                        actionAttr = `href="#" onclick="copiarEmail(event)"`;
-                    } else if (btn.type === 'social') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M9 2h6c3.87 0 7 3.13 7 7v6c0 3.87-3.13 7-7 7H9c-3.87 0-7-3.13-7-7V9c0-3.87 3.13-7 7-7zm0 1.5c-3.03 0-5.5 2.47-5.5 5.5v6c0 3.03 2.47 5.5 5.5 5.5h6c3.03 0 5.5-2.47 5.5-5.5V9c0-3.03-2.47-5.5-5.5-5.5H9zM18.5 4.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'location') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    }
-                    
-                    const tag = btn.type === 'email' ? 'button' : 'a';
-                    const closing = btn.type === 'email' ? '</button>' : '</a>';
-                    
-                    html += `
-                        <${tag} ${actionAttr} class="btn-card-action">
-                            <div class="icon-gold-ring">${svgIcon}</div>
-                            <span class="label-enmarcada">${btn.label}</span>
-                        ${closing}
-                    `;
-                });
-                html += '</div>'; // close last row
-                linksContainer.innerHTML = html;
-            }
-            
-            // Render Casos
-            const casesContainer = document.getElementById('render-cases-list');
-            if (casesContainer) {
-                let html = '';
-                config.cases.forEach(c => {
-                    html += `
-                    <div class="case-gallery-card">
-                        <div class="case-card-image-box">
-                            <span class="case-card-tag">${c.tag}</span>
-                            <img src="${c.image}" alt="${c.title}" class="case-card-img">
-                        </div>
-                        <div class="case-card-info">
-                            <h3 class="case-card-title">${c.title}</h3>
-                            <p class="case-card-desc">${c.desc}</p>
-                        </div>
-                    </div>`;
-                });
-                casesContainer.innerHTML = html;
-            }
-        }
-        
-        window.addEventListener('DOMContentLoaded', () => {
-            renderApp();
-        });
+    function cerrarGaleria() {
+      const modal = document.getElementById('galleryModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Restaura scroll de fondo
+      }
+    }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            renderApp();
-        });
+    // ==========================================================================
+    // SISTEMA DE PARTÍCULA BALANZA DE LA JUSTICIA (INTERACTIVA Y FLOTANTE)
+    // ==========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      let cursorX = window.innerWidth / 2;
+      let cursorY = window.innerHeight * 0.35; // Altura aproximada del retrato
+      let followerX = cursorX;
+      let followerY = cursorY;
+      let lastMoveTime = Date.now();
+      let isTouch = false;
 
-        
-        // ==========================================================================
-        // MOTOR DE RENDERIZADO DINÁMICO
-        // ==========================================================================
-        function renderApp() {
-            const config = window.SITE_CONFIG;
-            
-            // Textos
-            const titleEl = document.getElementById('render-firm-title');
-            if (titleEl) {
-                titleEl.innerText = config.header.titleText;
-                titleEl.style.display = config.header.showTitle ? 'block' : 'none';
-            }
-            
-            const subtitleEl = document.getElementById('render-firm-subtitle');
-            if (subtitleEl) {
-                subtitleEl.innerText = config.header.subtitleText;
-                subtitleEl.style.display = config.header.showSubtitle ? 'block' : 'none';
-            }
-            
-            // Imágenes
-            const logoEl = document.getElementById('logoElement');
-            if (logoEl && config.header.logoUrl) logoEl.src = config.header.logoUrl;
-            
-            const portraitEl = document.getElementById('portraitElement');
-            if (portraitEl && config.profile.portraitUrl) portraitEl.src = config.profile.portraitUrl;
-            
-            // Render Botones (3 arriba, resto abajo)
-            const linksContainer = document.getElementById('render-action-links');
-            if (linksContainer) {
-                let sortedBtns = [...config.buttons].filter(b => b.visible).sort((a,b) => a.order - b.order);
-                let html = '<div class="grid-row-triple">';
-                let inDouble = false;
-                
-                sortedBtns.forEach((btn, index) => {
-                    if (index === 3 && !inDouble) {
-                        html += '</div><div class="grid-row-double">';
-                        inDouble = true;
-                    }
-                    
-                    let svgIcon = '';
-                    let actionAttr = '';
-                    
-                    if (btn.type === 'whatsapp') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'phone') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
-                        actionAttr = `href="${btn.url}" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'email') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>';
-                        actionAttr = `href="#" onclick="copiarEmail(event)"`;
-                    } else if (btn.type === 'social') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M9 2h6c3.87 0 7 3.13 7 7v6c0 3.87-3.13 7-7 7H9c-3.87 0-7-3.13-7-7V9c0-3.87 3.13-7 7-7zm0 1.5c-3.03 0-5.5 2.47-5.5 5.5v6c0 3.03 2.47 5.5 5.5 5.5h6c3.03 0 5.5-2.47 5.5-5.5V9c0-3.03-2.47-5.5-5.5-5.5H9zM18.5 4.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    } else if (btn.type === 'location') {
-                        svgIcon = '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
-                        actionAttr = `href="${btn.url}" target="_blank" onclick="alertConexion('${btn.label}')"`;
-                    }
-                    
-                    const tag = btn.type === 'email' ? 'button' : 'a';
-                    const closing = btn.type === 'email' ? '</button>' : '</a>';
-                    
-                    html += `
-                        <${tag} ${actionAttr} class="btn-card-action">
-                            <div class="icon-gold-ring">${svgIcon}</div>
-                            <span class="label-enmarcada">${btn.label}</span>
-                        ${closing}
-                    `;
-                });
-                html += '</div>'; // close last row
-                linksContainer.innerHTML = html;
-            }
-            
-            // Render Casos
-            const casesContainer = document.getElementById('render-cases-list');
-            if (casesContainer) {
-                let html = '';
-                config.cases.forEach(c => {
-                    html += `
-                    <div class="case-gallery-card">
-                        <div class="case-card-image-box">
-                            <span class="case-card-tag">${c.tag}</span>
-                            <img src="${c.image}" alt="${c.title}" class="case-card-img">
-                        </div>
-                        <div class="case-card-info">
-                            <h3 class="case-card-title">${c.title}</h3>
-                            <p class="case-card-desc">${c.desc}</p>
-                        </div>
-                    </div>`;
-                });
-                casesContainer.innerHTML = html;
-            }
-        }
-        
-        window.addEventListener('DOMContentLoaded', () => {
-            renderApp();
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            let cursorX = window.innerWidth / 2;
-            let cursorY = window.innerHeight * 0.35; // Altura aproximada del retrato
-            let followerX = cursorX;
-            let followerY = cursorY;
-            let lastMoveTime = Date.now();
-            let isTouch = false;
-
-            // Inyectamos la partícula de la Balanza de la Verdad (SVG elegante)
-            const follower = document.createElement('div');
-            follower.className = 'gold-sparkle-follower';
-            follower.innerHTML = `
+      // Inyectamos la partícula de la Balanza de la Verdad (SVG elegante)
+      const follower = document.createElement('div');
+      follower.className = 'gold-sparkle-follower';
+      follower.innerHTML = `
                 <div class="gold-sparkle-glow"></div>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 3v17" />
@@ -1544,776 +1006,341 @@ END:VCARD`;
                     <path d="M20 10l-2 6h4l-2-6z" fill="rgba(223, 186, 107, 0.1)" />
                 </svg>
             `;
-            document.body.appendChild(follower);
+      document.body.appendChild(follower);
 
-            // Rastreo en Computadoras (Mouse)
-            window.addEventListener('mousemove', (e) => {
-                isTouch = false;
-                cursorX = e.clientX;
-                cursorY = e.clientY;
-                lastMoveTime = Date.now();
-                follower.style.opacity = '1';
-            });
+      // Rastreo en Computadoras (Mouse)
+      window.addEventListener('mousemove', (e) => {
+        isTouch = false;
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+        lastMoveTime = Date.now();
+        follower.style.opacity = '1';
+      });
 
-            // Toques en Celulares (Interacción táctil inmediata)
-            window.addEventListener('touchstart', (e) => {
-                isTouch = true;
-                if (e.touches.length > 0) {
-                    cursorX = e.touches[0].clientX;
-                    cursorY = e.touches[0].clientY;
-                    follower.style.opacity = '1';
-                    lastMoveTime = Date.now();
-                }
-            });
+      // Toques en Celulares (Interacción táctil inmediata)
+      window.addEventListener('touchstart', (e) => {
+        isTouch = true;
+        if (e.touches.length > 0) {
+          cursorX = e.touches[0].clientX;
+          cursorY = e.touches[0].clientY;
+          follower.style.opacity = '1';
+          lastMoveTime = Date.now();
+        }
+      });
 
-            window.addEventListener('touchmove', (e) => {
-                isTouch = true;
-                if (e.touches.length > 0) {
-                    cursorX = e.touches[0].clientX;
-                    cursorY = e.touches[0].clientY;
-                    follower.style.opacity = '1';
-                    lastMoveTime = Date.now();
-                }
-            });
+      window.addEventListener('touchmove', (e) => {
+        isTouch = true;
+        if (e.touches.length > 0) {
+          cursorX = e.touches[0].clientX;
+          cursorY = e.touches[0].clientY;
+          follower.style.opacity = '1';
+          lastMoveTime = Date.now();
+        }
+      });
 
-            // Animación física de la balanza con amortiguación premium
-            function updateSparklePhysics() {
-                const idleTime = Date.now() - lastMoveTime;
-                const dampingSpeed = isTouch ? 0.08 : 0.11; // Amortiguación premium y fluida
+      // Animación física de la balanza con amortiguación premium
+      function updateSparklePhysics() {
+        const idleTime = Date.now() - lastMoveTime;
+        const dampingSpeed = isTouch ? 0.08 : 0.11; // Amortiguación premium y fluida
 
-                // Órbita sutil y automática alrededor de la foto si no hay interacción
-                if (idleTime > 1800) {
-                    follower.style.opacity = '0.65'; // Transparencia sutil de flotación
-                    const time = Date.now() * 0.0012;
-                    
-                    // Cálculo matemático exacto para orbitar el avatar
-                    const avatarCenterX = window.innerWidth / 2;
-                    const avatarCenterY = 300 - 65 + (145 / 2); 
-                    
-                    cursorX = avatarCenterX + Math.cos(time) * 92; 
-                    cursorY = avatarCenterY + Math.sin(time * 0.8) * 45;
-                }
+        // Órbita sutil y automática alrededor de la foto si no hay interacción
+        if (idleTime > 1800) {
+          follower.style.opacity = '0.65'; // Transparencia sutil de flotación
+          const time = Date.now() * 0.0012;
 
-                followerX += (cursorX - followerX) * dampingSpeed;
-                followerY += (cursorY - followerY) * dampingSpeed;
+          // Cálculo matemático exacto para orbitar el avatar
+          const avatarCenterX = window.innerWidth / 2;
+          const avatarCenterY = 300 - 65 + (145 / 2);
 
-                // Desplazamiento compensando el tamaño de 24x24 de la balanza para que quede perfectamente centrada
-                follower.style.transform = `translate3d(${followerX - 12}px, ${followerY - 12}px, 0)`;
-                requestAnimationFrame(updateSparklePhysics);
-            }
-            updateSparklePhysics();
-        });
-    </script>
+          cursorX = avatarCenterX + Math.cos(time) * 92;
+          cursorY = avatarCenterY + Math.sin(time * 0.8) * 45;
+        }
+
+        followerX += (cursorX - followerX) * dampingSpeed;
+        followerY += (cursorY - followerY) * dampingSpeed;
+
+        // Desplazamiento compensando el tamaño de 24x24 de la balanza para que quede perfectamente centrada
+        follower.style.transform = `translate3d(${followerX - 12}px, ${followerY - 12}px, 0)`;
+        requestAnimationFrame(updateSparklePhysics);
+      }
+      updateSparklePhysics();
+    });
+  </script>
 </head>
+
 <body>
 
-    <!-- Contenedor Principal Adaptativo Edge-to-Edge -->
-    <div class="app-container">
-        
-        <!-- Cabecera Angular "V-Cut" (Abarca el 100% de la pantalla de extremo a extremo) -->
-        <div class="header-geometric-outer">
-            <div class="header-geometric-inner">
-                
-                <!-- Logotipo de la Marca -->
-                <div class="logo-wrapper">
-                    <!-- Carga tu logotipo local -->
-                    <img src="https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg" alt="Logo MP Parra" class="logo-img" id="logoElement" onerror="drawVectorLogo()">
-                    
-                    <!-- Réplica vectorial de tu LOGO.jpg si no se carga localmente en el visor -->
-                    <div class="logo-fallback-vector" id="logoVectorFallback">
-                        <svg viewBox="0 0 300 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Monograma MP de Oro -->
-                            <path d="M72 18 V105 M72 35 L108 85 L144 35 V105" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M144 18 V105 M144 35 H175 C192 35 204 45 204 58 C204 71 192 81 175 81 H144" stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <line x1="130" y1="10" x2="130" y2="115" stroke="url(#goldGradient)" stroke-width="2"/>
-                            
-                            <!-- Texto PARRA & ASOCIADOS -->
-                            <text x="150" y="105" fill="#FFFFFF" font-family="'Cinzel', serif" font-size="24" font-weight="700" letter-spacing="4">PARRA</text>
-                            <text x="35" y="130" fill="url(#goldGradient)" font-family="'Montserrat', sans-serif" font-size="12" font-weight="600" letter-spacing="3">& ASOCIADOS</text>
-                            
-                            <defs>
-                                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#f5e4bd" />
-                                    <stop offset="50%" stop-color="#dfba6b" />
-                                    <stop offset="100%" stop-color="#aa813b" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                </div>
+  <!-- Contenedor Principal Adaptativo Edge-to-Edge -->
+  <div class="app-container">
 
-                <!-- Separador Dorado -->
-                <div class="gold-divider-line"></div>
+    <!-- Cabecera Angular "V-Cut" (Abarca el 100% de la pantalla de extremo a extremo) -->
+    <div class="header-geometric-outer">
+      <div class="header-geometric-inner">
 
-                <!-- Título del Bufete -->
-                <div class="firm-title-text" id="render-firm-title"></div>
-                <div class="firm-subtitle-text" id="render-firm-subtitle"></div>
-            </div>
+        <!-- Logotipo de la Marca -->
+        <div class="logo-wrapper">
+          <!-- Carga tu logotipo local -->
+          <img src="https://res.cloudinary.com/drpuhj6mc/image/upload/v1779039483/LOGO_rjejdk.jpg" alt="Logo MP Parra"
+            class="logo-img" id="logoElement" onerror="drawVectorLogo()">
+
+          <!-- Réplica vectorial de tu LOGO.jpg si no se carga localmente en el visor -->
+          <div class="logo-fallback-vector" id="logoVectorFallback">
+            <svg viewBox="0 0 300 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Monograma MP de Oro -->
+              <path d="M72 18 V105 M72 35 L108 85 L144 35 V105" stroke="url(#goldGradient)" stroke-width="5"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M144 18 V105 M144 35 H175 C192 35 204 45 204 58 C204 71 192 81 175 81 H144"
+                stroke="url(#goldGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="130" y1="10" x2="130" y2="115" stroke="url(#goldGradient)" stroke-width="2" />
+
+              <!-- Texto PARRA & ASOCIADOS -->
+              <text x="150" y="105" fill="#FFFFFF" font-family="'Cinzel', serif" font-size="24" font-weight="700"
+                letter-spacing="4">PARRA</text>
+              <text x="35" y="130" fill="url(#goldGradient)" font-family="'Montserrat', sans-serif" font-size="12"
+                font-weight="600" letter-spacing="3">& ASOCIADOS</text>
+
+              <defs>
+                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f5e4bd" />
+                  <stop offset="50%" stop-color="#dfba6b" />
+                  <stop offset="100%" stop-color="#aa813b" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
         </div>
 
-        <!-- Sección de Contenido Centrada de Forma Óptima (Sin marcos artificiales) -->
-        <div class="centered-content-wrapper">
-            
-            <!-- Retrato del Abogado con Corona Biselada de Oro Animada (Espacio despejado original) -->
-            <div class="portrait-container">
-                <!-- Marco del Retrato de Oro -->
-                <div class="portrait-ring-outer">
-                    <div class="portrait-gap-dark">
-                        <div class="portrait-ring-inner">
-                            <!-- Retrato del Abogado -->
-                            <img src="image_4493e7.jpg" alt="Abogado" class="portrait-avatar-img" id="portraitElement" onerror="portraitCloudFallback()">
-                        </div>
-                    </div>
-                </div>
+        <!-- Separador Dorado -->
+        <div class="gold-divider-line"></div>
+
+        <!-- Título del Bufete -->
+        <div class="firm-title-text">MP PARRA & ASOCIADOS</div>
+        <div class="firm-subtitle-text">Estudio Jurídico & Estrategia Pública</div>
+      </div>
+    </div>
+
+    <!-- Sección de Contenido Centrada de Forma Óptima (Sin marcos artificiales) -->
+    <div class="centered-content-wrapper">
+
+      <!-- Retrato del Abogado con Corona Biselada de Oro Animada (Espacio despejado original) -->
+      <div class="portrait-container">
+        <!-- Marco del Retrato de Oro -->
+        <div class="portrait-ring-outer">
+          <div class="portrait-gap-dark">
+            <div class="portrait-ring-inner">
+              <!-- Retrato del Abogado -->
+              <img src="image_4493e7.jpg" alt="Abogado" class="portrait-avatar-img" id="portraitElement"
+                onerror="portraitCloudFallback()">
             </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- Rejilla de Enlaces Interactiva -->
-            <div class="action-links-section">
-                
-                <!-- Fila de 3 Botones -->
-                <div id="render-action-links"></div>
-                        <span class="label-enmarcada">Red Social</span>
-                    </a>
+      <!-- Rejilla de Enlaces Interactiva -->
+      <div class="action-links-section">
 
-                    <!-- Google Maps (Ubicación) -->
-                    <a href="https://maps.google.com" class="btn-card-action" target="_blank" onclick="alertConexion('Dirección Física')">
-                        <div class="icon-gold-ring">
-                            <!-- Icono Ubicación Pin SVG -->
-                            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                        </div>
-                        <span class="label-enmarcada">Localización</span>
-                    </a>
+        <!-- Fila de 3 Botones -->
+        <div class="grid-row-triple">
 
-                </div>
-
+          <!-- WhatsApp (Mensaje) -->
+          <a href="https://wa.me/593994511585" class="btn-card-action" target="_blank"
+            onclick="alertConexion('WhatsApp')">
+            <div class="icon-gold-ring">
+              <!-- Icono Mensaje de Chat SVG -->
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" />
+              </svg>
             </div>
+            <span class="label-enmarcada">Mensaje</span>
+          </a>
 
-            <!-- Botón de Galería "Casos de Éxito" (Estructura Premium Fluida) -->
-            <div class="btn-gallery-trigger-wrapper">
-                <button class="btn-gallery-trigger" onclick="abrirGaleria()">
-                    <div class="trigger-content">
-                        <div class="trigger-icon-box">
-                            <!-- Icono de Portafolios / Casos de Éxito SVG -->
-                            <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
-                        </div>
-                        <div class="trigger-text-box">
-                            <span class="trigger-title">Casos de Éxito</span>
-                            <span class="trigger-subtitle">Áreas de Especialidad & Resultados</span>
-                        </div>
-                    </div>
-                    <div class="trigger-arrow">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </div>
-                </button>
+          <!-- Teléfono (Llamada Directa) -->
+          <a href="tel:+593994511585" class="btn-card-action" onclick="alertConexion('Llamada Directa')">
+            <div class="icon-gold-ring">
+              <!-- Icono Teléfono SVG -->
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+              </svg>
             </div>
+            <span class="label-enmarcada">Teléfono</span>
+          </a>
 
-            <!-- Botón Guardar Contacto de un toque -->
-            <div class="save-contact-wrapper">
-                <button class="save-contact-btn" onclick="crearDescargarVCard()">
-                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                    <span>Guardar Contacto</span>
-                </button>
+          <!-- Correo Electrónico (Copiado automático + mailto) -->
+          <button class="btn-card-action" onclick="copiarEmail(event)">
+            <div class="icon-gold-ring">
+              <!-- Icono Correo SVG -->
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
             </div>
-
-            <!-- Indicador táctil animado -->
-            <div class="toque-indicator">
-                <svg viewBox="0 0 24 24"><path d="M14 9V5c0-1.66-1.34-3-3-3S8 3.34 8 5v4c0 .38-.31.7-.7.7H6.7c-.38 0-.7-.31-.7-.7V6.5C6 5.12 4.88 4 3.5 4S1 5.12 1 6.5V14c0 4.97 4.03 9 9 9h4c4.97 0 9-4.03 9-9v-3c0-1.66-1.34-3-3-3s-3 1.34-3 3V9c0 .38-.31.7-.7.7h-.6c-.39 0-.7-.32-.7-.7z"/></svg>
-                <span>Toque en los iconos</span>
-            </div>
+            <span class="label-enmarcada">E-Mail</span>
+          </button>
 
         </div>
 
-        <!-- Líneas de corte decorativo originales estáticas fijadas en los límites absolutos de la ventana -->
-        <div class="deco-corners">
-            <div class="stripes-bottom-left"></div>
-            <div class="stripes-bottom-right"></div>
+        <!-- Fila de 2 Botones -->
+        <div class="grid-row-double">
+
+          <!-- Instagram (Red Social) -->
+          <a href="https://instagram.com" class="btn-card-action" target="_blank" onclick="alertConexion('Instagram')">
+            <div class="icon-gold-ring">
+              <!-- Icono Cámara SVG -->
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3.2" />
+                <path
+                  d="M9 2h6c3.87 0 7 3.13 7 7v6c0 3.87-3.13 7-7 7H9c-3.87 0-7-3.13-7-7V9c0-3.87 3.13-7 7-7zm0 1.5c-3.03 0-5.5 2.47-5.5 5.5v6c0 3.03 2.47 5.5 5.5 5.5h6c3.03 0 5.5-2.47 5.5-5.5V9c0-3.03-2.47-5.5-5.5-5.5H9zM18.5 4.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+              </svg>
+            </div>
+            <span class="label-enmarcada">Red Social</span>
+          </a>
+
+          <!-- Google Maps (Ubicación) -->
+          <a href="https://maps.google.com" class="btn-card-action" target="_blank"
+            onclick="alertConexion('Dirección Física')">
+            <div class="icon-gold-ring">
+              <!-- Icono Ubicación Pin SVG -->
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+            </div>
+            <span class="label-enmarcada">Localización</span>
+          </a>
+
         </div>
 
-        <!-- Banner Toast de Notificación -->
-        <div class="toast-popup" id="notificationToast">Notificación corporativa</div>
+      </div>
 
-        <!-- ==========================================================================
+      <!-- Botón de Galería "Casos de Éxito" (Estructura Premium Fluida) -->
+      <div class="btn-gallery-trigger-wrapper">
+        <button class="btn-gallery-trigger" onclick="abrirGaleria()">
+          <div class="trigger-content">
+            <div class="trigger-icon-box">
+              <!-- Icono de Portafolios / Casos de Éxito SVG -->
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" />
+              </svg>
+            </div>
+            <div class="trigger-text-box">
+              <span class="trigger-title">Casos de Éxito</span>
+              <span class="trigger-subtitle">Áreas de Especialidad & Resultados</span>
+            </div>
+          </div>
+          <div class="trigger-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      <!-- Botón Guardar Contacto de un toque -->
+      <div class="save-contact-wrapper">
+        <button class="save-contact-btn" onclick="crearDescargarVCard()">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+          </svg>
+          <span>Guardar Contacto</span>
+        </button>
+      </div>
+
+      <!-- Indicador táctil animado -->
+      <div class="toque-indicator">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M14 9V5c0-1.66-1.34-3-3-3S8 3.34 8 5v4c0 .38-.31.7-.7.7H6.7c-.38 0-.7-.31-.7-.7V6.5C6 5.12 4.88 4 3.5 4S1 5.12 1 6.5V14c0 4.97 4.03 9 9 9h4c4.97 0 9-4.03 9-9v-3c0-1.66-1.34-3-3-3s-3 1.34-3 3V9c0 .38-.31.7-.7.7h-.6c-.39 0-.7-.32-.7-.7z" />
+        </svg>
+        <span>Toque en los iconos</span>
+      </div>
+
+    </div>
+
+    <!-- Líneas de corte decorativo originales estáticas fijadas en los límites absolutos de la ventana -->
+    <div class="deco-corners">
+      <div class="stripes-bottom-left"></div>
+      <div class="stripes-bottom-right"></div>
+    </div>
+
+    <!-- Banner Toast de Notificación -->
+    <div class="toast-popup" id="notificationToast">Notificación corporativa</div>
+
+    <!-- ==========================================================================
            10. MODAL FLOTANTE DE LA GALERÍA "CASOS DE ÉXITO"
            ========================================================================== */ -->
-        <div class="gallery-modal-overlay" id="galleryModal" onclick="cerrarGaleria()">
-            <!-- Detiene la propagación del click para evitar que se cierre al tocar dentro de la tarjeta -->
-            <div class="gallery-modal-card" onclick="event.stopPropagation()">
-                
-                <button class="gallery-close-btn" onclick="cerrarGaleria()" title="Cerrar Galería">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
+    <div class="gallery-modal-overlay" id="galleryModal" onclick="cerrarGaleria()">
+      <!-- Detiene la propagación del click para evitar que se cierre al tocar dentro de la tarjeta -->
+      <div class="gallery-modal-card" onclick="event.stopPropagation()">
 
-                <div class="gallery-modal-header">
-                    <h2>Áreas de Práctica</h2>
-                    <p>Casos de Éxito & Estrategia Profesional</p>
-                </div>
+        <button class="gallery-close-btn" onclick="cerrarGaleria()" title="Cerrar Galería">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
 
-                <div class="gallery-modal-body" id="render-cases-list"></div>
-                        <div class="case-card-info">
-                            <h3 class="case-card-title">Reestructuración Empresarial</h3>
-                            <p class="case-card-desc">Asesoría jurídica integral en fusiones, adquisiciones y reestructuración de pasivos para grandes consorcios nacionales y multinacionales.</p>
-                        </div>
-                    </div>
-
-                    <!-- Tarjeta de Especialidad 2 -->
-                    <div class="case-gallery-card">
-                        <div class="case-card-image-box">
-                            <span class="case-card-tag">Estrategia Pública</span>
-                            <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=400&h=200" alt="Palacio de justicia o gubernamental" class="case-card-img">
-                        </div>
-                        <div class="case-card-info">
-                            <h3 class="case-card-title">Contratación & Políticas Públicas</h3>
-                            <p class="case-card-desc">Consultoría estratégica y representación legal de alta complejidad ante entidades reguladoras y contratación estatal de infraestructura.</p>
-                        </div>
-                    </div>
-
-                    <!-- Tarjeta de Especialidad 3 -->
-                    <div class="case-gallery-card">
-                        <div class="case-card-image-box">
-                            <span class="case-card-tag">Litigio Premium</span>
-                            <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200" alt="Mazo de juez y ley" class="case-card-img">
-                        </div>
-                        <div class="case-card-info">
-                            <h3 class="case-card-title">Defensa Tributaria & Financiera</h3>
-                            <p class="case-card-desc">Defensa ante controversias fiscales de alta cuantía, logrando resoluciones favorables ante la administración pública y tribunales.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
+        <div class="gallery-modal-header">
+          <h2>Áreas de Práctica</h2>
+          <p>Casos de Éxito & Estrategia Profesional</p>
         </div>
 
-    </div>
+        <div class="gallery-modal-body">
 
-    <!-- Sutil Candado -->
-    <div class="admin-lock-btn" id="admin-lock-trigger" onclick="abrirAdmin()">
-        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-    </div>
-
-    <!-- Panel de Administración -->
-    <div id="admin-panel-wrapper">
-        <div id="admin-pane">
-            <div class="admin-header">
-                <h2>Tablero de Control</h2>
-                <button class="admin-close" onclick="cerrarAdmin()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
+          <!-- Tarjeta de Especialidad 1 -->
+          <div class="case-gallery-card">
+            <div class="case-card-image-box">
+              <span class="case-card-tag">Derecho Corporativo</span>
+              <img
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=200"
+                alt="Edificio corporativo moderno" class="case-card-img">
             </div>
-            
-            <div class="admin-body">
-                
-                <div class="admin-section">
-                    <h3>Cabecera</h3>
-                    <label class="admin-checkbox">
-                        <input type="checkbox" id="adm-show-title" onchange="updateConfig()"> Mostrar Título
-                    </label>
-                    <div class="admin-field">
-                        <input type="text" id="adm-title" oninput="updateConfig()" placeholder="Título Principal">
-                    </div>
-                    <label class="admin-checkbox">
-                        <input type="checkbox" id="adm-show-subtitle" onchange="updateConfig()"> Mostrar Subtítulo
-                    </label>
-                    <div class="admin-field">
-                        <input type="text" id="adm-subtitle" oninput="updateConfig()" placeholder="Subtítulo">
-                    </div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Imágenes (URLs)</h3>
-                    <div class="admin-field">
-                        <label>Logo (Recomendado: Cloudinary)</label>
-                        <input type="text" id="adm-logo" oninput="updateConfig()" placeholder="URL del Logo">
-                    </div>
-                    <div class="admin-field">
-                        <label>Retrato</label>
-                        <input type="text" id="adm-portrait" oninput="updateConfig()" placeholder="URL del Retrato">
-                    </div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Contacto General</h3>
-                    <div class="admin-field">
-                        <label>Correo Electrónico (VCard & Copiar)</label>
-                        <input type="text" id="adm-email" oninput="updateConfig()">
-                    </div>
-                    <div class="admin-field">
-                        <label>Teléfono Base (VCard)</label>
-                        <input type="text" id="adm-phone" oninput="updateConfig()">
-                    </div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Botones de Acción</h3>
-                    <div id="adm-buttons-list"></div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Casos de Éxito</h3>
-                    <div id="adm-cases-list"></div>
-                    <button class="admin-btn" onclick="addCase()">+ Añadir Nuevo Caso</button>
-                </div>
-
+            <div class="case-card-info">
+              <h3 class="case-card-title">Reestructuración Empresarial</h3>
+              <p class="case-card-desc">Asesoría jurídica integral en fusiones, adquisiciones y reestructuración de
+                pasivos para grandes consorcios nacionales y multinacionales.</p>
             </div>
-            
-            <div class="export-zone">
-                <button class="admin-btn export-btn" onclick="exportarLimpio()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Exportar Código Limpio
-                </button>
-                <div class="export-desc">Descarga tu tarjeta final y súbela a Netlify. El candado y el panel desaparecerán mágicamente.</div>
+          </div>
+
+          <!-- Tarjeta de Especialidad 2 -->
+          <div class="case-gallery-card">
+            <div class="case-card-image-box">
+              <span class="case-card-tag">Estrategia Pública</span>
+              <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=400&h=200"
+                alt="Palacio de justicia o gubernamental" class="case-card-img">
             </div>
+            <div class="case-card-info">
+              <h3 class="case-card-title">Contratación & Políticas Públicas</h3>
+              <p class="case-card-desc">Consultoría estratégica y representación legal de alta complejidad ante
+                entidades reguladoras y contratación estatal de infraestructura.</p>
+            </div>
+          </div>
+
+          <!-- Tarjeta de Especialidad 3 -->
+          <div class="case-gallery-card">
+            <div class="case-card-image-box">
+              <span class="case-card-tag">Litigio Premium</span>
+              <img
+                src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200"
+                alt="Mazo de juez y ley" class="case-card-img">
+            </div>
+            <div class="case-card-info">
+              <h3 class="case-card-title">Defensa Tributaria & Financiera</h3>
+              <p class="case-card-desc">Defensa ante controversias fiscales de alta cuantía, logrando resoluciones
+                favorables ante la administración pública y tribunales.</p>
+            </div>
+          </div>
+
         </div>
+
+      </div>
     </div>
 
-    <script id="admin-logic">
-        const ADMIN_PASS = "admin123";
-
-        function abrirAdmin() {
-            const pass = prompt("Ingrese la contraseña de Administrador:");
-            if (pass === ADMIN_PASS) {
-                document.getElementById('admin-panel-wrapper').classList.add('active');
-                populateAdmin();
-            } else if (pass !== null) {
-                alert("Contraseña incorrecta.");
-            }
-        }
-
-        function cerrarAdmin() {
-            document.getElementById('admin-panel-wrapper').classList.remove('active');
-        }
-
-        function populateAdmin() {
-            const c = window.SITE_CONFIG;
-            document.getElementById('adm-show-title').checked = c.header.showTitle;
-            document.getElementById('adm-title').value = c.header.titleText;
-            document.getElementById('adm-show-subtitle').checked = c.header.showSubtitle;
-            document.getElementById('adm-subtitle').value = c.header.subtitleText;
-            document.getElementById('adm-logo').value = c.header.logoUrl;
-            document.getElementById('adm-portrait').value = c.profile.portraitUrl;
-            document.getElementById('adm-email').value = c.contact.email;
-            document.getElementById('adm-phone').value = c.contact.phone;
-            
-            renderAdminButtons();
-            renderAdminCases();
-        }
-
-        function updateConfig() {
-            const c = window.SITE_CONFIG;
-            c.header.showTitle = document.getElementById('adm-show-title').checked;
-            c.header.titleText = document.getElementById('adm-title').value;
-            c.header.showSubtitle = document.getElementById('adm-show-subtitle').checked;
-            c.header.subtitleText = document.getElementById('adm-subtitle').value;
-            c.header.logoUrl = document.getElementById('adm-logo').value;
-            c.profile.portraitUrl = document.getElementById('adm-portrait').value;
-            c.contact.email = document.getElementById('adm-email').value;
-            c.contact.phone = document.getElementById('adm-phone').value;
-            
-            renderApp();
-        }
-
-        function renderAdminButtons() {
-            const list = document.getElementById('adm-buttons-list');
-            let html = '';
-            let sorted = [...window.SITE_CONFIG.buttons].sort((a,b) => a.order - b.order);
-            
-            sorted.forEach((btn, index) => {
-                html += `
-                <div class="admin-list-item">
-                    <div class="admin-list-header">
-                        <label class="admin-checkbox" style="margin:0;"><input type="checkbox" ${btn.visible ? 'checked' : ''} onchange="updateBtnVis('${btn.id}', this.checked)"> ${btn.label}</label>
-                        <div class="admin-list-actions">
-                            <button class="admin-icon-btn" onclick="moveBtn('${btn.id}', -1)" title="Subir" ${index===0 ? 'disabled style="opacity:0.3"' : ''}>▲</button>
-                            <button class="admin-icon-btn" onclick="moveBtn('${btn.id}', 1)" title="Bajar" ${index===sorted.length-1 ? 'disabled style="opacity:0.3"' : ''}>▼</button>
-                        </div>
-                    </div>
-                    ${btn.type !== 'email' ? `<div class="admin-field" style="margin-bottom:0;"><input type="text" value="${btn.url}" oninput="updateBtnUrl('${btn.id}', this.value)" placeholder="URL destino"></div>` : ''}
-                </div>`;
-            });
-            list.innerHTML = html;
-        }
-
-        function updateBtnVis(id, visible) {
-            const btn = window.SITE_CONFIG.buttons.find(b => b.id === id);
-            if (btn) btn.visible = visible;
-            renderApp();
-        }
-
-        function updateBtnUrl(id, url) {
-            const btn = window.SITE_CONFIG.buttons.find(b => b.id === id);
-            if (btn) btn.url = url;
-            renderApp();
-        }
-
-        function moveBtn(id, dir) {
-            const btns = window.SITE_CONFIG.buttons;
-            const idx = btns.findIndex(b => b.id === id);
-            if (idx === -1) return;
-            
-            const targetIdx = idx + dir;
-            if (targetIdx >= 0 && targetIdx < btns.length) {
-                // Swap orders
-                const temp = btns[idx].order;
-                btns[idx].order = btns[targetIdx].order;
-                btns[targetIdx].order = temp;
-                btns.sort((a,b) => a.order - b.order);
-                renderAdminButtons();
-                renderApp();
-            }
-        }
-
-        // Casos Logic
-        function renderAdminCases() {
-            const list = document.getElementById('adm-cases-list');
-            let html = '';
-            window.SITE_CONFIG.cases.forEach((c, idx) => {
-                html += `
-                <div class="admin-list-item">
-                    <div class="admin-list-header">
-                        <span class="admin-list-title">Caso #${idx+1}</span>
-                        <button class="admin-icon-btn" onclick="deleteCase(${c.id})" style="background:rgba(200,50,50,0.2); border-color:rgba(200,50,50,0.5); color:#ff6b6b;" title="Borrar">✕</button>
-                    </div>
-                    <div class="admin-field"><label>Etiqueta</label><input type="text" value="${c.tag}" oninput="updateCase(${c.id}, 'tag', this.value)"></div>
-                    <div class="admin-field"><label>Título</label><input type="text" value="${c.title}" oninput="updateCase(${c.id}, 'title', this.value)"></div>
-                    <div class="admin-field"><label>Descripción</label><textarea oninput="updateCase(${c.id}, 'desc', this.value)">${c.desc}</textarea></div>
-                    <div class="admin-field" style="margin-bottom:0;"><label>URL Imagen</label><input type="text" value="${c.image}" oninput="updateCase(${c.id}, 'image', this.value)"></div>
-                </div>`;
-            });
-            list.innerHTML = html;
-        }
-
-        function updateCase(id, field, value) {
-            const c = window.SITE_CONFIG.cases.find(x => x.id === id);
-            if (c) c[field] = value;
-            renderApp();
-        }
-
-        function deleteCase(id) {
-            if(confirm("¿Seguro que deseas borrar este caso?")) {
-                window.SITE_CONFIG.cases = window.SITE_CONFIG.cases.filter(x => x.id !== id);
-                renderAdminCases();
-                renderApp();
-            }
-        }
-
-        function addCase() {
-            const newId = window.SITE_CONFIG.cases.length > 0 ? Math.max(...window.SITE_CONFIG.cases.map(c=>c.id)) + 1 : 1;
-            window.SITE_CONFIG.cases.push({
-                id: newId, tag: 'Nueva Área', title: 'Nuevo Caso de Éxito', desc: 'Descripción breve de este caso.', image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200'
-            });
-            renderAdminCases();
-            renderApp();
-        }
-
-        // ==========================================================================
-        // EXPORTADOR INTELIGENTE
-        // ==========================================================================
-        function exportarLimpio() {
-            // 1. Clonar DOM
-            const docClone = document.documentElement.cloneNode(true);
-            
-            // 2. Limpiar rastros administrativos
-            const elementsToRemove = [
-                '#admin-styles', 
-                '#admin-lock-trigger', 
-                '#admin-panel-wrapper', 
-                '#admin-logic'
-            ];
-            elementsToRemove.forEach(sel => {
-                const el = docClone.querySelector(sel);
-                if (el) el.remove();
-            });
-
-            // 3. Serializar estado e inyectar en el clon
-            const stateScript = docClone.querySelector('#state-script');
-            if (stateScript) {
-                const cleanState = JSON.stringify(window.SITE_CONFIG, null, 4);
-                stateScript.innerHTML = `\n        window.SITE_CONFIG = ${cleanState};\n    `;
-            }
-
-            // 4. Formatear y descargar
-            const cleanHTML = '<!DOCTYPE html>\n<html lang="es">\n' + docClone.innerHTML + '\n</html>';
-            const blob = new Blob([cleanHTML], { type: 'text/html;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            
-            const link = document.createElement('a');
-            link.download = 'index.html';
-            link.href = url;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            cerrarAdmin();
-            setTimeout(() => {
-                showNotificationToast("Exportación exitosa. ¡Listo para Netlify!");
-            }, 500);
-        }
-    </script>
-
-    <!-- Sutil Candado -->
-    <div class="admin-lock-btn" id="admin-lock-trigger" onclick="abrirAdmin()">
-        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-    </div>
-
-    <!-- Panel de Administración -->
-    <div id="admin-panel-wrapper">
-        <div id="admin-pane">
-            <div class="admin-header">
-                <h2>Tablero de Control</h2>
-                <button class="admin-close" onclick="cerrarAdmin()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-            </div>
-            
-            <div class="admin-body">
-                
-                <div class="admin-section">
-                    <h3>Cabecera</h3>
-                    <label class="admin-checkbox">
-                        <input type="checkbox" id="adm-show-title" onchange="updateConfig()"> Mostrar Título
-                    </label>
-                    <div class="admin-field">
-                        <input type="text" id="adm-title" oninput="updateConfig()" placeholder="Título Principal">
-                    </div>
-                    <label class="admin-checkbox">
-                        <input type="checkbox" id="adm-show-subtitle" onchange="updateConfig()"> Mostrar Subtítulo
-                    </label>
-                    <div class="admin-field">
-                        <input type="text" id="adm-subtitle" oninput="updateConfig()" placeholder="Subtítulo">
-                    </div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Imágenes (URLs)</h3>
-                    <div class="admin-field">
-                        <label>Logo (Recomendado: Cloudinary)</label>
-                        <input type="text" id="adm-logo" oninput="updateConfig()" placeholder="URL del Logo">
-                    </div>
-                    <div class="admin-field">
-                        <label>Retrato</label>
-                        <input type="text" id="adm-portrait" oninput="updateConfig()" placeholder="URL del Retrato">
-                    </div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Contacto General</h3>
-                    <div class="admin-field">
-                        <label>Correo Electrónico (VCard & Copiar)</label>
-                        <input type="text" id="adm-email" oninput="updateConfig()">
-                    </div>
-                    <div class="admin-field">
-                        <label>Teléfono Base (VCard)</label>
-                        <input type="text" id="adm-phone" oninput="updateConfig()">
-                    </div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Botones de Acción</h3>
-                    <div id="adm-buttons-list"></div>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Casos de Éxito</h3>
-                    <div id="adm-cases-list"></div>
-                    <button class="admin-btn" onclick="addCase()">+ Añadir Nuevo Caso</button>
-                </div>
-
-            </div>
-            
-            <div class="export-zone">
-                <button class="admin-btn export-btn" onclick="exportarLimpio()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Exportar Código Limpio
-                </button>
-                <div class="export-desc">Descarga tu tarjeta final y súbela a Netlify. El candado y el panel desaparecerán mágicamente.</div>
-            </div>
-        </div>
-    </div>
-
-    <script id="admin-logic">
-        const ADMIN_PASS = "admin123";
-
-        function abrirAdmin() {
-            const pass = prompt("Ingrese la contraseña de Administrador:");
-            if (pass === ADMIN_PASS) {
-                document.getElementById('admin-panel-wrapper').classList.add('active');
-                populateAdmin();
-            } else if (pass !== null) {
-                alert("Contraseña incorrecta.");
-            }
-        }
-
-        function cerrarAdmin() {
-            document.getElementById('admin-panel-wrapper').classList.remove('active');
-        }
-
-        function populateAdmin() {
-            const c = window.SITE_CONFIG;
-            document.getElementById('adm-show-title').checked = c.header.showTitle;
-            document.getElementById('adm-title').value = c.header.titleText;
-            document.getElementById('adm-show-subtitle').checked = c.header.showSubtitle;
-            document.getElementById('adm-subtitle').value = c.header.subtitleText;
-            document.getElementById('adm-logo').value = c.header.logoUrl;
-            document.getElementById('adm-portrait').value = c.profile.portraitUrl;
-            document.getElementById('adm-email').value = c.contact.email;
-            document.getElementById('adm-phone').value = c.contact.phone;
-            
-            renderAdminButtons();
-            renderAdminCases();
-        }
-
-        function updateConfig() {
-            const c = window.SITE_CONFIG;
-            c.header.showTitle = document.getElementById('adm-show-title').checked;
-            c.header.titleText = document.getElementById('adm-title').value;
-            c.header.showSubtitle = document.getElementById('adm-show-subtitle').checked;
-            c.header.subtitleText = document.getElementById('adm-subtitle').value;
-            c.header.logoUrl = document.getElementById('adm-logo').value;
-            c.profile.portraitUrl = document.getElementById('adm-portrait').value;
-            c.contact.email = document.getElementById('adm-email').value;
-            c.contact.phone = document.getElementById('adm-phone').value;
-            
-            renderApp();
-        }
-
-        function renderAdminButtons() {
-            const list = document.getElementById('adm-buttons-list');
-            let html = '';
-            let sorted = [...window.SITE_CONFIG.buttons].sort((a,b) => a.order - b.order);
-            
-            sorted.forEach((btn, index) => {
-                html += `
-                <div class="admin-list-item">
-                    <div class="admin-list-header">
-                        <label class="admin-checkbox" style="margin:0;"><input type="checkbox" ${btn.visible ? 'checked' : ''} onchange="updateBtnVis('${btn.id}', this.checked)"> ${btn.label}</label>
-                        <div class="admin-list-actions">
-                            <button class="admin-icon-btn" onclick="moveBtn('${btn.id}', -1)" title="Subir" ${index===0 ? 'disabled style="opacity:0.3"' : ''}>▲</button>
-                            <button class="admin-icon-btn" onclick="moveBtn('${btn.id}', 1)" title="Bajar" ${index===sorted.length-1 ? 'disabled style="opacity:0.3"' : ''}>▼</button>
-                        </div>
-                    </div>
-                    ${btn.type !== 'email' ? `<div class="admin-field" style="margin-bottom:0;"><input type="text" value="${btn.url}" oninput="updateBtnUrl('${btn.id}', this.value)" placeholder="URL destino"></div>` : ''}
-                </div>`;
-            });
-            list.innerHTML = html;
-        }
-
-        function updateBtnVis(id, visible) {
-            const btn = window.SITE_CONFIG.buttons.find(b => b.id === id);
-            if (btn) btn.visible = visible;
-            renderApp();
-        }
-
-        function updateBtnUrl(id, url) {
-            const btn = window.SITE_CONFIG.buttons.find(b => b.id === id);
-            if (btn) btn.url = url;
-            renderApp();
-        }
-
-        function moveBtn(id, dir) {
-            const btns = window.SITE_CONFIG.buttons;
-            const idx = btns.findIndex(b => b.id === id);
-            if (idx === -1) return;
-            
-            const targetIdx = idx + dir;
-            if (targetIdx >= 0 && targetIdx < btns.length) {
-                // Swap orders
-                const temp = btns[idx].order;
-                btns[idx].order = btns[targetIdx].order;
-                btns[targetIdx].order = temp;
-                btns.sort((a,b) => a.order - b.order);
-                renderAdminButtons();
-                renderApp();
-            }
-        }
-
-        // Casos Logic
-        function renderAdminCases() {
-            const list = document.getElementById('adm-cases-list');
-            let html = '';
-            window.SITE_CONFIG.cases.forEach((c, idx) => {
-                html += `
-                <div class="admin-list-item">
-                    <div class="admin-list-header">
-                        <span class="admin-list-title">Caso #${idx+1}</span>
-                        <button class="admin-icon-btn" onclick="deleteCase(${c.id})" style="background:rgba(200,50,50,0.2); border-color:rgba(200,50,50,0.5); color:#ff6b6b;" title="Borrar">✕</button>
-                    </div>
-                    <div class="admin-field"><label>Etiqueta</label><input type="text" value="${c.tag}" oninput="updateCase(${c.id}, 'tag', this.value)"></div>
-                    <div class="admin-field"><label>Título</label><input type="text" value="${c.title}" oninput="updateCase(${c.id}, 'title', this.value)"></div>
-                    <div class="admin-field"><label>Descripción</label><textarea oninput="updateCase(${c.id}, 'desc', this.value)">${c.desc}</textarea></div>
-                    <div class="admin-field" style="margin-bottom:0;"><label>URL Imagen</label><input type="text" value="${c.image}" oninput="updateCase(${c.id}, 'image', this.value)"></div>
-                </div>`;
-            });
-            list.innerHTML = html;
-        }
-
-        function updateCase(id, field, value) {
-            const c = window.SITE_CONFIG.cases.find(x => x.id === id);
-            if (c) c[field] = value;
-            renderApp();
-        }
-
-        function deleteCase(id) {
-            if(confirm("¿Seguro que deseas borrar este caso?")) {
-                window.SITE_CONFIG.cases = window.SITE_CONFIG.cases.filter(x => x.id !== id);
-                renderAdminCases();
-                renderApp();
-            }
-        }
-
-        function addCase() {
-            const newId = window.SITE_CONFIG.cases.length > 0 ? Math.max(...window.SITE_CONFIG.cases.map(c=>c.id)) + 1 : 1;
-            window.SITE_CONFIG.cases.push({
-                id: newId, tag: 'Nueva Área', title: 'Nuevo Caso de Éxito', desc: 'Descripción breve de este caso.', image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200'
-            });
-            renderAdminCases();
-            renderApp();
-        }
-
-        // ==========================================================================
-        // EXPORTADOR INTELIGENTE
-        // ==========================================================================
-        function exportarLimpio() {
-            // 1. Clonar DOM
-            const docClone = document.documentElement.cloneNode(true);
-            
-            // 2. Limpiar rastros administrativos
-            const elementsToRemove = [
-                '#admin-styles', 
-                '#admin-lock-trigger', 
-                '#admin-panel-wrapper', 
-                '#admin-logic'
-            ];
-            elementsToRemove.forEach(sel => {
-                const el = docClone.querySelector(sel);
-                if (el) el.remove();
-            });
-
-            // 3. Serializar estado e inyectar en el clon
-            const stateScript = docClone.querySelector('#state-script');
-            if (stateScript) {
-                const cleanState = JSON.stringify(window.SITE_CONFIG, null, 4);
-                stateScript.innerHTML = `\n        window.SITE_CONFIG = ${cleanState};\n    `;
-            }
-
-            // 4. Formatear y descargar
-            const cleanHTML = '<!DOCTYPE html>\n<html lang="es">\n' + docClone.innerHTML + '\n</html>';
-            const blob = new Blob([cleanHTML], { type: 'text/html;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            
-            const link = document.createElement('a');
-            link.download = 'index.html';
-            link.href = url;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            cerrarAdmin();
-            setTimeout(() => {
-                showNotificationToast("Exportación exitosa. ¡Listo para Netlify!");
-            }, 500);
-        }
-    </script>
+  </div>
 </body>
-
 
 </html>

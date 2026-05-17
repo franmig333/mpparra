@@ -198,7 +198,7 @@
             z-index: 10;
         }
 
-        /* Bisel de Oro Exterior con pulso y rotación lenta sutil */
+        /* Bisel de Oro Exterior con pulso sutil */
         .portrait-ring-outer {
             width: 100%;
             height: 100%;
@@ -209,6 +209,8 @@
             justify-content: center;
             box-shadow: 0 10px 30px rgba(223, 186, 107, 0.4);
             animation: goldPortraitBreathe 4s infinite ease-in-out;
+            position: relative;
+            z-index: 3;
         }
 
         @keyframes goldPortraitBreathe {
@@ -358,7 +360,7 @@
         }
 
         /* ==========================================================================
-           5B. BOTÓN PRINCIPAL GALERÍA DE CASOS DE ÉXITO (NUEVO)
+           5B. BOTÓN PRINCIPAL GALERÍA DE CASOS DE ÉXITO
            ========================================================================== */
         .btn-gallery-trigger-wrapper {
             width: 100%;
@@ -734,7 +736,7 @@
         }
 
         /* ==========================================================================
-           7. LÍNEAS DECORATIVAS EXTENDIDAS CON ANIMACIÓN (LUZ VIVA)
+           7. LÍNEAS DECORATIVAS EN LAS ESQUINAS (DISEÑO ORIGINAL ESTÁTICO PREMIUM)
            ========================================================================== */
         .deco-corners {
             position: fixed; /* Se anclan directamente a los límites de la ventana general */
@@ -753,7 +755,7 @@
             width: 120px;
             height: 120px;
             background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
-            animation: goldLinePulseLeft 6s infinite ease-in-out;
+            overflow: hidden;
         }
 
         .stripes-bottom-right {
@@ -763,29 +765,7 @@
             width: 120px;
             height: 120px;
             background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
-            animation: goldLinePulseRight 6s infinite ease-in-out;
-        }
-
-        @keyframes goldLinePulseLeft {
-            0%, 100% {
-                opacity: 0.6;
-                transform: translate(0, 0);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(3px, -3px);
-            }
-        }
-
-        @keyframes goldLinePulseRight {
-            0%, 100% {
-                opacity: 0.6;
-                transform: translate(0, 0);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(-3px, -3px);
-            }
+            overflow: hidden;
         }
 
         /* ==========================================================================
@@ -818,6 +798,44 @@
         .toast-popup.visible {
             transform: translate(-50%, 0);
             opacity: 1;
+        }
+
+        /* ==========================================================================
+           11. INTERACTIVIDAD PREMIUM: EFECTO BALANZA DE LA VERDAD (GLOW SPARKLE)
+           ========================================================================== */
+        .gold-sparkle-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 24px; /* Tamaño perfecto y sutil para la balanza */
+            height: 24px;
+            pointer-events: none;
+            z-index: 999999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 0 4px rgba(223, 186, 107, 0.6));
+        }
+
+        .gold-sparkle-follower svg {
+            width: 100%;
+            height: 100%;
+            color: var(--gold-primary);
+        }
+
+        .gold-sparkle-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 36px;
+            height: 36px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(223, 186, 107, 0.15) 0%, rgba(223, 186, 107, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
         }
     </style>
 
@@ -854,7 +872,7 @@
         function copiarEmail(event) {
             event.preventDefault();
             
-            // Creación de elemento temporal invisible para copiar de forma segura en iframes
+            // Creamos elemento temporal invisible para copiar de forma segura en iframes
             const temp = document.createElement("input");
             temp.value = EMAIL_DATA;
             document.body.appendChild(temp);
@@ -910,7 +928,7 @@ END:VCARD`;
         }
 
         // ==========================================================================
-        // FUNCIONES DE CONTROL DE LA GALERÍA (NUEVO)
+        // FUNCIONES DE CONTROL DE LA GALERÍA
         // ==========================================================================
         function abrirGaleria() {
             const modal = document.getElementById('galleryModal');
@@ -928,6 +946,91 @@ END:VCARD`;
                 document.body.style.overflow = ''; // Restaura scroll de fondo
             }
         }
+
+        // ==========================================================================
+        // SISTEMA DE PARTÍCULA BALANZA DE LA JUSTICIA (INTERACTIVA Y FLOTANTE)
+        // ==========================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            let cursorX = window.innerWidth / 2;
+            let cursorY = window.innerHeight * 0.35; // Altura aproximada del retrato
+            let followerX = cursorX;
+            let followerY = cursorY;
+            let lastMoveTime = Date.now();
+            let isTouch = false;
+
+            // Inyectamos la partícula de la Balanza de la Verdad (SVG elegante)
+            const follower = document.createElement('div');
+            follower.className = 'gold-sparkle-follower';
+            follower.innerHTML = `
+                <div class="gold-sparkle-glow"></div>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v17" />
+                    <path d="M12 5c-1.66 0-3 1.34-3 3h6c0-1.66-1.34-3-3-3z" />
+                    <path d="M9 20h6" />
+                    <path d="M4 10h16" />
+                    <path d="M4 10l-2 6h4l-2-6z" fill="rgba(223, 186, 107, 0.1)" />
+                    <path d="M20 10l-2 6h4l-2-6z" fill="rgba(223, 186, 107, 0.1)" />
+                </svg>
+            `;
+            document.body.appendChild(follower);
+
+            // Rastreo en Computadoras (Mouse)
+            window.addEventListener('mousemove', (e) => {
+                isTouch = false;
+                cursorX = e.clientX;
+                cursorY = e.clientY;
+                lastMoveTime = Date.now();
+                follower.style.opacity = '1';
+            });
+
+            // Toques en Celulares (Interacción táctil inmediata)
+            window.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                if (e.touches.length > 0) {
+                    cursorX = e.touches[0].clientX;
+                    cursorY = e.touches[0].clientY;
+                    follower.style.opacity = '1';
+                    lastMoveTime = Date.now();
+                }
+            });
+
+            window.addEventListener('touchmove', (e) => {
+                isTouch = true;
+                if (e.touches.length > 0) {
+                    cursorX = e.touches[0].clientX;
+                    cursorY = e.touches[0].clientY;
+                    follower.style.opacity = '1';
+                    lastMoveTime = Date.now();
+                }
+            });
+
+            // Animación física de la balanza con amortiguación premium
+            function updateSparklePhysics() {
+                const idleTime = Date.now() - lastMoveTime;
+                const dampingSpeed = isTouch ? 0.08 : 0.11; // Amortiguación premium y fluida
+
+                // Órbita sutil y automática alrededor de la foto si no hay interacción
+                if (idleTime > 1800) {
+                    follower.style.opacity = '0.65'; // Transparencia sutil de flotación
+                    const time = Date.now() * 0.0012;
+                    
+                    // Cálculo matemático exacto para orbitar el avatar
+                    const avatarCenterX = window.innerWidth / 2;
+                    const avatarCenterY = 300 - 65 + (145 / 2); 
+                    
+                    cursorX = avatarCenterX + Math.cos(time) * 92; 
+                    cursorY = avatarCenterY + Math.sin(time * 0.8) * 45;
+                }
+
+                followerX += (cursorX - followerX) * dampingSpeed;
+                followerY += (cursorY - followerY) * dampingSpeed;
+
+                // Desplazamiento compensando el tamaño de 24x24 de la balanza para que quede perfectamente centrada
+                follower.style.transform = `translate3d(${followerX - 12}px, ${followerY - 12}px, 0)`;
+                requestAnimationFrame(updateSparklePhysics);
+            }
+            updateSparklePhysics();
+        });
     </script>
 </head>
 <body>
@@ -979,8 +1082,9 @@ END:VCARD`;
         <!-- Sección de Contenido Centrada de Forma Óptima (Sin marcos artificiales) -->
         <div class="centered-content-wrapper">
             
-            <!-- Retrato del Abogado con Corona Biselada de Oro Animada -->
+            <!-- Retrato del Abogado con Corona Biselada de Oro Animada (Espacio despejado original) -->
             <div class="portrait-container">
+                <!-- Marco del Retrato de Oro -->
                 <div class="portrait-ring-outer">
                     <div class="portrait-gap-dark">
                         <div class="portrait-ring-inner">
@@ -1086,7 +1190,7 @@ END:VCARD`;
 
         </div>
 
-        <!-- Líneas de corte decorativo fijadas en los límites absolutos de la ventana general -->
+        <!-- Líneas de corte decorativo originales estáticas fijadas en los límites absolutos de la ventana -->
         <div class="deco-corners">
             <div class="stripes-bottom-left"></div>
             <div class="stripes-bottom-right"></div>
@@ -1096,7 +1200,7 @@ END:VCARD`;
         <div class="toast-popup" id="notificationToast">Notificación corporativa</div>
 
         <!-- ==========================================================================
-           10. MODAL FLOTANTE DE LA GALERÍA "CASOS DE ÉXITO" (NUEVO)
+           10. MODAL FLOTANTE DE LA GALERÍA "CASOS DE ÉXITO"
            ========================================================================== */ -->
         <div class="gallery-modal-overlay" id="galleryModal" onclick="cerrarGaleria()">
             <!-- Detiene la propagación del click para evitar que se cierre al tocar dentro de la tarjeta -->

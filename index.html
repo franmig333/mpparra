@@ -1917,6 +1917,18 @@ END:VCARD`;
     }
 
     function populateAdmin() {
+      if (!tempConfig) return;
+      if (!tempConfig.buttons || tempConfig.buttons.length === 0) {
+        tempConfig.buttons = [
+          { id: 'whatsapp', type: 'whatsapp', label: 'Mensaje', visible: true, order: 1 },
+          { id: 'phone', type: 'phone', label: 'Teléfono', visible: true, order: 2 },
+          { id: 'email', type: 'email', label: 'E-Mail', visible: true, order: 3 },
+          { id: 'maps', type: 'location', label: 'Localización', visible: true, order: 4 }
+        ];
+      }
+      if (!tempConfig.socials) tempConfig.socials = [];
+      if (!tempConfig.cases) tempConfig.cases = [];
+
       document.getElementById('adm-title').value = tempConfig?.header?.title || "";
       document.getElementById('adm-show-title').checked = tempConfig?.header?.showTitle !== false;
       document.getElementById('adm-subtitle').value = tempConfig?.header?.subtitle || "";
@@ -1939,7 +1951,7 @@ END:VCARD`;
 
     function renderAdminBtnsList() {
       const container = document.getElementById('adm-btns-list');
-      let sorted = [...tempConfig.buttons].sort((a, b) => a.order - b.order);
+      let sorted = [...(tempConfig?.buttons || [])].sort((a, b) => (a.order || 0) - (b.order || 0));
       let html = '';
 
       sorted.forEach((btn, i) => {
@@ -1976,7 +1988,7 @@ END:VCARD`;
 
     function renderAdminSocialsList() {
       const container = document.getElementById('adm-socials-list');
-      let sorted = [...tempConfig.socials].sort((a, b) => a.order - b.order);
+      let sorted = [...(tempConfig?.socials || [])].sort((a, b) => (a.order || 0) - (b.order || 0));
       let html = '';
 
       sorted.forEach((soc, i) => {
@@ -2030,7 +2042,7 @@ END:VCARD`;
 
     function renderAdminCasesList() {
       const container = document.getElementById('adm-cases-list');
-      let sorted = [...tempConfig.cases].sort((a, b) => (a.order || 0) - (b.order || 0));
+      let sorted = [...(tempConfig?.cases || [])].sort((a, b) => (a.order || 0) - (b.order || 0));
       let html = '';
       sorted.forEach((c, idx) => {
         let isVis = c.visible !== false;

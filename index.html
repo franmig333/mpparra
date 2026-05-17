@@ -50,7 +50,7 @@
             padding: 0;
         }
 
-        /* Ambientación de fondo sutil con brillo dorado lejano */
+        /* Ambientación de fondo sutil con brillo dorado lejano y animación de respiración lenta */
         body::before {
             content: '';
             position: absolute;
@@ -61,6 +61,12 @@
             left: 0;
             pointer-events: none;
             z-index: 0;
+            animation: ambientPulse 8s infinite ease-in-out;
+        }
+
+        @keyframes ambientPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1.3; }
         }
 
         /* ==========================================================================
@@ -182,7 +188,7 @@
         }
 
         /* ==========================================================================
-           4. RETRATO CON DOBLE ANILLO DE ORO (MISMAS PROPORCIONES)
+           4. RETRATO CON DOBLE ANILLO DE ORO ANIMADO (EFECTO LUZ VIVA)
            ========================================================================== */
         .portrait-container {
             position: relative;
@@ -192,7 +198,7 @@
             z-index: 10;
         }
 
-        /* Bisel de Oro Exterior */
+        /* Bisel de Oro Exterior con pulso y rotación lenta sutil */
         .portrait-ring-outer {
             width: 100%;
             height: 100%;
@@ -201,7 +207,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+            box-shadow: 0 10px 30px rgba(223, 186, 107, 0.4);
+            animation: goldPortraitBreathe 4s infinite ease-in-out;
+        }
+
+        @keyframes goldPortraitBreathe {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 25px rgba(223, 186, 107, 0.35);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 10px 40px rgba(223, 186, 107, 0.65);
+            }
         }
 
         /* Espaciador Oscuro Intermedio */
@@ -253,7 +271,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         /* Fila Inferior (2 Columnas) */
@@ -340,6 +358,301 @@
         }
 
         /* ==========================================================================
+           5B. BOTÓN PRINCIPAL GALERÍA DE CASOS DE ÉXITO (NUEVO)
+           ========================================================================== */
+        .btn-gallery-trigger-wrapper {
+            width: 100%;
+            margin-bottom: 25px;
+            z-index: 2;
+        }
+
+        .btn-gallery-trigger {
+            width: 100%;
+            background: rgba(223, 186, 107, 0.03);
+            border: 1.5px solid var(--gold-primary);
+            border-radius: 16px;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            font-family: var(--font-sans);
+        }
+
+        .btn-gallery-trigger .trigger-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-gallery-trigger .trigger-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(18, 20, 24, 0.8);
+            border: 1px solid rgba(223, 186, 107, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-gallery-trigger .trigger-icon-box svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .btn-gallery-trigger .trigger-text-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .btn-gallery-trigger .trigger-title {
+            font-family: var(--font-serif);
+            font-size: 13.5px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold-primary);
+            transition: color 0.3s ease;
+        }
+
+        .btn-gallery-trigger .trigger-subtitle {
+            font-size: 9px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .btn-gallery-trigger .trigger-arrow {
+            color: var(--gold-primary);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gallery-trigger:hover {
+            transform: translateY(-3px);
+            background: rgba(223, 186, 107, 0.08);
+            box-shadow: 0 10px 25px rgba(223, 186, 107, 0.15), 0 0 15px rgba(223, 186, 107, 0.05);
+            border-color: #ffffff;
+        }
+
+        .btn-gallery-trigger:hover .trigger-icon-box {
+            background-color: var(--gold-primary);
+            color: var(--bg-dark-deep);
+            border-color: #ffffff;
+        }
+
+        .btn-gallery-trigger:hover .trigger-title {
+            color: #ffffff;
+        }
+
+        .btn-gallery-trigger:hover .trigger-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+            color: #ffffff;
+        }
+
+        /* ==========================================================================
+           5C. MODAL PREMIUM DE GALERÍA (CASOS DE ÉXITO)
+           ========================================================================== */
+        .gallery-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 11, 13, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+        }
+
+        .gallery-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .gallery-modal-card {
+            width: 100%;
+            max-width: 480px;
+            height: 90vh;
+            max-height: 780px;
+            background: var(--bg-dark-deep);
+            border: 1px solid var(--gold-primary);
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 40px rgba(223, 186, 107, 0.1);
+            transform: translateY(30px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-modal-overlay.active .gallery-modal-card {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Botón de cerrar modal */
+        .gallery-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(18, 20, 24, 0.8);
+            border: 1px solid rgba(223, 186, 107, 0.4);
+            color: var(--gold-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-close-btn:hover {
+            background-color: var(--gold-primary);
+            color: var(--bg-dark-deep);
+            transform: scale(1.1) rotate(90deg);
+            border-color: #ffffff;
+        }
+
+        .gallery-modal-header {
+            padding: 30px 24px 20px 24px;
+            border-bottom: 1px solid rgba(223, 186, 107, 0.15);
+            text-align: center;
+            background: linear-gradient(180deg, #15171a 0%, var(--bg-dark-deep) 100%);
+        }
+
+        .gallery-modal-header h2 {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .gallery-modal-header p {
+            font-size: 9px;
+            color: var(--gold-primary);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* Listado de Casos de Éxito / Especialidades */
+        .gallery-modal-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .gallery-modal-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .gallery-modal-body::-webkit-scrollbar-thumb {
+            background: var(--gold-dark);
+            border-radius: 4px;
+        }
+
+        /* Tarjeta de Caso */
+        .case-gallery-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(223, 186, 107, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .case-gallery-card:hover {
+            border-color: var(--gold-primary);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .case-card-image-box {
+            width: 100%;
+            height: 140px;
+            background-color: #16181c;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(223, 186, 107, 0.15);
+        }
+
+        .case-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(40%) brightness(85%);
+            transition: transform 0.4s ease;
+        }
+
+        .case-gallery-card:hover .case-card-img {
+            transform: scale(1.05);
+            filter: grayscale(0%) brightness(95%);
+        }
+
+        .case-card-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(10, 11, 13, 0.85);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .case-card-info {
+            padding: 16px;
+        }
+
+        .case-card-title {
+            font-family: var(--font-serif);
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .case-card-desc {
+            font-size: 10.5px;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
            6. BOTÓN GUARDAR CONTACTO
            ========================================================================== */
         .save-contact-wrapper {
@@ -421,7 +734,7 @@
         }
 
         /* ==========================================================================
-           7. LÍNEAS DECORATIVAS EXTENDIDAS AL LÍMITE DE LA PANTALLA
+           7. LÍNEAS DECORATIVAS EXTENDIDAS CON ANIMACIÓN (LUZ VIVA)
            ========================================================================== */
         .deco-corners {
             position: fixed; /* Se anclan directamente a los límites de la ventana general */
@@ -440,6 +753,7 @@
             width: 120px;
             height: 120px;
             background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+            animation: goldLinePulseLeft 6s infinite ease-in-out;
         }
 
         .stripes-bottom-right {
@@ -449,6 +763,29 @@
             width: 120px;
             height: 120px;
             background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(223, 186, 107, 0.12) 10px, rgba(223, 186, 107, 0.12) 11.5px);
+            animation: goldLinePulseRight 6s infinite ease-in-out;
+        }
+
+        @keyframes goldLinePulseLeft {
+            0%, 100% {
+                opacity: 0.6;
+                transform: translate(0, 0);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(3px, -3px);
+            }
+        }
+
+        @keyframes goldLinePulseRight {
+            0%, 100% {
+                opacity: 0.6;
+                transform: translate(0, 0);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-3px, -3px);
+            }
         }
 
         /* ==========================================================================
@@ -467,7 +804,7 @@
             font-size: 11px;
             font-weight: 600;
             letter-spacing: 1px;
-            z-index: 9999;
+            z-index: 100000;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 15px rgba(223, 186, 107, 0.1);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
             opacity: 0;
@@ -571,6 +908,26 @@ END:VCARD`;
 
             showNotificationToast("¡Contacto descargado! Listo para agendar.");
         }
+
+        // ==========================================================================
+        // FUNCIONES DE CONTROL DE LA GALERÍA (NUEVO)
+        // ==========================================================================
+        function abrirGaleria() {
+            const modal = document.getElementById('galleryModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Bloquea scroll de fondo
+                showNotificationToast("Abriendo Casos de Éxito...");
+            }
+        }
+
+        function cerrarGaleria() {
+            const modal = document.getElementById('galleryModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Restaura scroll de fondo
+            }
+        }
     </script>
 </head>
 <body>
@@ -622,7 +979,7 @@ END:VCARD`;
         <!-- Sección de Contenido Centrada de Forma Óptima (Sin marcos artificiales) -->
         <div class="centered-content-wrapper">
             
-            <!-- Retrato del Abogado con Corona Biselada de Oro -->
+            <!-- Retrato del Abogado con Corona Biselada de Oro Animada -->
             <div class="portrait-container">
                 <div class="portrait-ring-outer">
                     <div class="portrait-gap-dark">
@@ -694,6 +1051,25 @@ END:VCARD`;
 
             </div>
 
+            <!-- Botón de Galería "Casos de Éxito" (Estructura Premium Fluida) -->
+            <div class="btn-gallery-trigger-wrapper">
+                <button class="btn-gallery-trigger" onclick="abrirGaleria()">
+                    <div class="trigger-content">
+                        <div class="trigger-icon-box">
+                            <!-- Icono de Portafolios / Casos de Éxito SVG -->
+                            <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+                        </div>
+                        <div class="trigger-text-box">
+                            <span class="trigger-title">Casos de Éxito</span>
+                            <span class="trigger-subtitle">Áreas de Especialidad & Resultados</span>
+                        </div>
+                    </div>
+                    <div class="trigger-arrow">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                </button>
+            </div>
+
             <!-- Botón Guardar Contacto de un toque -->
             <div class="save-contact-wrapper">
                 <button class="save-contact-btn" onclick="crearDescargarVCard()">
@@ -718,6 +1094,66 @@ END:VCARD`;
 
         <!-- Banner Toast de Notificación -->
         <div class="toast-popup" id="notificationToast">Notificación corporativa</div>
+
+        <!-- ==========================================================================
+           10. MODAL FLOTANTE DE LA GALERÍA "CASOS DE ÉXITO" (NUEVO)
+           ========================================================================== */ -->
+        <div class="gallery-modal-overlay" id="galleryModal" onclick="cerrarGaleria()">
+            <!-- Detiene la propagación del click para evitar que se cierre al tocar dentro de la tarjeta -->
+            <div class="gallery-modal-card" onclick="event.stopPropagation()">
+                
+                <button class="gallery-close-btn" onclick="cerrarGaleria()" title="Cerrar Galería">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+
+                <div class="gallery-modal-header">
+                    <h2>Áreas de Práctica</h2>
+                    <p>Casos de Éxito & Estrategia Profesional</p>
+                </div>
+
+                <div class="gallery-modal-body">
+                    
+                    <!-- Tarjeta de Especialidad 1 -->
+                    <div class="case-gallery-card">
+                        <div class="case-card-image-box">
+                            <span class="case-card-tag">Derecho Corporativo</span>
+                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400&h=200" alt="Edificio corporativo moderno" class="case-card-img">
+                        </div>
+                        <div class="case-card-info">
+                            <h3 class="case-card-title">Reestructuración Empresarial</h3>
+                            <p class="case-card-desc">Asesoría jurídica integral en fusiones, adquisiciones y reestructuración de pasivos para grandes consorcios nacionales y multinacionales.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta de Especialidad 2 -->
+                    <div class="case-gallery-card">
+                        <div class="case-card-image-box">
+                            <span class="case-card-tag">Estrategia Pública</span>
+                            <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=400&h=200" alt="Palacio de justicia o gubernamental" class="case-card-img">
+                        </div>
+                        <div class="case-card-info">
+                            <h3 class="case-card-title">Contratación & Políticas Públicas</h3>
+                            <p class="case-card-desc">Consultoría estratégica y representación legal de alta complejidad ante entidades reguladoras y contratación estatal de infraestructura.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta de Especialidad 3 -->
+                    <div class="case-gallery-card">
+                        <div class="case-card-image-box">
+                            <span class="case-card-tag">Litigio Premium</span>
+                            <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=400&h=200" alt="Mazo de juez y ley" class="case-card-img">
+                        </div>
+                        <div class="case-card-info">
+                            <h3 class="case-card-title">Defensa Tributaria & Financiera</h3>
+                            <p class="case-card-desc">Defensa ante controversias fiscales de alta cuantía, logrando resoluciones favorables ante la administración pública y tribunales.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

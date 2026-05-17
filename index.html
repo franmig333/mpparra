@@ -1282,6 +1282,64 @@
     .btn-card-action:hover .icon-gold-ring i {
       transform: scale(1.15);
     }
+    
+    /* ==========================================================================
+       9. BOTÓN FLOTANTE WHATSAPP
+       ========================================================================== */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 35px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .floating-whatsapp:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(37, 211, 102, 0.8), 0 0 40px rgba(37, 211, 102, 0.4);
+    }
+    
+    .floating-whatsapp::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 50%;
+      border: 2px solid #25D366;
+      opacity: 0;
+      animation: pulse-whatsapp 2s infinite;
+    }
+
+    @keyframes pulse-whatsapp {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .floating-whatsapp {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 30px;
+      }
+    }
   </style>
 
 
@@ -1457,6 +1515,18 @@
         casesContainer.innerHTML = html;
       }
 
+      // Floating WhatsApp Button
+      const floatWaBtn = document.getElementById('floating-whatsapp-btn');
+      if (floatWaBtn) {
+          const waNumber = siteConfig?.contact?.whatsapp || "";
+          const cleanWa = waNumber.replace(/\D/g, '');
+          if (cleanWa) {
+              floatWaBtn.href = `https://api.whatsapp.com/send?phone=${cleanWa}`;
+              floatWaBtn.style.display = 'flex';
+          } else {
+              floatWaBtn.style.display = 'none';
+          }
+      }
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
@@ -2477,6 +2547,11 @@ END:VCARD`;
     </div>
     <div class="lightbox-nav right" onclick="changeLightboxSlide(1)"><i class="fas fa-chevron-right"></i></div>
   </div>
+
+  <!-- Botón Flotante WhatsApp -->
+  <a id="floating-whatsapp-btn" href="#" target="_blank" class="floating-whatsapp" style="display: none;">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 
 </body>
 
